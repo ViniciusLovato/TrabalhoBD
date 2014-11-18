@@ -39,7 +39,7 @@ public class DBConnection
 
         try
         {
-            String conexao = "jdbc:oracle:thin:@192.168.2:1521:orcl";
+            String conexao = "jdbc:oracle:thin:@grad.icmc.usp.br:15214:orcl14";
             String username = "a7151885";
             String passwd = "a7151885";
 
@@ -58,10 +58,14 @@ public class DBConnection
         try
         {
             dbcon = new DBConnection();
-
+            System.out.println("Objeto criado...");
             Connection con = dbcon.getConexao();
+          	System.out.println("Pega Conexao...");
+
             if(con != null)
             {
+            	System.out.println("Objeto criado...");
+
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT * FROM evento");
                 rs.next();
