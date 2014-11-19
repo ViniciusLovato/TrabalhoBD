@@ -1,12 +1,12 @@
 // Event Listener
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 // Grid layout
 import java.awt.GridLayout;
 
 // Componetes basicos para interface
 import javax.swing.*;
+import javax.swing.table.*;
 import java.awt.*;
 
 import java.awt.Dimension;
@@ -30,7 +30,9 @@ public class Gerenciador extends JFrame implements ActionListener
 	private ArrayList<JLabel> parametros;
 	private ArrayList<JTextField> buscas;
 
+	private TableModel model;
 	private JTable table;
+	private TableRowSorter<TableModel> sorter;
 
 	private JButton criar;
 	private JButton deletar;
@@ -67,8 +69,13 @@ public class Gerenciador extends JFrame implements ActionListener
 		//Adiciona JPanel ao frame
 		getContentPane().add(panel);
 
-		table = new JTable(dados, colunas);
+
+		// Tabela
+		model = new DefaultTableModel(dados, colunas);
+		table = new JTable(model);
 		table.setFillsViewportHeight(true);
+		sorter = new TableRowSorter<TableModel>(model);
+		table.setRowSorter(sorter);
 
 		parametros = new ArrayList<JLabel>();
 		buscas = new ArrayList<JTextField>();
@@ -90,6 +97,8 @@ public class Gerenciador extends JFrame implements ActionListener
 			parametrosPanel.add(buscas.get(i));
 		}
 
+		adicionarListeners();
+
 		panel.add(new JScrollPane(table));
 
 		panel.add(buttonPanel);
@@ -107,6 +116,30 @@ public class Gerenciador extends JFrame implements ActionListener
 
 		// Janela agora visivel
 		setVisible(true);
+	}
+
+	public void adicionarListeners()
+	{
+		buscas.get(0).addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+            	if(buscas.get(0).getText().length() == 0)
+            	{
+            		sorter.setRowFilter(null);
+            	}
+            	else
+            	{
+            		try
+            		{
+            			sorter.setRowFilter(RowFilter.regexFilter(buscas.get(0).getText()));
+            		}
+            		catch(Exception exception)
+            		{
+            			System.out.println("Bad Regex");
+            		}
+            	}
+            	System.out.println("oi");
+            }
+        });
 	}
 
 	public void actionPerformed(ActionEvent e)

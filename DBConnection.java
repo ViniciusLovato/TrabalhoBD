@@ -58,18 +58,17 @@ public class DBConnection
         try
         {
             dbcon = new DBConnection();
-            System.out.println("Objeto criado...");
             Connection con = dbcon.getConexao();
-          	System.out.println("Pega Conexao...");
 
             if(con != null)
             {
-            	System.out.println("Objeto criado...");
-
                 Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM evento");
-                rs.next();
-                System.out.println(rs.getString("nomeEv"));
+                ResultSet rs = stmt.executeQuery("SELECT * FROM pessoa");
+                //rs.next();
+                while(rs.next())
+                {
+                	System.out.println(rs.getString("nomePe"));
+                }
             }
             dbcon.disconnect(con);
         }
