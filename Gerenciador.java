@@ -32,7 +32,12 @@ public class Gerenciador extends JFrame implements ActionListener
 
 	private TableModel model;
 	private JTable table;
+
 	private TableRowSorter<TableModel> sorter;
+	private RowFilter<TableModel, Object> firstFilter;
+	private RowFilter<TableModel, Object> secondFilter;
+	private ArrayList<RowFilter<TableModel, Object>> filters;
+	private RowFilter<TableModel, Object> compoundRowFilter;
 
 	private JButton criar;
 	private JButton deletar;
@@ -75,6 +80,14 @@ public class Gerenciador extends JFrame implements ActionListener
 		table = new JTable(model);
 		table.setFillsViewportHeight(true);
 		sorter = new TableRowSorter<TableModel>(model);
+
+		firstFilter = null;
+		secondFilter = null;
+
+		filters = new ArrayList<RowFilter<TableModel, Object>>();
+
+		compoundRowFilter = null;
+
 		table.setRowSorter(sorter);
 
 		parametros = new ArrayList<JLabel>();
@@ -122,22 +135,24 @@ public class Gerenciador extends JFrame implements ActionListener
 	{
 		buscas.get(0).addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
-            	if(buscas.get(0).getText().length() == 0)
+            	try
             	{
-            		sorter.setRowFilter(null);
+            		filters.clear();
+
+            		firstFilter = RowFilter.regexFilter(buscas.get(0).getText(), 0);
+            		secondFilter = RowFilter.regexFilter(buscas.get(1).getText(), 1);
+
+            		filters.add(firstFilter);
+            		filters.add(secondFilter);
+            		
+            		compoundRowFilter = RowFilter.andFilter(filters);
+
+            		sorter.setRowFilter(compoundRowFilter);
             	}
-            	else
+            	catch(java.util.regex.PatternSyntaxException exception)
             	{
-            		try
-            		{
-            			sorter.setRowFilter(RowFilter.regexFilter(buscas.get(0).getText()));
-            		}
-            		catch(Exception exception)
-            		{
-            			System.out.println("Bad Regex");
-            		}
+            		System.out.println("Bad Regex");
             	}
-            	System.out.println("oi");
             }
         });
 	}
