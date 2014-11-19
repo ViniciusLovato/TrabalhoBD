@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 
 // Componetes basicos para interface
 import javax.swing.*;
+import java.awt.*;
 
 import java.awt.Dimension;
 
@@ -22,46 +23,81 @@ import java.util.ArrayList;
 public class Gerenciador extends JFrame implements ActionListener
 {
 	// JPanel contem todos os elementos
+	private JPanel parametrosPanel;
 	private JPanel panel;
+	private JPanel buttonPanel;
 
-	// Tabela
-	private JLabel label1;
-	private JLabel label2;
-
+	private ArrayList<JLabel> parametros;
+	private ArrayList<JTextField> buscas;
 
 	private JTable table;
 
-	public Gerenciador()
+	private JButton criar;
+	private JButton deletar;
+	private JButton editar;
+
+	private JButton	voltar;
+
+	public Gerenciador(String nome)
 	{
 		// Titulo da janela
-		setTitle("Menu Principal");
+		setTitle(nome);
 
 		// Botao de fechar
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
-	public void configurar(String[] colunas, Object[][] dados)
+	public void configurar(String[] nomeParametro, String[] colunas, Object[][] dados)
 	{
 		// Criando panel
+		parametrosPanel = new JPanel();
 		panel = new JPanel();
+		buttonPanel = new JPanel();
+
+		parametrosPanel.setLayout(new GridLayout(nomeParametro.length, 2, 5, 5));
+		parametrosPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
 
 		// Grid Layout
-		panel.setLayout(new GridLayout(3, 0, 5, 5));
-		//setSize(new Dimension(500, 500));
-		
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+		buttonPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
+		buttonPanel.setLayout(new GridLayout(2, 2, 5, 5));
+
 		//Adiciona JPanel ao frame
 		getContentPane().add(panel);
 
 		table = new JTable(dados, colunas);
 		table.setFillsViewportHeight(true);
 
-		label1 = new JLabel("bagunca");
-		label2 = new JLabel("roubo");
+		parametros = new ArrayList<JLabel>();
+		buscas = new ArrayList<JTextField>();
 
-		panel.add(label1);
-		panel.add(label2);
+		criar = new JButton("Criar");
+		deletar = new JButton("Obliterar");
+		editar = new JButton("Editar");
+		voltar = new JButton("voltar");
 
-		panel.add(table);
+		panel.add(parametrosPanel);
+
+		for (String s : nomeParametro){
+			parametros.add(new JLabel(s));
+			buscas.add(new JTextField(20));
+		}
+
+		for(int i = 0; i < parametros.size(); i++){
+			parametrosPanel.add(parametros.get(i));
+			parametrosPanel.add(buscas.get(i));
+		}
+
+		panel.add(new JScrollPane(table));
+
+		panel.add(buttonPanel);
+
+		buttonPanel.add(criar);
+		buttonPanel.add(deletar);
+		buttonPanel.add(editar);
+		buttonPanel.add(voltar);
 
 		// Tamanho da janela sera suficiente para conter todos os componetes
 		pack();
@@ -92,13 +128,19 @@ public class Gerenciador extends JFrame implements ActionListener
 
 	public static void main(String args[])
 	{
-		String[] colunas = {"bagunca", "zueira", "bandejao", "5:15"};
+		String[] parametros = {"campo da bagunca", "campo da zueira"};
+		String[] colunas = {"bagunca", "zueira"};
 		String[][] dados = {
-			{"roubo", "da boa", "picadinho", "merenda time"},
-			{"roubo", "never ends", "picadinho2", "horario"}
+			{"roubo", "da boa"},
+		    {"picadinho", "merenda time"},
+			{"roubo", "never ends"},
+			{"picadinho2", "horario"},
+			{"largato", "pomba"},
+			{"largato", "da boa"}
+
 		};
 
-		Gerenciador ui = new Gerenciador();
-		ui.configurar(colunas, dados);
+		Gerenciador ui = new Gerenciador("bagunca");
+		ui.configurar(parametros, colunas, dados);
 	}
 }
