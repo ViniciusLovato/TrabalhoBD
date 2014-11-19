@@ -122,12 +122,4 @@ public class CadastrarEvento extends JFrame implements ActionListener
 	{
 		System.exit(0);
 	}
-
-	public static void main(String args[])
-	{
-		CadastrarEvento ui = new CadastrarEvento();
-
-		// initializing the UI
-		ui.initUI();
-	}
 }

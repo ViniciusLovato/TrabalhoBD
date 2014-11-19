@@ -24,12 +24,14 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	// JPanel contem todos os elementos
 	private JPanel panel;
 
-	// Labels
+	// Barra de menu
 	private JMenuBar menuBar;
 
+	// Cada componente menu da barra principal
 	private JMenu menuGerenciar;
 	private JMenu menuConsultar;
 
+	// Submenus que serao inseridos dentro de cada menu
 	private JMenuItem menuEvento;
 	private JMenuItem menuEdicao;
 	private JMenuItem menuPessoa;
@@ -38,6 +40,10 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	private JMenuItem menuPatrocinio;
 	private JMenuItem menuDespesa;
 	private JMenuItem menuAuxilio;
+
+
+
+	// Janelas que podem ser abertas
 
 	public MenuPrincipal()
 	{
@@ -57,15 +63,17 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		panel.setLayout(new GridLayout(16, 0, 5, 5));
 		panel.setPreferredSize(new Dimension(500, 500));
 		
-		//Adiciona JPanel ao frame
+		// Adiciona JPanel ao frame
 		getContentPane().add(panel);
 
-		//Create the menu bar.
+		// Cria a barra de menu
 		menuBar = new JMenuBar();
 
+		// Menus da barra superior da janela
 		menuGerenciar = new JMenu("Gerenciar");
 		menuConsultar = new JMenu("Consultas Avancada");
 
+		// Submenus dentro dos menus da barra superior (Gerenciar)
 		menuEvento = new JMenuItem("Evento");
 		menuEdicao = new JMenuItem("Edicao");
 		menuPessoa = new JMenuItem("Pessoa");
@@ -79,6 +87,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuBar.add(menuGerenciar);
 		menuBar.add(menuConsultar);
 
+		// Insere os submenus no menu Gerenciar
 		menuGerenciar.add(menuEvento);
 		menuGerenciar.add(menuEdicao);
 		menuGerenciar.add(menuPessoa);
@@ -88,8 +97,17 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuGerenciar.add(menuDespesa);
 		menuGerenciar.add(menuAuxilio);
 
-		panel.add(menuBar);
+		// Adiciona os listeners ao botoes de submenu
+		menuEvento.addActionListener(this);
+		menuEdicao.addActionListener(this);
+		menuPessoa.addActionListener(this);
+		menuArtigo.addActionListener(this);
+		menuPatrocinador.addActionListener(this);
+		menuPatrocinio.addActionListener(this);
+		menuDespesa.addActionListener(this);
+		menuAuxilio.addActionListener(this);
 
+		panel.add(menuBar);
 
 		// Tamanho da janela sera suficiente para conter todos os componetes
 		pack();
@@ -103,19 +121,43 @@ public class MenuPrincipal extends JFrame implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		System.out.println(e.getSource());
-	}
+		System.out.println(e.getActionCommand());
 
-	// Metodo do botao de cadastrar, devera salva no banco de dados
-	public void onClickOkay()
-	{
-		System.exit(0);
-	}
-
-	// Metodo do botao que cancela a acao
-	public void onClickCancel()
-	{
-		System.exit(0);
+		// Checking if it is button okay
+		if(e.getActionCommand().equals(menuEvento.getText()))
+		{
+			GerenciadorEventos gerenciadorEventos = new GerenciadorEventos();
+			//gerenciadorEventos.configurar(parametros, colunas, dados);
+			gerenciadorEventos.setVisible(true);
+		}
+		else if(e.getActionCommand().equals(menuEdicao.getText())){
+			GerenciadorEdicao gerenciadorEdicao = new GerenciadorEdicao();
+			gerenciadorEdicao.setVisible(true);
+		}
+		else if(e.getActionCommand().equals(menuPessoa.getText())){
+			GerenciadorPessoa gerenciadorPessoa = new GerenciadorPessoa();
+			gerenciadorPessoa.setVisible(true);
+		}
+		else if(e.getActionCommand().equals(menuArtigo.getText())){
+			GerenciadorArtigo gerenciadorArtigo = new GerenciadorArtigo();
+			gerenciadorArtigo.setVisible(true);
+		}
+		else if(e.getActionCommand().equals(menuPatrocinador.getText())){
+			GerenciadorPatrocinador gerenciadorPatrocinador = new GerenciadorPatrocinador();
+			gerenciadorPatrocinador.setVisible(true);
+		}
+		else if(e.getActionCommand().equals(menuPatrocinio.getText())){
+			GerenciadorPatrocinio gerenciadorPatrocinio = new GerenciadorPatrocinio();
+			gerenciadorPatrocinio.setVisible(true);
+		}
+		else if(e.getActionCommand().equals(menuDespesa.getText())){
+			GerenciadorDespesa gerenciadorDespesa = new GerenciadorDespesa();
+			gerenciadorDespesa.setVisible(true);
+		}
+		else if(e.getActionCommand().equals(menuAuxilio.getText())){
+			GerenciadorAuxilio gerenciadorAuxilio = new GerenciadorAuxilio();
+			gerenciadorAuxilio.setVisible(true);
+		}
 	}
 
 	public static void main(String args[])

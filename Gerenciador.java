@@ -1,6 +1,8 @@
 // Event Listener
 import java.awt.event.*;
 
+
+
 // Grid layout
 import java.awt.GridLayout;
 
@@ -39,11 +41,10 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 	private ArrayList<RowFilter<TableModel, Object>> filters;
 	private RowFilter<TableModel, Object> compoundRowFilter;
 
-	private JButton criar;
-	private JButton deletar;
-	private JButton editar;
-
-	private JButton	voltar;
+	protected JButton criar;
+	protected JButton deletar;
+	protected JButton editar;
+	protected JButton	voltar;
 
 	public Gerenciador(String nome)
 	{
@@ -180,6 +181,7 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 		System.exit(0);
 	}
 
+	/*
 	public static void main(String args[])
 	{
 		String[] parametros = {"campo da bagunca", "campo da zueira"};
@@ -196,5 +198,5 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 
 		Gerenciador ui = new Gerenciador("bagunca");
 		ui.configurar(parametros, colunas, dados);
-	}
+	} */
 }
