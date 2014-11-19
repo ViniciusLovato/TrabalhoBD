@@ -6,27 +6,10 @@ import java.sql.Statement;
 
 public class DBConnection
 {
-    public DBConnection() throws Exception{
+	// Objeto de conexao com o banco de dados
+	private Connection conexao;
 
-    }
-
-    public void disconnect(Connection con) throws SQLException
-    {
-        con.close();
-    }
-
-    public void commit(Connection con) throws SQLException
-    {
-        con.commit();
-    }
-
-
-    public void rollback(Connection con) throws SQLException
-    {
-        con.rollback();
-    }
-
-    public static Connection getConexao()
+    public DBConnection()
     {
         try
         {
@@ -34,43 +17,81 @@ public class DBConnection
         }
         catch(Exception e)
         {
-            System.out.println("Classe " + e);
+            System.out.println(e);
         }
 
         try
         {
-            String conexao = "jdbc:oracle:thin:@grad.icmc.usp.br:15214:orcl14";
+            String url = "jdbc:oracle:thin:@grad.icmc.usp.br:15214:orcl14";
             String username = "a7151885";
             String passwd = "a7151885";
 
-            Connection con = DriverManager.getConnection(conexao, username, passwd);
-            return con;
+            this.conexao = DriverManager.getConnection(url, username, passwd);
         }
         catch(Exception e)
         {
-            System.out.println("conectar " + e);
-            return null;
+            System.out.println(e);
         }
     }
+
+    // Checa se a conexao foi criada com sucesso
+    public boolean isNull()
+    {
+    	return(conexao == null);
+    }
+
+    // Disconectar
+    public void disconnect() throws SQLException
+    {
+        this.conexao.close();
+    }
+
+    // Commit das alteracoes
+    public void commit() throws SQLException
+    {
+        this.conexao.commit();
+    }
+
+    // rollback das alteracoes
+    public void rollback() throws SQLException
+    {
+        this.conexao.rollback();
+    }
+
+    // executar as queries no bd
+    public ResultSet executarQuery(String sqlQuery)
+    {
+    	try
+    	{
+    	   	Statement stmt = this.conexao.createStatement();
+	       	return(stmt.executeQuery(sqlQuery));
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println(e);
+    		return null;
+    	}
+    }
+
     public static void main(String[] args)
     {
         DBConnection dbcon;
+        ResultSet rs;
+
         try
         {
             dbcon = new DBConnection();
-            Connection con = dbcon.getConexao();
 
-            if(con != null)
+            if(!dbcon.isNull())
             {
-                Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM pessoa");
-                //rs.next();
+                rs = dbcon.executarQuery("SELECT * FROM PESSOA");
+
                 while(rs.next())
                 {
                 	System.out.println(rs.getString("nomePe"));
                 }
             }
-            dbcon.disconnect(con);
+            dbcon.disconnect();
         }
         catch(Exception e)
         {

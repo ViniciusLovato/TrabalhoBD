@@ -143,7 +143,8 @@ public class CadastrarArtigos extends JFrame implements ActionListener
 	// Botao cancelar
 	public void onClickCancelar()
 	{
-		System.exit(0);
+		setVisible(false);
+		dispose();	
 	}
 
 	public static void main(String args[])

@@ -165,6 +165,7 @@ public class CadastrarEdicao extends JFrame implements ActionListener
 	// Metodo do botao que cancela a acao
 	public void onClickCancel()
 	{
-		System.exit(0);
+		setVisible(false);
+		dispose();	
 	}
 }

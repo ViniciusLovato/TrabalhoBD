@@ -114,12 +114,13 @@ public class CadastrarEvento extends JFrame implements ActionListener
 	// Botao cadastrar
 	public void onClickCadastrar()
 	{
-		System.exit(0);
+		//System.exit(0);
 	}
 
 	// Botao cancelar
 	public void onClickCancelar()
 	{
-		System.exit(0);
+		setVisible(false);
+		dispose();
 	}
 }
