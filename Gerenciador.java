@@ -20,7 +20,7 @@ import javax.swing.border.EmptyBorder;
 // ArryaList
 import java.util.ArrayList;
 
-public class Gerenciador extends JFrame implements ActionListener
+public class Gerenciador extends JFrame implements ActionListener, KeyListener
 {
 	// JPanel contem todos os elementos
 	private JPanel parametrosPanel;
@@ -108,9 +108,9 @@ public class Gerenciador extends JFrame implements ActionListener
 		for(int i = 0; i < parametros.size(); i++){
 			parametrosPanel.add(parametros.get(i));
 			parametrosPanel.add(buscas.get(i));
-		}
 
-		adicionarListeners();
+			buscas.get(i).addKeyListener(this);
+		}		
 
 		panel.add(new JScrollPane(table));
 
@@ -131,30 +131,36 @@ public class Gerenciador extends JFrame implements ActionListener
 		setVisible(true);
 	}
 
-	public void adicionarListeners()
+	public void keyPressed(KeyEvent e)
 	{
-		buscas.get(0).addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) {
-            	try
-            	{
-            		filters.clear();
+		return;
+	}
+	
+	public void keyTyped(KeyEvent e)
+	{
+		return;
+	}
 
-            		firstFilter = RowFilter.regexFilter(buscas.get(0).getText(), 0);
-            		secondFilter = RowFilter.regexFilter(buscas.get(1).getText(), 1);
+	public void keyReleased(KeyEvent e)
+	{
+		try
+    	{
+    		filters.clear();
 
-            		filters.add(firstFilter);
-            		filters.add(secondFilter);
-            		
-            		compoundRowFilter = RowFilter.andFilter(filters);
+    		for(int i = 0; i < parametros.size(); i++)
+    		{
+    			firstFilter = RowFilter.regexFilter(buscas.get(i).getText(), i);
+    			filters.add(firstFilter);	
+    		}
+    		
+    		compoundRowFilter = RowFilter.andFilter(filters);
 
-            		sorter.setRowFilter(compoundRowFilter);
-            	}
-            	catch(java.util.regex.PatternSyntaxException exception)
-            	{
-            		System.out.println("Bad Regex");
-            	}
-            }
-        });
+    		sorter.setRowFilter(compoundRowFilter);
+    	}
+    	catch(java.util.regex.PatternSyntaxException exception)
+    	{
+    		System.out.println("Bad Regex");
+    	}
 	}
 
 	public void actionPerformed(ActionEvent e)
