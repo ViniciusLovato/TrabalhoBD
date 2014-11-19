@@ -7,7 +7,7 @@ public class GerenciadorArtigo extends Gerenciador{
 	public GerenciadorArtigo(){
 		super("Gerenciar Artigo");
 		String[] parametros = {"Titulo", "Data Apresentacao", "Evento", "Edicao"};
-		String[] colunas = {"Titulo", "Data", "Hora", "Evento", "Edicao"};
+		String[] colunas = {"Codigo", "Titulo", "Data", "Hora", "Evento", "Edicao", "Codigo Apresentador"};
 
 		String[][] dados = null;
 		configurar(parametros, colunas, dados);

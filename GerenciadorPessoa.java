@@ -4,13 +4,13 @@ import java.awt.event.ActionListener;
 
 public class GerenciadorPessoa extends Gerenciador{
 
-	public GerenciadorPessoa(){
+	public GerenciadorPessoa(String[][] dados){
 		super("Gerenciar Pessoa");
 		String[] parametros = {"Nome", "Email", "Instituicao", "Nacionalidade"};
-		String[] colunas = {"Nome", "Email", "Instituicao", "Telefone", "Nacionalidade", "Endereco"};
+		String[] colunas = {"Codigo", "Nome", "Email", "Instituicao", "Telefone", "Nacionalidade", "Endereco", "tipoOrganizador", "tipoParticipante", "tipoAutor"};
 		
 
-		String[][] dados = null;
+		//String[][] dados = null;
 		configurar(parametros, colunas, dados);
 		//idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, tipoOrganizador, tipoParticipante, tipoAutor 
 

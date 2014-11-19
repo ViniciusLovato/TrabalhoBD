@@ -4,12 +4,12 @@ import java.awt.event.ActionListener;
 
 public class GerenciadorEdicao extends Gerenciador{
 
-	public GerenciadorEdicao(){
+	public GerenciadorEdicao(String[][] dados){
 		super("Gerenciar Edicao");
 		String[] parametros = {"Numero"};
 		String[] colunas = {"Numero", "Descricao", "Data Inicio", "Data fim", "Local", "Taxa" ,"Saldo", "Total de Artigos"};
 		
-		String[][] dados = null;
+		//String[][] dados = null;
 		configurar(parametros, colunas, dados);
 
 		criar.addActionListener(this);
