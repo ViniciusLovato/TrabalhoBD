@@ -4,12 +4,12 @@ import java.awt.event.ActionListener;
 
 public class GerenciadorEventos extends Gerenciador{
 
-	public GerenciadorEventos(){
+	public GerenciadorEventos(String[][] dados){
 		super("Gerenciar Eventos");
+
 		String[] parametros = {"Codigo", "Nome", "Website"};
 		String[] colunas = {"Codigo", "Nome", "Descricao", "Website", "Total de Artigos"};
 		
-		String[][] dados = null;
 		configurar(parametros, colunas, dados);
 		
 		criar.addActionListener(this);
