@@ -4,12 +4,11 @@ import java.awt.event.ActionListener;
 
 public class GerenciadorArtigo extends Gerenciador{
 
-	public GerenciadorArtigo(){
+	public GerenciadorArtigo(String[][] dados){
 		super("Gerenciar Artigo");
 		String[] parametros = {"Titulo", "Data Apresentacao", "Evento", "Edicao"};
 		String[] colunas = {"Codigo", "Titulo", "Data", "Hora", "Evento", "Edicao", "Codigo Apresentador"};
 
-		String[][] dados = null;
 		configurar(parametros, colunas, dados);
 
 		criar.addActionListener(this);

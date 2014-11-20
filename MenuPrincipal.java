@@ -41,6 +41,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	private JMenuItem menuDespesa;
 	private JMenuItem menuAuxilio;
 
+    private DBConnection dbcon;
 
 
 	// Janelas que podem ser abertas
@@ -52,6 +53,20 @@ public class MenuPrincipal extends JFrame implements ActionListener
 
 		// Botao de fechar
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        try
+        {
+            dbcon = new DBConnection();
+            if(dbcon.isNull())
+            {
+		       // JOptionPane.showMessageInfo(null, "Erro ao conectar no banco de dados");
+		       System.exit(0); 
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
 	}
 
 	public void initUI()
@@ -119,51 +134,62 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		setVisible(true);
 	}
 
+
 	public void actionPerformed(ActionEvent e)
 	{
 		System.out.println(e.getActionCommand());
 
+        String[][] dados;
+
 		// Checking if it is button okay
 		if(e.getActionCommand().equals(menuEvento.getText()))
 		{
-			GerenciadorEventos gerenciadorEventos = new GerenciadorEventos();
+
+			dados = dbcon.CarregaDados("EVENTO");   
+			GerenciadorEventos gerenciadorEventos = new GerenciadorEventos(dados);
 			//gerenciadorEventos.configurar(parametros, colunas, dados);
 			gerenciadorEventos.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuEdicao.getText())){
-			GerenciadorEdicao gerenciadorEdicao = new GerenciadorEdicao();
+			dados = dbcon.CarregaDados("EDICAO");   
+			GerenciadorEdicao gerenciadorEdicao = new GerenciadorEdicao(dados);
 			gerenciadorEdicao.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuPessoa.getText())){
-			GerenciadorPessoa gerenciadorPessoa = new GerenciadorPessoa();
+			dados = dbcon.CarregaDados("PESSOA");   
+			GerenciadorPessoa gerenciadorPessoa = new GerenciadorPessoa(dados);
 			gerenciadorPessoa.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuArtigo.getText())){
-			GerenciadorArtigo gerenciadorArtigo = new GerenciadorArtigo();
+			dados = dbcon.CarregaDados("ARTIGO");   
+			GerenciadorArtigo gerenciadorArtigo = new GerenciadorArtigo(dados);
 			gerenciadorArtigo.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuPatrocinador.getText())){
-			GerenciadorPatrocinador gerenciadorPatrocinador = new GerenciadorPatrocinador();
+			dados = dbcon.CarregaDados("PATROCINADOR");   
+			GerenciadorPatrocinador gerenciadorPatrocinador = new GerenciadorPatrocinador(dados);
 			gerenciadorPatrocinador.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuPatrocinio.getText())){
-			GerenciadorPatrocinio gerenciadorPatrocinio = new GerenciadorPatrocinio();
+			dados = dbcon.CarregaDados("PATROCINIO");   
+			GerenciadorPatrocinio gerenciadorPatrocinio = new GerenciadorPatrocinio(dados);
 			gerenciadorPatrocinio.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuDespesa.getText())){
-			GerenciadorDespesa gerenciadorDespesa = new GerenciadorDespesa();
+			dados = dbcon.CarregaDados("DESPESA");   
+			GerenciadorDespesa gerenciadorDespesa = new GerenciadorDespesa(dados);
 			gerenciadorDespesa.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuAuxilio.getText())){
-			GerenciadorAuxilio gerenciadorAuxilio = new GerenciadorAuxilio();
+			dados = dbcon.CarregaDados("AUXILIO");   
+			GerenciadorAuxilio gerenciadorAuxilio = new GerenciadorAuxilio(dados);
 			gerenciadorAuxilio.setVisible(true);
 		}
 	}
 
 	public static void main(String args[])
 	{
-
-		MenuPrincipal ui = new MenuPrincipal();
-		ui.initUI();
+		MenuPrincipal menu = new MenuPrincipal();
+		menu.initUI();
 	}
 }

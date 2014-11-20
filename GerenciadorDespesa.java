@@ -4,14 +4,13 @@ import java.awt.event.ActionListener;
 
 public class GerenciadorDespesa extends Gerenciador{
 
-	public GerenciadorDespesa(){
+	public GerenciadorDespesa(String[][] dados){
 		super("Gerenciar Despesas");
 		String[] parametros = {"Evento", "Edicao", "Patrocinador", "Data", "Valor"};
-		String[] colunas = {"Evento", "Edicao", "Patrocinador","Data",  "Valor", "Descricao"};
+		String[] colunas = {"Codigo Despesa", "Codigo Evento", "Numero Edicao", "CNPJ Patrocinador", "Codigo Evento Patrocinador", 
+			"Numero Edicao Patrocinador", "Data Despesa", "Valor Despesa", "Descricao"};
 
 		// codDesp, codEv, numEd, cnpjPat, codEvPat, numEdPat, dataDesp, valorDesp, descricaoDesp
-
-		String[][] dados = null;
 		configurar(parametros, colunas, dados);
 
 		criar.addActionListener(this);

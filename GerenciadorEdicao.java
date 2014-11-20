@@ -7,7 +7,7 @@ public class GerenciadorEdicao extends Gerenciador{
 	public GerenciadorEdicao(String[][] dados){
 		super("Gerenciar Edicao");
 		String[] parametros = {"Numero"};
-		String[] colunas = {"Numero", "Descricao", "Data Inicio", "Data fim", "Local", "Taxa" ,"Saldo", "Total de Artigos"};
+		String[] colunas = {"Numero Evento", "Numero Edicao", "Descricao", "Data Inicio", "Data fim", "Local", "Taxa" ,"Saldo", "Total de Artigos"};
 		
 		//String[][] dados = null;
 		configurar(parametros, colunas, dados);

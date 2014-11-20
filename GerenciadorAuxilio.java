@@ -4,12 +4,12 @@ import java.awt.event.ActionListener;
 
 public class GerenciadorAuxilio extends Gerenciador{
 
-	public GerenciadorAuxilio(){
+	public GerenciadorAuxilio(String[][] dados){
 		super("Gerenciar Despesas");
 		String[] parametros = {"Evento", "Edicao", "Patrocinador", "Data", "Valor", "Tipo"};
-		String[] colunas = {"Evento", "Edicao", "Patrocinador","Data",  "Valor", "Tipo"};
+		String[] colunas = {"CNPJ Patrocinador", "Codigo Evento Patrocinador", "Numero Edicao Patrocinador", "Codigo Evento Apr",  
+			"Codigo Edicao Apr", "ID Apresentador", "Valor", "Data", "Tipo"};
 		
-		String[][] dados = null;
 		configurar(parametros, colunas, dados);
 
 		// cnpjPat, codEvPat, numEdPat, codEvApr, numEdApr, idApr, valorAux, dataAux, tipoAux

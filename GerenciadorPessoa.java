@@ -7,7 +7,7 @@ public class GerenciadorPessoa extends Gerenciador{
 	public GerenciadorPessoa(String[][] dados){
 		super("Gerenciar Pessoa");
 		String[] parametros = {"Nome", "Email", "Instituicao", "Nacionalidade"};
-		String[] colunas = {"Codigo", "Nome", "Email", "Instituicao", "Telefone", "Nacionalidade", "Endereco", "tipoOrganizador", "tipoParticipante", "tipoAutor"};
+		String[] colunas = {"Id", "Nome", "Email", "Instituicao", "Telefone", "Nacionalidade", "Endereco", "tipoOrganizador", "tipoParticipante", "tipoAutor"};
 		
 
 		//String[][] dados = null;

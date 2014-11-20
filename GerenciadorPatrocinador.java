@@ -3,12 +3,11 @@ import java.awt.event.ActionListener;
 
 public class GerenciadorPatrocinador extends Gerenciador{
 
-	public GerenciadorPatrocinador(){
+	public GerenciadorPatrocinador(String[][] dados){
 		super("Gerenciar Patrocinador");
 		String[] parametros = {"CNPJ", "Razao Social", "Telefone", "Endereco"};
 		String[] colunas = {"CNPJ", "Razao Social", "Telefone", "Endereco"};
 		
-		String[][] dados = null;
 		configurar(parametros, colunas, dados);
 		//cnpjPat, razaoSocialPat, telefonePat, enderecoPat
 
