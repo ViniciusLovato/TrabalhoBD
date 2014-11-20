@@ -33,7 +33,7 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 	private ArrayList<JTextField> buscas;
 
 	private TableModel model;
-	private JTable table;
+	protected JTable table;
 
 	private TableRowSorter<TableModel> sorter;
 	private RowFilter<TableModel, Object> firstFilter;

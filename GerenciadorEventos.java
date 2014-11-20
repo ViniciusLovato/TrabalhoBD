@@ -11,6 +11,9 @@ public class GerenciadorEventos extends Gerenciador{
 		String[] colunas = {"Codigo", "Nome", "Descricao", "Website", "Total de Artigos"};
 		
 		configurar(parametros, colunas, dados);
+
+		// Remove campos nao necessarios
+		this.table.removeColumn(this.table.getColumnModel().getColumn(0));
 		
 		criar.addActionListener(this);
 		deletar.addActionListener(this);

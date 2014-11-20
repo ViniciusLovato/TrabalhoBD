@@ -11,6 +11,7 @@ public class GerenciadorPatrocinador extends Gerenciador{
 		configurar(parametros, colunas, dados);
 		//cnpjPat, razaoSocialPat, telefonePat, enderecoPat
 
+		
 		criar.addActionListener(this);
 		deletar.addActionListener(this);
 		editar.addActionListener(this);

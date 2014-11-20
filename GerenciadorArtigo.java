@@ -11,6 +11,10 @@ public class GerenciadorArtigo extends Gerenciador{
 
 		configurar(parametros, colunas, dados);
 
+		// Remove campos nao necessaios 
+		this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+
+
 		criar.addActionListener(this);
 		deletar.addActionListener(this);
 		editar.addActionListener(this);

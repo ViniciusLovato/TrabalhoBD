@@ -7,12 +7,14 @@ public class GerenciadorPessoa extends Gerenciador{
 	public GerenciadorPessoa(String[][] dados){
 		super("Gerenciar Pessoa");
 		String[] parametros = {"Nome", "Email", "Instituicao", "Nacionalidade"};
-		String[] colunas = {"Id", "Nome", "Email", "Instituicao", "Telefone", "Nacionalidade", "Endereco", "tipoOrganizador", "tipoParticipante", "tipoAutor"};
+		String[] colunas = {"Id", "Nome", "Email", "Instituicao", "Telefone", "Nacionalidade", "Endereco", "Organizador", "Participante", "Autor"};
 		
 
 		//String[][] dados = null;
 		configurar(parametros, colunas, dados);
-		//idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, tipoOrganizador, tipoParticipante, tipoAutor 
+
+		// Esconde as colunas que nao sao necessarias ao usuario final
+		this.table.removeColumn(this.table.getColumnModel().getColumn(0));
 
 		criar.addActionListener(this);
 		deletar.addActionListener(this);
