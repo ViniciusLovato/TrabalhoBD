@@ -12,6 +12,7 @@ import javax.swing.table.*;
 import java.awt.*;
 
 import java.awt.Dimension;
+import javax.swing.JOptionPane;
 
 
 import java.text.ParseException;
@@ -144,6 +145,10 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 		model.removeRow(linhaSelecionada);
 		table.repaint();
 	}
+
+	//public void syncTable(){
+	//	dados = dbcon.CarregaDados("PESSOA");   
+	//}
 
 	public void keyPressed(KeyEvent e)
 	{

@@ -1,6 +1,10 @@
 // Event Listener
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+import java.sql.SQLException;
+
+
 
 public class GerenciadorPatrocinio extends Gerenciador{
 	String[][] dados;
@@ -30,8 +34,32 @@ public class GerenciadorPatrocinio extends Gerenciador{
 
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
-		{
+		{	
+			int linhaSelecionada =  table.getSelectedRow();
 
+			if(linhaSelecionada != -1)
+			{
+				// Seleciona ID do Artigo selecionado, chave primaria para remocao
+				String removerId = dados[linhaSelecionada][0];
+				String codEv = dados[linhaSelecionada][1];
+				String numEd = dados[linhaSelecionada][2];
+
+				String query = "DELETE FROM PATROCINIO WHERE cnpjPat = " + removerId + " AND codEv = " + codEv + " AND numEd = " + numEd;
+				System.out.println(query);
+
+				// Remove da tabela o artigo
+				try{
+					this.dbcon.executarQuery(query);
+					removerLinha(linhaSelecionada);			
+				}
+				catch(SQLException ex){
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		else if(e.getActionCommand().equals(editar.getText()))
 		{

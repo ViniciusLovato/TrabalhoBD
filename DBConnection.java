@@ -60,18 +60,10 @@ public class DBConnection
     }
 
     // executar as queries no bd
-    public ResultSet executarQuery(String sqlQuery)
+    public ResultSet executarQuery(String sqlQuery) throws SQLException
     {
-    	try
-    	{
-    	   	Statement stmt = this.conexao.createStatement();
-	       	return(stmt.executeQuery(sqlQuery));
-    	}
-    	catch(Exception e)
-    	{
-    		System.out.println(e);
-    		return null;
-    	}
+	   	Statement stmt = this.conexao.createStatement();
+       	return(stmt.executeQuery(sqlQuery));
     }
 
     public void executarInsert(String sqlQuery) throws SQLException{
