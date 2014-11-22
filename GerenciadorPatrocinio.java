@@ -3,12 +3,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GerenciadorPatrocinio extends Gerenciador{
+	String[][] dados;
 
-	public GerenciadorPatrocinio(String[][] dados){
-		super("Gerenciar Patrocinio");
+	public GerenciadorPatrocinio(DBConnection dbcon){
+		super("Gerenciar Patrocinio", dbcon);
 		String[] parametros = {"CNPJ", "Evento", "Edicao", "Valor", "Saldo", "Data"};
 		String[] colunas = {"CNPJ", "Evento", "Edicao", "Valor", "Saldo", "Data"};
 		
+		
+		dados = dbcon.CarregaDados("PATROCINIO");   
 		configurar(parametros, colunas, dados);
 		// cnpjPat, codEv, numEd, valorPat, saldoPat, dataPat
 	

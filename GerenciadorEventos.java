@@ -3,13 +3,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GerenciadorEventos extends Gerenciador{
+	String[][] dados;
 
-	public GerenciadorEventos(String[][] dados){
-		super("Gerenciar Eventos");
+	public GerenciadorEventos(DBConnection dbcon){
+		super("Gerenciar Eventos", dbcon);
 
 		String[] parametros = {"Codigo", "Nome", "Website"};
 		String[] colunas = {"Codigo", "Nome", "Descricao", "Website", "Total de Artigos"};
-		
+
+		dados = dbcon.CarregaDados("EVENTO");   
+
 		configurar(parametros, colunas, dados);
 
 		// Remove campos nao necessarios
@@ -32,7 +35,19 @@ public class GerenciadorEventos extends Gerenciador{
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{
+			// Seleciona linha selecionada pelo usuario
+			int linhaSelecionada =  table.getSelectedRow();
 
+			// Seleciona ID do Artigo selecionado, chave primaria para remocao
+			String removerId = dados[linhaSelecionada][0];
+
+			String query = "DELETE FROM EVENTO WHERE codEv = " + removerId;
+			System.out.println(query);
+
+			// Remove da tabela o artigo
+			this.dbcon.executarQuery(query);
+
+			removerLinha(linhaSelecionada);
 		}
 		else if(e.getActionCommand().equals(editar.getText()))
 		{

@@ -32,7 +32,7 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 	private ArrayList<JLabel> parametros;
 	private ArrayList<JTextField> buscas;
 
-	private TableModel model;
+	private DefaultTableModel model;
 	protected JTable table;
 
 	private TableRowSorter<TableModel> sorter;
@@ -46,8 +46,13 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 	protected JButton editar;
 	protected JButton	voltar;
 
-	public Gerenciador(String nome)
+	protected DBConnection dbcon;
+
+	public Gerenciador(String nome, DBConnection dbcon)
 	{
+
+		this.dbcon = dbcon;
+
 		// Titulo da janela
 		setTitle(nome);
 
@@ -75,21 +80,7 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 		//Adiciona JPanel ao frame
 		getContentPane().add(panel);
 
-
-		// Tabela
-		model = new DefaultTableModel(dados, colunas);
-		table = new JTable(model);
-		table.setFillsViewportHeight(true);
-		sorter = new TableRowSorter<TableModel>(model);
-
-		firstFilter = null;
-		secondFilter = null;
-
-		filters = new ArrayList<RowFilter<TableModel, Object>>();
-
-		compoundRowFilter = null;
-
-		table.setRowSorter(sorter);
+		configurarTabela(dados, colunas);
 
 		parametros = new ArrayList<JLabel>();
 		buscas = new ArrayList<JTextField>();
@@ -130,6 +121,28 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 
 		// Janela agora visivel
 		setVisible(true);
+	}
+
+	public void configurarTabela(Object[][] dados, String[] colunas){
+		// Tabela
+		model = new DefaultTableModel(dados, colunas);
+		table = new JTable(model);
+		table.setFillsViewportHeight(true);
+		sorter = new TableRowSorter<TableModel>(model);
+
+		firstFilter = null;
+		secondFilter = null;
+
+		filters = new ArrayList<RowFilter<TableModel, Object>>();
+
+		compoundRowFilter = null;
+
+		table.setRowSorter(sorter);
+	}
+
+	public void removerLinha(int linhaSelecionada){
+		model.removeRow(linhaSelecionada);
+		table.repaint();
 	}
 
 	public void keyPressed(KeyEvent e)

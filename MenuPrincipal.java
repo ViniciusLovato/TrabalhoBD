@@ -139,50 +139,39 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	{
 		System.out.println(e.getActionCommand());
 
-        String[][] dados;
-
 		// Checking if it is button okay
 		if(e.getActionCommand().equals(menuEvento.getText()))
 		{
 
-			dados = dbcon.CarregaDados("EVENTO");   
-			GerenciadorEventos gerenciadorEventos = new GerenciadorEventos(dados);
-			//gerenciadorEventos.configurar(parametros, colunas, dados);
+			GerenciadorEventos gerenciadorEventos = new GerenciadorEventos(dbcon);
 			gerenciadorEventos.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuEdicao.getText())){
-			dados = dbcon.CarregaDados("EDICAO");   
-			GerenciadorEdicao gerenciadorEdicao = new GerenciadorEdicao(dados);
+			GerenciadorEdicao gerenciadorEdicao = new GerenciadorEdicao(dbcon);
 			gerenciadorEdicao.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuPessoa.getText())){
-			dados = dbcon.CarregaDados("PESSOA");   
-			GerenciadorPessoa gerenciadorPessoa = new GerenciadorPessoa(dados);
+			GerenciadorPessoa gerenciadorPessoa = new GerenciadorPessoa(dbcon);
 			gerenciadorPessoa.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuArtigo.getText())){
-			dados = dbcon.CarregaDados("ARTIGO");   
-			GerenciadorArtigo gerenciadorArtigo = new GerenciadorArtigo(dados);
+			GerenciadorArtigo gerenciadorArtigo = new GerenciadorArtigo(dbcon);
 			gerenciadorArtigo.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuPatrocinador.getText())){
-			dados = dbcon.CarregaDados("PATROCINADOR");   
-			GerenciadorPatrocinador gerenciadorPatrocinador = new GerenciadorPatrocinador(dados);
+			GerenciadorPatrocinador gerenciadorPatrocinador = new GerenciadorPatrocinador(dbcon);
 			gerenciadorPatrocinador.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuPatrocinio.getText())){
-			dados = dbcon.CarregaDados("PATROCINIO");   
-			GerenciadorPatrocinio gerenciadorPatrocinio = new GerenciadorPatrocinio(dados);
+			GerenciadorPatrocinio gerenciadorPatrocinio = new GerenciadorPatrocinio(dbcon);
 			gerenciadorPatrocinio.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuDespesa.getText())){
-			dados = dbcon.CarregaDados("DESPESA");   
-			GerenciadorDespesa gerenciadorDespesa = new GerenciadorDespesa(dados);
+			GerenciadorDespesa gerenciadorDespesa = new GerenciadorDespesa(dbcon);
 			gerenciadorDespesa.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuAuxilio.getText())){
-			dados = dbcon.CarregaDados("AUXILIO");   
-			GerenciadorAuxilio gerenciadorAuxilio = new GerenciadorAuxilio(dados);
+			GerenciadorAuxilio gerenciadorAuxilio = new GerenciadorAuxilio(dbcon);
 			gerenciadorAuxilio.setVisible(true);
 		}
 	}

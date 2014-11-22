@@ -3,13 +3,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GerenciadorAuxilio extends Gerenciador{
+	String[][] dados;
 
-	public GerenciadorAuxilio(String[][] dados){
-		super("Gerenciar Despesas");
+
+	public GerenciadorAuxilio(DBConnection dbcon){
+		super("Gerenciar Despesas", dbcon);
 		String[] parametros = {"Evento", "Edicao", "Patrocinador", "Data", "Valor", "Tipo"};
 		String[] colunas = {"CNPJ Patrocinador", "Codigo Evento Patrocinador", "Numero Edicao Patrocinador", "Codigo Evento Apr",  
 			"Codigo Edicao Apr", "ID Apresentador", "Valor", "Data", "Tipo"};
-		
+
+		dados = dbcon.CarregaDados("AUXILIO");   
+
 		configurar(parametros, colunas, dados);
 
 		// cnpjPat, codEvPat, numEdPat, codEvApr, numEdApr, idApr, valorAux, dataAux, tipoAux

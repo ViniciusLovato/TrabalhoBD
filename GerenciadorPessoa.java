@@ -4,11 +4,14 @@ import java.awt.event.ActionListener;
 
 public class GerenciadorPessoa extends Gerenciador{
 
-	public GerenciadorPessoa(String[][] dados){
-		super("Gerenciar Pessoa");
+	String[][] dados;
+
+	public GerenciadorPessoa(DBConnection dbcon){
+		super("Gerenciar Pessoa", dbcon);
 		String[] parametros = {"Nome", "Email", "Instituicao", "Nacionalidade"};
 		String[] colunas = {"Id", "Nome", "Email", "Instituicao", "Telefone", "Nacionalidade", "Endereco", "Organizador", "Participante", "Autor"};
-		
+
+		dados = dbcon.CarregaDados("PESSOA");   
 
 		//String[][] dados = null;
 		configurar(parametros, colunas, dados);
@@ -32,7 +35,18 @@ public class GerenciadorPessoa extends Gerenciador{
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{
+			int linhaSelecionada =  table.getSelectedRow();
 
+			// Seleciona ID do Artigo selecionado, chave primaria para remocao
+			String removerId = dados[linhaSelecionada][0];
+
+			String query = "DELETE FROM PESSOA WHERE idPe = " + removerId;
+			System.out.println(query);
+
+			// Remove da tabela o artigo
+			this.dbcon.executarQuery(query);
+
+			removerLinha(linhaSelecionada);
 		}
 		else if(e.getActionCommand().equals(editar.getText()))
 		{
