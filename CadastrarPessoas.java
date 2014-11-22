@@ -20,6 +20,9 @@ import javax.swing.border.EmptyBorder;
 // ArryaList
 import java.util.ArrayList;
 
+// SQL
+import java.sql.*;
+
 public class CadastrarPessoas extends JFrame implements ActionListener
 {
 	// JPanel para inserir os elementos
@@ -152,7 +155,10 @@ public class CadastrarPessoas extends JFrame implements ActionListener
 	// Botao cadastrar
 	public void onClickCadastrar()
 	{
-		System.exit(0);
+		String query = "INSERT INTO PESSOA VALUES(SEQ_PESSOA.NEXT_VAL, " + in_nome.getText() + ", " + in_email.getText() + ", " + 
+			in_instituicao.getText() + ", " + in_telefone.getText() + ", " + in_nacionalidade.getText() + ", " + in_endereco.getText() + ", " +
+			(in_organizador.isSelected() ? 1 : 0) + ", " + (in_participante.isSelected() ? 1 : 0) + ", " + (in_autor.isSelected() ? 1 : 0) + ")";
+		dbcon.executarQuery(query);
 	}
 
 	// Botao cancelar

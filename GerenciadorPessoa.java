@@ -1,7 +1,7 @@
 // Event Listener
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.*;
 public class GerenciadorPessoa extends Gerenciador{
 
 	String[][] dados;
@@ -31,22 +31,30 @@ public class GerenciadorPessoa extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
-
+			CadastrarPessoas cadPe = CadastrarPessoas(dbcon);
+			cadPe.initUI();
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{
 			int linhaSelecionada =  table.getSelectedRow();
 
-			// Seleciona ID do Artigo selecionado, chave primaria para remocao
-			String removerId = dados[linhaSelecionada][0];
+			if(linhaSelecionada != -1)
+			{
+				// Seleciona ID do Artigo selecionado, chave primaria para remocao
+				String removerId = dados[linhaSelecionada][0];
 
-			String query = "DELETE FROM PESSOA WHERE idPe = " + removerId;
-			System.out.println(query);
+				String query = "DELETE FROM PESSOA WHERE idPe = " + removerId;
+				System.out.println(query);
 
-			// Remove da tabela o artigo
-			this.dbcon.executarQuery(query);
+				// Remove da tabela o artigo
+				this.dbcon.executarQuery(query);
 
-			removerLinha(linhaSelecionada);
+				removerLinha(linhaSelecionada);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		else if(e.getActionCommand().equals(editar.getText()))
 		{
