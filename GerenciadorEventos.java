@@ -31,7 +31,7 @@ public class GerenciadorEventos extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
-			CadastrarEvento cadastrarEvento = new CadastrarEvento();
+			CadastrarEvento cadastrarEvento = new CadastrarEvento(dbcon);
 		    cadastrarEvento.initUI();
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))

@@ -178,11 +178,13 @@ public class CadastrarPessoas extends JFrame implements ActionListener
 
 		try{
 			dbcon.executarInsert(query);
+			JOptionPane.showMessageDialog(null, "Registro inserido com sucesso");
+			setVisible(false);
+			dispose();
 
 		}catch(Exception ex){
 			System.err.println(ex.getMessage()); 
-			System.out.println("Caiu aqui!!!");
-			JOptionPane.showMessageDialog(null, ex.getMessage());
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} 
 	}
 

@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.*;
+
 
 // Bordas
 import javax.swing.border.EmptyBorder;
@@ -34,16 +36,22 @@ public class CadastrarEvento extends JFrame implements ActionListener
 	private JTextField in_descricao;
 	private JTextField in_website;
 
+	// Conexao
+	DBConnection dbcon;
+
 	// Buttons
 	private JButton cadastrar;
 	private JButton cancelar;
 
-	public CadastrarEvento()
+	public CadastrarEvento(DBConnection dbcon)
 	{
 		// Titulo da janela
 		setTitle("Cadastrar Eventos");
 		// Setting up close button
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		// Conexao
+		this.dbcon = dbcon;
 	}
 
 	public void initUI()
@@ -114,7 +122,26 @@ public class CadastrarEvento extends JFrame implements ActionListener
 	// Botao cadastrar
 	public void onClickCadastrar()
 	{
-		//System.exit(0);
+		//  codEv, nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv
+		String nomeEv = "'" + in_nome.getText() + "'";
+		String descricaoEv = "'" + in_descricao.getText() + "'";
+		String websiteEv = "'" + in_website.getText() + "'";
+		int totalArtigosApresentadosEv = 0;
+		
+		String query = "INSERT INTO evento VALUES(sq_codEv_evento.NEXTVAL, " + nomeEv + "," + descricaoEv + "," + websiteEv + ", " + totalArtigosApresentadosEv + ")";
+		
+		System.out.println(query);
+
+		try{
+			dbcon.executarInsert(query);
+			JOptionPane.showMessageDialog(null, "Registro inserido com sucesso");
+			setVisible(false);
+			dispose();
+
+		}catch(Exception ex){
+			System.err.println(ex.getMessage()); 
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} 
 	}
 
 	// Botao cancelar
