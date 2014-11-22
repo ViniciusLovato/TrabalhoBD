@@ -160,8 +160,8 @@ public class CadastrarPessoas extends JFrame implements ActionListener
 	public void onClickCadastrar()
 	{
 		String query = "INSERT INTO PESSOA VALUES(SEQ_PESSOA.NEXT_VAL, '" + in_nome.getText() + "', '" + in_email.getText() + "', '" + 
-			in_instituicao.getText() + "', '" + in_telefone.getText() + "', '" + in_nacionalidade.getText() + "', '" + in_endereco.getText() + "', '" +
-			(in_organizador.isSelected() ? 1 : 0) + "', '" + (in_participante.isSelected() ? 1 : 0) + "', '" + (in_autor.isSelected() ? 1 : 0) + "')";
+			in_instituicao.getText() + "', '" + in_telefone.getText() + "', '" + in_nacionalidade.getText() + "', '" + in_endereco.getText() + "', " +
+			(in_organizador.isSelected() ? 1 : 0) + ", " + (in_participante.isSelected() ? 1 : 0) + ", " + (in_autor.isSelected() ? 1 : 0) + ")";
 		
 		System.out.println(query);
 
