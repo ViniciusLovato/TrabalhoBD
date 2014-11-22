@@ -27,7 +27,15 @@ public class GerenciadorPatrocinador extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
-
+			try
+			{
+				CadastrarPatrocinador cadPat = new CadastrarPatrocinador(dbcon);
+				cadPat.initUI();
+			}
+			catch(Exception exception)
+			{
+				System.out.println(exception);
+			}
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{

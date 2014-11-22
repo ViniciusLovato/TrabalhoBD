@@ -18,6 +18,8 @@ import java.awt.Dimension;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.text.MaskFormatter;
+import javax.swing.*;
+
 
 import java.text.ParseException;
 
@@ -44,18 +46,23 @@ public class CadastrarPatrocinador extends JFrame implements ActionListener
 	private JFormattedTextField in_telefone; //Campo de texto formatado para data
 	private JTextField in_endereco;
 
+	// Conexao
+	DBConnection dbcon;
+
 	// Botoes
 	private JButton cadastrar;
 	private JButton cancelar;
 
 
-	public CadastrarPatrocinador()
+	public CadastrarPatrocinador(DBConnection dbcon)
 	{
 		// Titulo da janela
 		setTitle("Cadastrar Edicao");
 
 		// Botao de fechar
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		this.dbcon = dbcon;
 	}
 
 	public void initUI()  throws ParseException
@@ -83,9 +90,11 @@ public class CadastrarPatrocinador extends JFrame implements ActionListener
 		// Mascara para formatar dados
  		MaskFormatter mf1 = new MaskFormatter("(##)####-####");
     	mf1.setPlaceholderCharacter('_');
+    	mf1.setValueContainsLiteralCharacters( false );
 
  		MaskFormatter mf2 = new MaskFormatter("##.###.###/####-##");
     	mf2.setPlaceholderCharacter('_');
+    	mf2.setValueContainsLiteralCharacters( false );
 
     	// Campos para preencher os dados
     	in_cnpj = new JFormattedTextField(mf2);
@@ -143,7 +152,27 @@ public class CadastrarPatrocinador extends JFrame implements ActionListener
 	// Metodo do botao de cadastrar, devera salva no banco de dados
 	public void onClickOkay()
 	{
-		System.exit(0);
+		//  cnpjPat, razaoSocialPat, telefonePat, enderecoPat
+		String cnpjPat = in_cnpj.getText().replaceAll("[^0-9]+", "");
+		String razaoSocialPat = "'" + in_razao_social.getText() + "'";
+		//String telefonePat = "'" + in_telefone.getText() + "'";
+		String telefonePat = in_telefone.getText().replaceAll("[^0-9]+", "");
+		String enderecoPat = "'" + in_endereco.getText() + "'";
+		
+		String query = "INSERT INTO patrocinador VALUES(" + cnpjPat + "," + razaoSocialPat + "," + telefonePat + ", " + enderecoPat + ")";
+		
+		System.out.println(query);
+
+		try{
+			dbcon.executarInsert(query);
+			JOptionPane.showMessageDialog(null, "Registro inserido com sucesso");
+			setVisible(false);
+			dispose();
+
+		}catch(Exception ex){
+			System.err.println(ex.getMessage()); 
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		} 
 	}
 
 	// Metodo do botao que cancela a acao
