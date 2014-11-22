@@ -74,17 +74,12 @@ public class DBConnection
     	}
     }
 
-    public void executarInsert(String sqlQuery){
-        try
-        {
-            // create our java jdbc statement
-            Statement stmt = this.conexao.createStatement();
-            stmt.executeUpdate(sqlQuery);
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
+    public void executarInsert(String sqlQuery) throws SQLException{
+
+        // create our java jdbc statement
+        Statement stmt = this.conexao.createStatement();
+        stmt.executeUpdate(sqlQuery);
+
     }
 
     public String[] interpretaTabela(String tabela, ResultSet rs) throws Exception

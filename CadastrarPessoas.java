@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.JOptionPane;
 
 // Bordas
 import javax.swing.border.EmptyBorder;
@@ -170,16 +171,19 @@ public class CadastrarPessoas extends JFrame implements ActionListener
 		int tipoParticipante = (in_participante.isSelected() ? 1 : 0);
 		int tipoAutor =  (in_autor.isSelected() ? 1 : 0);
 
-		//String query = "INSERT INTO PESSOA VALUES(SQ_idPe_pessoa.NEXT_VAL," + nomePe + "," + emailPe + ", " + instituicaoPe + ", " +
-	 	//				telefonePe + ", " + nacionalidadePe + ", " + enderecoPe + ", " +
-	    //				tipoOrganizador + ", " + tipoParticipante + ", " + tipoAutor + ")";
-		
 		String query = "INSERT INTO pessoa VALUES(sq_idPe_pessoa.NEXTVAL, " + nomePe + "," + emailPe + "," + instituicaoPe + "," +
 			telefonePe + "," + nacionalidadePe + "," + enderecoPe + "," + tipoOrganizador + "," + tipoParticipante + "," + tipoAutor + ")";
 		
 		System.out.println(query);
 
-		dbcon.executarInsert(query);
+		try{
+			dbcon.executarInsert(query);
+
+		}catch(Exception ex){
+			System.err.println(ex.getMessage()); 
+			System.out.println("Caiu aqui!!!");
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		} 
 	}
 
 	// Botao cancelar
