@@ -31,7 +31,7 @@ public class GerenciadorPessoa extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
-			CadastrarPessoas cadPe = CadastrarPessoas(dbcon);
+			CadastrarPessoas cadPe = new CadastrarPessoas(dbcon);
 			cadPe.initUI();
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))

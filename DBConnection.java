@@ -220,23 +220,6 @@ public class DBConnection
 
     public static void main(String[] args)
     {
-        DBConnection dbcon;
-        String[][] dados;
-        ArrayList<String[]> tabela;
-
-        try
-        {
-            dbcon = new DBConnection();
-            if(!dbcon.isNull())
-            {
-		        dados = dbcon.CarregaDados("PESSOA");
-		        GerenciadorPessoa gerenciar = new GerenciadorPessoa(dados);
-            }
-            dbcon.disconnect();
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
+    	
     }
 }

@@ -48,18 +48,22 @@ public class CadastrarPessoas extends JFrame implements ActionListener
 	private JCheckBox in_organizador;
 	private JCheckBox in_participante;
 	private JCheckBox in_autor;
+
+	private DBConnection dbcon;
 	
 
 	// Buttons
 	private JButton cadastrar;
 	private JButton cancelar;
 
-	public CadastrarPessoas()
+	public CadastrarPessoas(DBConnection dbcon)
 	{
 		// Titulo da janela
 		setTitle("Cadastrar Pessoas");
 		// Setting up close button
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		this.dbcon = dbcon;
 	}
 
 	public void initUI()
@@ -158,6 +162,9 @@ public class CadastrarPessoas extends JFrame implements ActionListener
 		String query = "INSERT INTO PESSOA VALUES(SEQ_PESSOA.NEXT_VAL, " + in_nome.getText() + ", " + in_email.getText() + ", " + 
 			in_instituicao.getText() + ", " + in_telefone.getText() + ", " + in_nacionalidade.getText() + ", " + in_endereco.getText() + ", " +
 			(in_organizador.isSelected() ? 1 : 0) + ", " + (in_participante.isSelected() ? 1 : 0) + ", " + (in_autor.isSelected() ? 1 : 0) + ")";
+		
+		System.out.println(query);
+
 		dbcon.executarQuery(query);
 	}
 
@@ -166,13 +173,5 @@ public class CadastrarPessoas extends JFrame implements ActionListener
 	{
 		setVisible(false);
 		dispose();	
-	}
-
-	public static void main(String args[])
-	{
-		CadastrarPessoas ui = new CadastrarPessoas();
-
-		// initializing the UI
-		ui.initUI();
 	}
 }
