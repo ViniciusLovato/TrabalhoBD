@@ -1,6 +1,10 @@
+import java.sql.SQLException;
 // Event Listener
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+
+
 
 public class GerenciadorAuxilio extends Gerenciador{
 	String[][] dados;
@@ -34,7 +38,33 @@ public class GerenciadorAuxilio extends Gerenciador{
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{
+			int linhaSelecionada =  table.getSelectedRow();
 
+			if(linhaSelecionada != -1)
+			{
+				// codEvApr, numEdApr, idApr, tipoAux
+				String codEvApr = dados[linhaSelecionada][3];
+				String numEdApr = dados[linhaSelecionada][4];
+				String idApr = dados[linhaSelecionada][5];
+				String tipoAux = "'" +  dados[linhaSelecionada][8] + "'";
+
+				String query = "DELETE FROM AUXILIO WHERE codEvApr = " + codEvApr + " AND numEdApr = " + numEdApr + " AND idApr = " + 
+				idApr + " AND tipoAux = " + tipoAux;
+				System.out.println(query);
+
+				// Remove da tabela o artigo
+				try{
+					this.dbcon.executarQuery(query);
+					removerLinha(linhaSelecionada);
+				}
+				catch(SQLException ex){
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		else if(e.getActionCommand().equals(editar.getText()))
 		{

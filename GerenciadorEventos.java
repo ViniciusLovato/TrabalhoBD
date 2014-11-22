@@ -2,6 +2,9 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.JOptionPane;
+import java.sql.SQLException;
+
 
 public class GerenciadorEventos extends Gerenciador{
 	String[][] dados;
@@ -50,9 +53,15 @@ public class GerenciadorEventos extends Gerenciador{
 				System.out.println(query);
 
 				// Remove da tabela o artigo
-				this.dbcon.executarQuery(query);
+				try{
+					this.dbcon.executarQuery(query);
+					removerLinha(linhaSelecionada);
 
-				removerLinha(linhaSelecionada);
+				}
+				catch(SQLException ex){
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+
+				}
 			}
 			else
 			{
