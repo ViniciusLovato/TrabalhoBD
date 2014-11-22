@@ -153,9 +153,4 @@ public class CadastrarPatrocinador extends JFrame implements ActionListener
 		dispose();	
 	}
 
-	public static void main(String args[]) throws ParseException
-	{
-		cadastrarPatrocinador ui = new cadastrarPatrocinador();
-		ui.initUI();
-	}
 }

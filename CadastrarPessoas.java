@@ -159,13 +159,27 @@ public class CadastrarPessoas extends JFrame implements ActionListener
 	// Botao cadastrar
 	public void onClickCadastrar()
 	{
-		String query = "INSERT INTO PESSOA VALUES(SQ_idPe_pessoa.NEXT_VAL, '" + in_nome.getText() + "', '" + in_email.getText() + "', '" + 
-			in_instituicao.getText() + "', '" + in_telefone.getText() + "', '" + in_nacionalidade.getText() + "', '" + in_endereco.getText() + "', " +
-			(in_organizador.isSelected() ? 1 : 0) + ", " + (in_participante.isSelected() ? 1 : 0) + ", " + (in_autor.isSelected() ? 1 : 0) + ")";
+		//  idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, tipoOrganizador, tipoParticipante, tipoAutor
+		String nomePe = "'" + in_nome.getText() + "'";
+		String emailPe = "'" + in_email.getText() + "'";
+		String instituicaoPe = "'" + in_instituicao.getText() + "'";
+		String telefonePe = "'" + in_telefone.getText() + "'";
+		String nacionalidadePe = "'" + in_nacionalidade.getText() + "'";
+		String enderecoPe = "'" + in_endereco.getText() + "'";
+		int tipoOrganizador = (in_organizador.isSelected() ? 1 : 0);
+		int tipoParticipante = (in_participante.isSelected() ? 1 : 0);
+		int tipoAutor =  (in_autor.isSelected() ? 1 : 0);
+
+		//String query = "INSERT INTO PESSOA VALUES(SQ_idPe_pessoa.NEXT_VAL," + nomePe + "," + emailPe + ", " + instituicaoPe + ", " +
+	 	//				telefonePe + ", " + nacionalidadePe + ", " + enderecoPe + ", " +
+	    //				tipoOrganizador + ", " + tipoParticipante + ", " + tipoAutor + ")";
+		
+		String query = "INSERT INTO pessoa VALUES(sq_idPe_pessoa.NEXTVAL, " + nomePe + "," + emailPe + "," + instituicaoPe + "," +
+			telefonePe + "," + nacionalidadePe + "," + enderecoPe + "," + tipoOrganizador + "," + tipoParticipante + "," + tipoAutor + ")";
 		
 		System.out.println(query);
 
-		dbcon.executarQuery(query);
+		dbcon.executarInsert(query);
 	}
 
 	// Botao cancelar
