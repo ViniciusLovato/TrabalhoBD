@@ -85,7 +85,26 @@ public class GerenciadorPessoa extends Gerenciador{
 		}
 		else if(e.getActionCommand().equals(editar.getText()))
 		{
+			int linhaSelecionada = table.getSelectedRow();
 
+			if(linhaSelecionada != -1){
+
+				String[] linha = dados[linhaSelecionada];
+
+				CadastrarPessoas cadastrarEvento = new CadastrarPessoas(dbcon, linha);
+			    cadastrarEvento.initUI();
+
+		    	dados = null;
+				dados = dbcon.CarregaDados("PESSOA"); 
+
+		    	configurarTabela(dados, colunas);
+				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Erro: Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		else if(e.getActionCommand().equals(voltar.getText()))
 		{
