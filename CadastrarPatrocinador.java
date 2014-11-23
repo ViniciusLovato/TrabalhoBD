@@ -49,6 +49,9 @@ public class CadastrarPatrocinador extends JDialog implements ActionListener
 	// Conexao
 	DBConnection dbcon;
 
+	private boolean funcaoCadastrar;
+	private String[] dados;
+
 	// Botoes
 	private JButton cadastrar;
 	private JButton cancelar;
@@ -61,6 +64,22 @@ public class CadastrarPatrocinador extends JDialog implements ActionListener
 
 		// Botao de fechar
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		funcaoCadastrar = true;
+
+		this.dbcon = dbcon;
+	}
+
+	public CadastrarPatrocinador(DBConnection dbcon, String[] dados)
+	{
+		// Titulo da janela
+		setTitle("Cadastrar Edicao");
+
+		// Botao de fechar
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		funcaoCadastrar = false;
+		this.dados = dados;
 
 		this.dbcon = dbcon;
 	}
@@ -105,7 +124,11 @@ public class CadastrarPatrocinador extends JDialog implements ActionListener
 		in_endereco = new JTextField(50);
 
 		// Cria botoes
-		cadastrar = new JButton("Cadastrar");
+		if(funcaoCadastrar)
+			cadastrar = new JButton("Cadastrar");
+		else
+			cadastrar = new JButton("Alterar");		
+
 		cancelar = new JButton("Cancelar");
 
 		// Adiciona botoes, campos de textos e labels ao panel
@@ -126,6 +149,15 @@ public class CadastrarPatrocinador extends JDialog implements ActionListener
 
 		cadastrar.addActionListener(this);
 		cancelar.addActionListener(this);
+
+		// Usuario esta tentando alterar 
+		if(funcaoCadastrar == false){
+			in_cnpj.setText(dados[0]);
+			in_cnpj.setEditable(false);
+			in_razao_social.setText(dados[1]);
+			in_telefone.setText(dados[2]);
+			in_endereco.setText(dados[3]);
+		}
 
 		// Tamanho da janela sera suficiente para conter todos os componetes
 		pack();
@@ -161,13 +193,28 @@ public class CadastrarPatrocinador extends JDialog implements ActionListener
 		String telefonePat = in_telefone.getText().replaceAll("[^0-9]+", "");
 		String enderecoPat = "'" + in_endereco.getText() + "'";
 		
-		String query = "INSERT INTO patrocinador VALUES(" + cnpjPat + "," + razaoSocialPat + "," + telefonePat + ", " + enderecoPat + ")";
-		
+		String query;
+		if(funcaoCadastrar)
+		{
+			query = "INSERT INTO patrocinador VALUES(" + cnpjPat + "," + razaoSocialPat + "," + telefonePat + ", " + enderecoPat + ")";
+		}
+		else
+		{
+			query = "UPDATE patrocinador SET razaoSocialPat = " + razaoSocialPat + ", telefonePat =  " + telefonePat + ", enderecoPat = " + enderecoPat + " WHERE cnpjPat = " + cnpjPat;
+		}
+
 		System.out.println(query);
 
 		try{
 			dbcon.executarInsert(query);
-			JOptionPane.showMessageDialog(null, "Registro inserido com sucesso");
+			if(funcaoCadastrar)
+			{
+				JOptionPane.showMessageDialog(null, "Registro inserido com sucesso");
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Registro alterado com sucesso");
+			}
 			setVisible(false);
 			dispose();
 

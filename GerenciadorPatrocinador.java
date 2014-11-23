@@ -80,7 +80,33 @@ public class GerenciadorPatrocinador extends Gerenciador{
 		}
 		else if(e.getActionCommand().equals(editar.getText()))
 		{
+			int linhaSelecionada = table.getSelectedRow();
 
+			if(linhaSelecionada != -1){
+
+				String[] linha = dados[linhaSelecionada];
+
+				try
+				{
+					CadastrarPatrocinador cadastrarEvento = new CadastrarPatrocinador(dbcon, linha);
+				    cadastrarEvento.initUI();
+				}
+				catch(Exception exception)
+				{
+					System.out.println(exception);
+				}
+				
+		    	dados = null;
+				dados = dbcon.CarregaDados("PATROCINADOR"); 
+
+		    	configurarTabela(dados, colunas);
+				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Erro: Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		else if(e.getActionCommand().equals(voltar.getText()))
 		{
