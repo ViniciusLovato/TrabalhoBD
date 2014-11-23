@@ -179,6 +179,10 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 			in_evento.setText(dados[8]);
 			in_edicao.setText(dados[5]);
 			in_apresentador.setText(dados[7]);
+
+			str_codEv = dados[4];
+			str_numEd = dados[5];
+			str_idApr = dados[6];
 		}
 
 		setVisible(true);
@@ -228,10 +232,6 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 			+ codEv + "," + numEd + "," + idApr + ")";
 		}
 		else{
-			codEv = dados[4];
-			numEd = dados[5];
-			idApr = dados[6];
-
 			query = "UPDATE artigo SET tituloArt =" + tituloArt + ", dataApresArt=" + dataApresArt + ", horaApresArt=" + horaApresArt + 
 				", codEv=" + codEv + ", numEd=" + numEd + ", idApr=" + idApr +  " WHERE idArt = " + dados[0]; 
 		}
@@ -258,6 +258,8 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 
 	public void onClickEventos(){
 
+		String str_codEv_antigo = str_codEv;
+
 		// Valores que serao passados para popular a tabela do JDialog, os resultados obtidos estao nessa ordem e podem ser acessados
 		// por meio de miniGerenciador.resultados().get(i);
 		String[] colunas = {"Codigo", "Nome", "Descricao", "Website", "Total de Artigos"};		
@@ -274,6 +276,15 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 			str_codEv  = miniGerenciador.resultado().get(0).toString();
 			miniGerenciador.dispose();
 		}
+
+		if(!str_codEv.equals(str_codEv_antigo))
+		{
+			str_numEd = null;
+			str_idApr = null;
+
+			in_edicao.setText(null);
+			in_apresentador.setText(null);
+		}
 	}
 
 	public void onClickEdicoes(){
@@ -284,6 +295,7 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 		}
 		else
 		{
+			String str_numEd_antigo = str_numEd;
 			// Valores que serao passados para popular a tabela do JDialog, os resultados obtidos estao nessa ordem e podem ser acessados
 			// por meio de miniGerenciador.resultados().get(i);
 			String[] colunas = {"Codigo", "Numero", "Descricao", "Data Inicio", "Data Fim", "Local", "Saldo Financeiro"};		
@@ -299,6 +311,13 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 				in_edicao.setText(miniGerenciador.resultado().get(2).toString());
 				str_numEd  = miniGerenciador.resultado().get(1).toString();
 				miniGerenciador.dispose();
+			}
+
+			if(!str_numEd.equals(str_numEd_antigo))
+			{
+				str_idApr = null;
+
+				in_apresentador.setText(null);
 			}
 		}
 	}
