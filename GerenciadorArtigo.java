@@ -33,7 +33,8 @@ public class GerenciadorArtigo extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
-
+			CadastrarArtigos cadArt = new CadastrarArtigos(dbcon);
+			cadArt.initUI();
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{
@@ -74,5 +75,5 @@ public class GerenciadorArtigo extends Gerenciador{
 			dispose();
 		}
 	}
-		//idArt, tituloArt, dataApresArt, horaApresArt, codEv, numEd, idAp
+	//idArt, tituloArt, dataApresArt, horaApresArt, codEv, numEd, idAp
 }

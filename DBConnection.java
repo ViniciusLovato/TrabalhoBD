@@ -168,10 +168,26 @@ public class DBConnection
 			linha[7] = rs.getString("dataAux");
 			linha[8] = rs.getString("tipoAux");
 		}
+		else if(tabela.equals("formataSaidaInscrito"))
+		{
+			linha = new String[9];
+			linha[0] = rs.getString("codEv");
+			linha[1] = rs.getString("numEd");
+			linha[2] = rs.getString("idPart");
+			linha[3] = rs.getString("nomePe");
+		}
+
 		return linha;
     }
 
+    // Sobrecarca de metodos para uma consulta simples
     public String[][] CarregaDados(String nomeTabela)
+    {
+    	return CarregaDados(nomeTabela, "");
+    }
+
+    // Funcao que carrega dados da tabela e aceita clausulas extras como where, group by, sort
+    public String[][] CarregaDados(String nomeTabela, String clausulaExtra)
     {
     	// result set
     	ResultSet rs;
@@ -185,7 +201,7 @@ public class DBConnection
         	// Se estiver conectado
             if(!isNull())
             {
-                rs = executarQuery("SELECT * FROM " + nomeTabela);
+                rs = executarQuery("SELECT * FROM " + nomeTabela + " " + clausulaExtra);
 
                 tabela = new ArrayList<String[]>();
 

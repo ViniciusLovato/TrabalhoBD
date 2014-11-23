@@ -199,6 +199,10 @@ public class CadastrarEdicao extends JFrame implements ActionListener
 
 		try{
 			dbcon.executarInsert(query);
+			JOptionPane.showMessageDialog(null, "Edicao Cadastrada com sucesso");
+			setVisible(false);
+			dispose();
+
 		}catch(SQLException ex){
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		}
