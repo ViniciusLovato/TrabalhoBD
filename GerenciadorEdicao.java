@@ -29,8 +29,9 @@ public class GerenciadorEdicao extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
+
 			String[] eventos = {"Churras na casa do Brunao"};
-			CadastrarEdicao cadastrarEdicao = new CadastrarEdicao();
+			CadastrarEdicao cadastrarEdicao = new CadastrarEdicao(dbcon);
 
 			try{
 				cadastrarEdicao.initUI(eventos);
