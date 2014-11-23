@@ -199,7 +199,8 @@ public class CadastrarArtigos extends JFrame implements ActionListener
 			dispose();
 		}catch(SQLException ex){
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-		}	}
+		}	
+	}
 
 	// Botao cancelar
 	public void onClickCancelar()
