@@ -8,14 +8,14 @@ import java.text.ParseException;
 
 
 public class GerenciadorAuxilio extends Gerenciador{
-	String[][] dados;
+	private String[][] dados;
+	private static final String[] colunas = {"CNPJ Patrocinador", "Codigo Evento Patrocinador", "Numero Edicao Patrocinador", "Codigo Evento Apr",  
+			"Codigo Edicao Apr", "ID Apresentador", "Valor", "Data", "Tipo"};
 
 
 	public GerenciadorAuxilio(DBConnection dbcon){
 		super("Gerenciar Auxilio", dbcon);
 		String[] parametros = {"Evento", "Edicao", "Patrocinador", "Data", "Valor", "Tipo"};
-		String[] colunas = {"CNPJ Patrocinador", "Codigo Evento Patrocinador", "Numero Edicao Patrocinador", "Codigo Evento Apr",  
-			"Codigo Edicao Apr", "ID Apresentador", "Valor", "Data", "Tipo"};
 
 		dados = dbcon.CarregaDados("AUXILIO");   
 
@@ -39,6 +39,11 @@ public class GerenciadorAuxilio extends Gerenciador{
 			{
 				CadastrarAuxilio cadAux = new CadastrarAuxilio(dbcon);
 				cadAux.initUI();
+
+		      	dados = null;
+				dados = dbcon.CarregaDados("AUXILIO"); 
+
+		  		configurarTabela(dados, colunas);
 			}
 			catch(Exception exception)
 			{
