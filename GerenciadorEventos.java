@@ -35,14 +35,15 @@ public class GerenciadorEventos extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
-			System.out.println("ANTES!!!!!!!!!!!!");
 			CadastrarEvento cadastrarEvento = new CadastrarEvento(dbcon);
 		    cadastrarEvento.initUI();
 
 		    dados = null;
-			dados = dbcon.CarregaDados("EVENTO");   
+			dados = dbcon.CarregaDados("EVENTO"); 
+
 		    configurarTabela(dados, colunas);
-			System.out.println("DEPOIS!!!!!!!!!!!!");
+			this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+
 
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
