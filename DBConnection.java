@@ -191,6 +191,19 @@ public class DBConnection
             linha[8] = rs.getString("SaldoFinanceiroEd");   
             linha[9] = rs.getString("qtdArtigosApresentadosEd");    
         }
+        else if(tabela.equals("formataSaidaArtigo"))
+        {
+            linha = new String[9];
+            linha[0] = rs.getString("idArt");
+            linha[1] = rs.getString("TituloArt");
+            linha[2] = rs.getString("dataApresArt");
+            linha[3] = rs.getString("horaApresArt");
+            linha[4] = rs.getString("codEv");   
+            linha[5] = rs.getString("numEd");   
+            linha[6] = rs.getString("idApr");  
+            linha[7] = rs.getString("nomePe"); 
+            linha[8] = rs.getString("nomeEv");
+        }
 
 		return linha;
     }

@@ -9,13 +9,13 @@ import java.sql.SQLException;
 public class GerenciadorArtigo extends Gerenciador{
 
 	private	String[][] dados;
-	private static final String[] colunas = {"Codigo", "Titulo", "Data", "Hora", "Evento", "Edicao", "Codigo Apresentador"};
+	private static final String[] colunas = {"Codigo", "Titulo", "Data", "Hora", "Evento", "Edicao", "Codigo Apresentador", "Nome Apresentador"};
 
 	public GerenciadorArtigo(DBConnection dbcon){
 		super("Gerenciar Artigo", dbcon);
 		String[] parametros = {"Titulo", "Data Apresentacao", "Evento", "Edicao"};
 
-		dados = dbcon.CarregaDados("ARTIGO");   
+		dados = dbcon.CarregaDados("formataSaidaArtigo");   
 		configurar(parametros, colunas, dados);
 
 		// Remove campos nao necessaios 
@@ -38,7 +38,7 @@ public class GerenciadorArtigo extends Gerenciador{
 				cadArt.initUI();
 
 		      	dados = null;
-				dados = dbcon.CarregaDados("ARTIGO"); 
+				dados = dbcon.CarregaDados("formataSaidaArtigo"); 
 
 		  		configurarTabela(dados, colunas);
 				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
@@ -68,7 +68,7 @@ public class GerenciadorArtigo extends Gerenciador{
 					this.dbcon.executarQuery(query);
 
 			      	dados = null;
-					dados = dbcon.CarregaDados("ARTIGO"); 
+					dados = dbcon.CarregaDados("formataSaidaArtigo"); 
 
 			  		configurarTabela(dados, colunas);
 					this.table.removeColumn(this.table.getColumnModel().getColumn(0));
@@ -85,7 +85,30 @@ public class GerenciadorArtigo extends Gerenciador{
 		}
 		else if(e.getActionCommand().equals(editar.getText()))
 		{
+			int linhaSelecionada = table.getSelectedRow();
 
+			if(linhaSelecionada != -1){
+
+				String[] linha = dados[linhaSelecionada];
+				CadastrarArtigos cadastrarArtigos = new CadastrarArtigos(dbcon, linha);
+			    
+			    try{
+    			    cadastrarArtigos.initUI();
+
+		    		dados = null;
+					dados = dbcon.CarregaDados("formataSaidaArtigo"); 
+
+		  		  	configurarTabela(dados, colunas);
+					this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+			    }catch(Exception ex){
+			    	System.err.println(ex.getMessage());
+			    }
+
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Erro: Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		else if(e.getActionCommand().equals(voltar.getText()))
 		{

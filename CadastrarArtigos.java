@@ -58,13 +58,29 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 	private JButton cadastrar;
 	private JButton cancelar;
 
-	public CadastrarArtigos(DBConnection dbcon)
+	private boolean funcaoCadastrar;
+	private String[] dados;
+
+	public CadastrarArtigos(DBConnection dbcon, String[] dados)
 	{
 		// Titulo da janela
 		setTitle("Cadastrar Artigos");
 		// Setting up close button
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+		funcaoCadastrar = false;
+		this.dados = dados;
+		this.dbcon = dbcon;
+	}
+
+	public CadastrarArtigos(DBConnection dbcon)
+	{
+		// Titulo da janela
+		setTitle("Editar Artigos");
+		// Setting up close button
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		funcaoCadastrar = true;
 		this.dbcon = dbcon;
 	}
 
@@ -104,7 +120,12 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 		buttonEdicao = new JButton("Escolher Edicao");
 		buttonApresentador = new JButton("Escolher apresentador");
 
-		cadastrar = new JButton("Cadastrar");
+		if(funcaoCadastrar){
+			cadastrar = new JButton("Cadastrar");
+		}
+		else
+			cadastrar = new JButton("Alterar");
+
 		cancelar = new JButton("Cancelar");
 
 		// Inserindo os labels e textfields e comboxes no panel
@@ -148,6 +169,18 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 		// Centralizando a janela
 		setLocationRelativeTo(null);
 		// Seta a janela como visivel
+		 // "idArt"); "TituloArt");"dataApresArt");"horaApresArt");"codEv");   "numEd");   "idApr");  "nomePe");
+
+		if(funcaoCadastrar == false){
+
+			in_titulo.setText(dados[1]);
+			in_dataApresentacao.setText(dados[2]);
+			in_horarioApresentacao.setText(dados[3]);
+			in_evento.setText(dados[8]);
+			in_edicao.setText(dados[5]);
+			in_apresentador.setText(dados[7]);
+		}
+
 		setVisible(true);
 	}
 
@@ -181,15 +214,28 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 	{
 		String idArt = "SQ_idArt_artigo.NEXTVAL";
 		String tituloArt = "'" + in_titulo.getText() + "'";
-		String dataApreArt = "TO_DATE(" + "'" + in_dataApresentacao.getText() + "'," + "'DD/MM/YYYY')";
+		String dataApresArt = "TO_DATE(" + "'" + in_dataApresentacao.getText() + "'," + "'DD/MM/YYYY')";
 		String horaApresArt = "TO_DATE(" + "'" + in_horarioApresentacao.getText() + "'," + "'HH24:MI')";
+
 		String codEv = str_codEv;
 		String numEd = str_numEd;
 		String idApr = str_idApr;
 
-		// codEv, numEd, descricaoEd, dataInicioEd, dataFimEd, localEd, taxaEd, saldoFinanceiroEd, qtdArtigosApresentadosEd
-		String query = "INSERT INTO artigo VALUES(" + idArt + "," + tituloArt + "," + dataApreArt + "," + horaApresArt + ", " 
+		String query = null;
+
+		if(funcaoCadastrar){
+			 query = "INSERT INTO artigo VALUES(" + idArt + "," + tituloArt + "," + dataApresArt + "," + horaApresArt + ", " 
 			+ codEv + "," + numEd + "," + idApr + ")";
+		}
+		else{
+			codEv = dados[4];
+			numEd = dados[5];
+			idApr = dados[6];
+
+			query = "UPDATE artigo SET tituloArt =" + tituloArt + ", dataApresArt=" + dataApresArt + ", horaApresArt=" + horaApresArt + 
+				", codEv=" + codEv + ", numEd=" + numEd + ", idApr=" + idApr +  " WHERE idArt = " + dados[0]; 
+		}
+
 
 		System.out.println(query);
 
@@ -259,7 +305,7 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 
 	public void onClickApresentador(){
 
-		if(str_codEv == null && str_numEd == null)
+		if((str_codEv == null && str_numEd == null))
 		{
 			JOptionPane.showMessageDialog(null, "Evento ou Edicao nao escolhidos", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
