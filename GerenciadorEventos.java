@@ -93,6 +93,7 @@ public class GerenciadorEventos extends Gerenciador{
 
 				String[] linha = dados[linhaSelecionada];
 
+
 				CadastrarEvento cadastrarEvento = new CadastrarEvento(dbcon, linha);
 			    cadastrarEvento.initUI();
 

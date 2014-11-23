@@ -7,14 +7,18 @@ import java.sql.SQLException;
 
 public class GerenciadorEdicao extends Gerenciador{
     private String[][] dados;
-    private static final String[] colunas = {"Numero Evento", "Numero Edicao", "Descricao", "Data Inicio", "Data fim", "Local", "Taxa" ,"Saldo", "Total de Artigos"};
+    private static final String[] colunas = {"Nome evento", "Numero Evento", "Numero Edicao", 
+    "Descricao", "Data Inicio", "Data fim", "Local", "Taxa" ,"Saldo", "Total de Artigos"};
+	
 	public GerenciadorEdicao(DBConnection dbcon){
 		super("Gerenciar Edicao", dbcon);
 		String[] parametros = {"Numero"};
 		
-		dados = dbcon.CarregaDados("EDICAO");   
+		dados = dbcon.CarregaDados("formataSaidaEdicao");   
 
 		configurar(parametros, colunas, dados);
+		this.table.removeColumn(this.table.getColumnModel().getColumn(1));
+
 
 		criar.addActionListener(this);
 		deletar.addActionListener(this);
@@ -33,9 +37,11 @@ public class GerenciadorEdicao extends Gerenciador{
 			try{
 				cadastrarEdicao.initUI();
 		      	dados = null;
-				dados = dbcon.CarregaDados("EDICAO"); 
+				dados = dbcon.CarregaDados("formataSaidaEdicao"); 
 
 		  		configurarTabela(dados, colunas);
+				this.table.removeColumn(this.table.getColumnModel().getColumn(1));
+
 			}
 			catch(Exception ex){
 				System.out.println("Erro");
@@ -60,9 +66,11 @@ public class GerenciadorEdicao extends Gerenciador{
 				try{
 					this.dbcon.executarQuery(query);
 			      	dados = null;
-					dados = dbcon.CarregaDados("EDICAO"); 
+					dados = dbcon.CarregaDados("formataSaidaEdicao"); 
 
 		  			configurarTabela(dados, colunas);
+					this.table.removeColumn(this.table.getColumnModel().getColumn(1));
+
 				}
 				catch(SQLException ex){
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -76,7 +84,31 @@ public class GerenciadorEdicao extends Gerenciador{
 		}
 		else if(e.getActionCommand().equals(editar.getText()))
 		{
+			int linhaSelecionada = table.getSelectedRow();
 
+			if(linhaSelecionada != -1){
+
+				String[] linha = dados[linhaSelecionada];
+
+				CadastrarEdicao cadastrarEdicao = new CadastrarEdicao(dbcon, linha);
+			    
+			    try{
+    			    cadastrarEdicao.initUI();
+
+		    		dados = null;
+					dados = dbcon.CarregaDados("formataSaidaEdicao"); 
+
+		  		  	configurarTabela(dados, colunas);
+					this.table.removeColumn(this.table.getColumnModel().getColumn(1));
+			    }catch(Exception ex){
+			    	System.err.println(ex.getMessage());
+			    }
+
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Erro: Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		else if(e.getActionCommand().equals(voltar.getText()))
 		{

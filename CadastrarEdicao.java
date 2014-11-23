@@ -21,6 +21,7 @@ import javax.swing.text.MaskFormatter;
 import javax.swing.JOptionPane;
 
 import java.text.ParseException;
+import java.util.StringTokenizer;
 
 // Bordas
 import javax.swing.border.EmptyBorder;
@@ -45,7 +46,7 @@ public class CadastrarEdicao extends JDialog implements ActionListener
 	private JLabel taxa_inscricao;
 
 	// Campos de texto
-	private JTextField in_evento;
+	private JTextField in_eventos;
 	private JTextField in_descricao;
 	private JFormattedTextField in_data_inicio; //Campo de texto formatado para data
 	private JFormattedTextField in_data_fim;	// Campo de texto formatado para data
@@ -53,7 +54,6 @@ public class CadastrarEdicao extends JDialog implements ActionListener
 	private JTextField in_taxa_inscricao;
 
 	// Combobox que contem os eventos
-	private JTextField in_eventos;
 
 	private JButton bt_eventos;
 
@@ -65,6 +65,22 @@ public class CadastrarEdicao extends JDialog implements ActionListener
 
 	private String in_codEvento;
 
+	private String[] dados;
+
+	private boolean funcaoCadastrar;
+
+	public CadastrarEdicao(DBConnection dbcon, String[] dados)
+	{
+		// Titulo da janela
+		setTitle("Cadastrar Edicao");
+
+		// Botao de fechar
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		this.funcaoCadastrar = false;
+		this.dados = dados;
+		this.dbcon = dbcon;
+	}
 
 	public CadastrarEdicao(DBConnection dbcon)
 	{
@@ -74,6 +90,7 @@ public class CadastrarEdicao extends JDialog implements ActionListener
 		// Botao de fechar
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+		this.funcaoCadastrar = true;
 		this.dbcon = dbcon;
 	}
 
@@ -121,7 +138,12 @@ public class CadastrarEdicao extends JDialog implements ActionListener
 		in_taxa_inscricao = new JTextField(50);
 
 		// Cria botoes
-		cadastrar = new JButton("Cadastrar");
+		if(funcaoCadastrar){
+			cadastrar = new JButton("Cadastrar");
+		}
+		else
+			cadastrar = new JButton("Alterar");
+
 		cancelar = new JButton("Cancelar");
 		bt_eventos = new JButton("Selecione o Evento");
 
@@ -158,6 +180,22 @@ public class CadastrarEdicao extends JDialog implements ActionListener
 		// Centralizando janela
 		setLocationRelativeTo(null);
 
+		// nomeEv, codEv, numEd, descricaoEd, dataInicioEd, dataFimEd, localEd, taxaEd, saldoFinanceiroEd, qtdArtigosApresentadosEd
+		if(funcaoCadastrar == false){
+			in_eventos.setText(dados[0]);
+			in_descricao.setText(dados[3]);
+			
+
+			in_data_inicio.setText(dados[4]); //Campo de texto formatado para data
+			in_data_fim.setText(dados[5]);	// Campo de texto formatado para data
+
+
+
+			in_local.setText(dados[6]);
+			in_taxa_inscricao.setText(dados[7]);
+
+			System.out.println("DATA FIM!:" + dados[4]);
+		}
 		// Janela agora visivel
 		 setVisible(true);
 	}
@@ -194,15 +232,27 @@ public class CadastrarEdicao extends JDialog implements ActionListener
 		int saldoFinanceiroEd = 0;
 		int qtdArtigosApresentadosEd = 0;
 
+		String query = null;
 		// codEv, numEd, descricaoEd, dataInicioEd, dataFimEd, localEd, taxaEd, saldoFinanceiroEd, qtdArtigosApresentadosEd
-		String query = "INSERT INTO edicao VALUES(" + codEv + "," + numEd + "," + descricaoEd + "," + dataInicioEd + ", " 
+		if(funcaoCadastrar){
+		    query = "INSERT INTO edicao VALUES(" + codEv + "," + numEd + "," + descricaoEd + "," + dataInicioEd + ", " 
 			+ dataFimEd + "," + localEd + "," + taxaEd + "," + saldoFinanceiroEd + "," + qtdArtigosApresentadosEd + ")";
+		}else {
+			query = "UPDATE edicao SET descricaoEd =" + descricaoEd + ", dataInicioEd=" + dataInicioEd + ", dataFimEd=" + dataFimEd + 
+				", localEd=" + localEd + ", taxaEd=" + taxaEd + "WHERE codEv = " + dados[1] +" AND numEd = " + dados[2]; 
+		}
 
 		System.out.println(query);
 
 		try{
 			dbcon.executarInsert(query);
-			JOptionPane.showMessageDialog(null, "Edicao Cadastrada com sucesso");
+
+			if(funcaoCadastrar){
+				JOptionPane.showMessageDialog(null, "Edicao Cadastrada com sucesso");
+			}
+			else 
+				JOptionPane.showMessageDialog(null, "Edicao Alterada com sucesso");
+
 			setVisible(false);
 			dispose();
 

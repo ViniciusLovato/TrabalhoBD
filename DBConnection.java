@@ -99,6 +99,7 @@ public class DBConnection
 			linha[7] = rs.getString("SaldoFinanceiroEd");	
 			linha[8] = rs.getString("qtdArtigosApresentadosEd");	
 		}
+
 		else if(tabela.equals("PESSOA"))
 		{
 			linha = new String[10];
@@ -176,6 +177,20 @@ public class DBConnection
 			linha[2] = rs.getString("idPart");
 			linha[3] = rs.getString("nomePe");
 		}
+        else if(tabela.equals("formataSaidaEdicao"))
+        {
+            linha = new String[10];
+            linha[0] = rs.getString("nomeEv");
+            linha[1] = rs.getString("codEv");
+            linha[2] = rs.getString("numEd");
+            linha[3] = rs.getString("descricaoEd");
+            linha[4] = rs.getString("DataInicio");
+            linha[5] = rs.getString("dataFim");   
+            linha[6] = rs.getString("localEd"); 
+            linha[7] = rs.getString("taxaEd");  
+            linha[8] = rs.getString("SaldoFinanceiroEd");   
+            linha[9] = rs.getString("qtdArtigosApresentadosEd");    
+        }
 
 		return linha;
     }

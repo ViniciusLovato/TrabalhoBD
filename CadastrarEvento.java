@@ -60,7 +60,7 @@ public class CadastrarEvento extends JDialog implements ActionListener
 	public CadastrarEvento(DBConnection dbcon, String[] dados)
 	{
 		// Titulo da janela
-		setTitle("Cadastrar Eventos");
+		setTitle("Editar Eventos");
 		// Setting up close button
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -172,7 +172,12 @@ public class CadastrarEvento extends JDialog implements ActionListener
 
 		try{
 			dbcon.executarInsert(query);
-			JOptionPane.showMessageDialog(null, "Registro inserido com sucesso");
+			if(funcaoCadastrar){
+				JOptionPane.showMessageDialog(null, "Registro inserido com sucesso");
+			}else{
+				JOptionPane.showMessageDialog(null, "Registro Alterado com sucesso");
+
+			}
 			setVisible(false);
 			dispose();
 
