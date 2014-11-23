@@ -127,7 +127,15 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 	public void configurarTabela(Object[][] dados, String[] colunas){
 		// Tabela
 		model = new DefaultTableModel(dados, colunas);
-		table = new JTable(model);
+
+		if(table == null){
+			table = new JTable(model);
+		}
+		else {
+			table.setModel(model);
+			model.fireTableDataChanged();
+		}
+
 		table.setFillsViewportHeight(true);
 		sorter = new TableRowSorter<TableModel>(model);
 
@@ -139,8 +147,6 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 		compoundRowFilter = null;
 
 		table.setRowSorter(sorter);
-
-		table.repaint();
 	}
 
 	public void removerLinha(int linhaSelecionada){
