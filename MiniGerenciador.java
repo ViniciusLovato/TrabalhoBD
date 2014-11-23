@@ -10,7 +10,7 @@ import javax.swing.border.EmptyBorder;
 import java.util.ArrayList;
 
 
-public class MiniGerenciadorCadastros extends JDialog implements ActionListener{
+public class MiniGerenciador extends JDialog implements ActionListener{
 
 	private DefaultTableModel model;
 	protected JTable table;
@@ -25,7 +25,7 @@ public class MiniGerenciadorCadastros extends JDialog implements ActionListener{
 
 	private String[][] dados;
 	
-	public MiniGerenciadorCadastros(JFrame frame, String[][] dados, String[] colunas){
+	public MiniGerenciador(JFrame frame, String[][] dados, String[] colunas){
 		//setVisible(true);
 		super(frame,"Selecione o Evento",true);
 

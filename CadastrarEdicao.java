@@ -194,7 +194,7 @@ public class CadastrarEdicao extends JFrame implements ActionListener
 		String[][] dados = this.dbcon.CarregaDados("EVENTO");   
 
 		// Cria JDialog com a tabela que o usuario ira selecionar
-		MiniGerenciadorCadastros miniGerenciador =  new MiniGerenciadorCadastros(this, dados, colunas);
+		MiniGerenciador miniGerenciador =  new MiniGerenciador(this, dados, colunas);
 		
 		// Caso o usuario clicou em ok o resultado esta salvo em miniGerenciador.resutlado
 		if(miniGerenciador.resultado() != null){
