@@ -68,6 +68,8 @@ public class GerenciadorEventos extends Gerenciador{
 					dados = dbcon.CarregaDados("EVENTO"); 
 
 		    		configurarTabela(dados, colunas);
+					this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+
 
 					//removerLinha(linhaSelecionada);
 
