@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
 
-
+import java.text.ParseException;
 
 public class GerenciadorDespesa extends Gerenciador{
 	String[][] dados;
@@ -33,7 +33,15 @@ public class GerenciadorDespesa extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
-
+			try
+			{
+				CadastrarDespesa cadDesp = new CadastrarDespesa(dbcon);
+				cadDesp.initUI();
+			}
+			catch(Exception exception)
+			{
+				System.out.println(exception);
+			}
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{
