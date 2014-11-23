@@ -6,12 +6,11 @@ import java.sql.SQLException;
 
 
 public class GerenciadorEdicao extends Gerenciador{
-    String[][] dados;
-
+    private String[][] dados;
+    private static final String[] colunas = {"Numero Evento", "Numero Edicao", "Descricao", "Data Inicio", "Data fim", "Local", "Taxa" ,"Saldo", "Total de Artigos"};
 	public GerenciadorEdicao(DBConnection dbcon){
 		super("Gerenciar Edicao", dbcon);
 		String[] parametros = {"Numero"};
-		String[] colunas = {"Numero Evento", "Numero Edicao", "Descricao", "Data Inicio", "Data fim", "Local", "Taxa" ,"Saldo", "Total de Artigos"};
 		
 		dados = dbcon.CarregaDados("EDICAO");   
 
@@ -29,11 +28,14 @@ public class GerenciadorEdicao extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
-
 			CadastrarEdicao cadastrarEdicao = new CadastrarEdicao(dbcon);
 
 			try{
 				cadastrarEdicao.initUI();
+		      	dados = null;
+				dados = dbcon.CarregaDados("EDICAO"); 
+
+		  		configurarTabela(dados, colunas);
 			}
 			catch(Exception ex){
 				System.out.println("Erro");

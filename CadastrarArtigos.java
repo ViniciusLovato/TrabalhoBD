@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.GridLayout;
 
 // Componentes da interface
-import javax.swing.JFrame;
+import javax.swing.*;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,7 +22,7 @@ import java.sql.SQLException;
 // ArryaList
 import java.util.ArrayList;
 
-public class CadastrarArtigos extends JFrame implements ActionListener
+public class CadastrarArtigos extends JDialog implements ActionListener
 {
 	// JPanel para inserir os elementos
 	private JPanel panel;
@@ -70,6 +70,7 @@ public class CadastrarArtigos extends JFrame implements ActionListener
 
 	public void initUI()
 	{
+		this.setModal(true);
 		// Criando os Paineis
 		panel = new JPanel();
 		// Criando o Layout

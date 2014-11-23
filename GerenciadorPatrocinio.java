@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.text.ParseException;
 
 public class GerenciadorPatrocinio extends Gerenciador{
-	String[][] dados;
+	private String[][] dados;
+	private static final String[] colunas = {"CNPJ", "Evento", "Edicao", "Valor", "Saldo", "Data"};
 
 	public GerenciadorPatrocinio(DBConnection dbcon){
 		super("Gerenciar Patrocinio", dbcon);
 		String[] parametros = {"CNPJ", "Evento", "Edicao", "Valor", "Saldo", "Data"};
-		String[] colunas = {"CNPJ", "Evento", "Edicao", "Valor", "Saldo", "Data"};
 		
 		
 		dados = dbcon.CarregaDados("PATROCINIO");   
@@ -31,11 +31,18 @@ public class GerenciadorPatrocinio extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
+
 			try
 			{
 				CadastrarPatrocinio cadPat = new CadastrarPatrocinio(dbcon);
 				cadPat.initUI();
+			
+		      	dados = null;
+				dados = dbcon.CarregaDados("PATROCINIO"); 
+
+		  		configurarTabela(dados, colunas);
 			}
+
 			catch(Exception exception)
 			{
 				System.out.println();

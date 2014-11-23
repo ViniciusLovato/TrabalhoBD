@@ -7,12 +7,12 @@ import java.sql.SQLException;
 
 public class GerenciadorPessoa extends Gerenciador{
 
-	String[][] dados;
+	private String[][] dados;
+	private static final String[] colunas = {"Id", "Nome", "Email", "Instituicao", "Telefone", "Nacionalidade", "Endereco", "Organizador", "Participante", "Autor"};
 
 	public GerenciadorPessoa(DBConnection dbcon){
 		super("Gerenciar Pessoa", dbcon);
 		String[] parametros = {"Nome", "Email", "Instituicao", "Nacionalidade"};
-		String[] colunas = {"Id", "Nome", "Email", "Instituicao", "Telefone", "Nacionalidade", "Endereco", "Organizador", "Participante", "Autor"};
 
 		dados = dbcon.CarregaDados("PESSOA");   
 
@@ -35,7 +35,21 @@ public class GerenciadorPessoa extends Gerenciador{
 		if(e.getActionCommand().equals(criar.getText()))
 		{
 			CadastrarPessoas cadPe = new CadastrarPessoas(dbcon);
-			cadPe.initUI();
+
+
+			try{
+				cadPe.initUI();
+				
+		      	dados = null;
+				dados = dbcon.CarregaDados("PESSOA"); 
+
+		  		configurarTabela(dados, colunas);
+				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+
+			}
+			catch(Exception ex){
+				System.out.println("Erro");
+			}
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{

@@ -8,12 +8,12 @@ import java.sql.SQLException;
 
 public class GerenciadorArtigo extends Gerenciador{
 
-	String[][] dados;
+	private	String[][] dados;
+	private static final String[] colunas = {"Codigo", "Titulo", "Data", "Hora", "Evento", "Edicao", "Codigo Apresentador"};
 
 	public GerenciadorArtigo(DBConnection dbcon){
 		super("Gerenciar Artigo", dbcon);
 		String[] parametros = {"Titulo", "Data Apresentacao", "Evento", "Edicao"};
-		String[] colunas = {"Codigo", "Titulo", "Data", "Hora", "Evento", "Edicao", "Codigo Apresentador"};
 
 		dados = dbcon.CarregaDados("ARTIGO");   
 		configurar(parametros, colunas, dados);
@@ -34,7 +34,20 @@ public class GerenciadorArtigo extends Gerenciador{
 		if(e.getActionCommand().equals(criar.getText()))
 		{
 			CadastrarArtigos cadArt = new CadastrarArtigos(dbcon);
-			cadArt.initUI();
+			try{
+				cadArt.initUI();
+
+		      	dados = null;
+				dados = dbcon.CarregaDados("ARTIGO"); 
+
+		  		configurarTabela(dados, colunas);
+				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+
+			}
+			catch(Exception ex){
+				System.out.println("Erro");
+			}	
+
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{

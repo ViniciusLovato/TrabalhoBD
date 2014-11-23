@@ -7,14 +7,14 @@ import java.sql.SQLException;
 import java.text.ParseException;
 
 public class GerenciadorDespesa extends Gerenciador{
-	String[][] dados;
+	private String[][] dados;
+	private static final String[] colunas = {"Codigo Despesa", "Codigo Evento", "Numero Edicao", "CNPJ Patrocinador", "Codigo Evento Patrocinador", 
+			"Numero Edicao Patrocinador", "Data Despesa", "Valor Despesa", "Descricao"};
 
 
 	public GerenciadorDespesa(DBConnection dbcon){
 		super("Gerenciar Despesas", dbcon);
 		String[] parametros = {"Evento", "Edicao", "Patrocinador", "Data", "Valor"};
-		String[] colunas = {"Codigo Despesa", "Codigo Evento", "Numero Edicao", "CNPJ Patrocinador", "Codigo Evento Patrocinador", 
-			"Numero Edicao Patrocinador", "Data Despesa", "Valor Despesa", "Descricao"};
 
 		dados = dbcon.CarregaDados("DESPESA");   
 
@@ -33,15 +33,21 @@ public class GerenciadorDespesa extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
-			try
-			{
-				CadastrarDespesa cadDesp = new CadastrarDespesa(dbcon);
+			CadastrarDespesa cadDesp = new CadastrarDespesa(dbcon);
+
+			try{
 				cadDesp.initUI();
+
+		      	dados = null;
+				dados = dbcon.CarregaDados("DESPESA"); 
+
+		  		configurarTabela(dados, colunas);
+
 			}
-			catch(Exception exception)
-			{
-				System.out.println(exception);
-			}
+			catch(Exception ex){
+				System.out.println("Erro");
+			}	
+
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{

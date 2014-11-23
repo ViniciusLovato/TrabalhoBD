@@ -25,7 +25,7 @@ public class MiniGerenciador extends JDialog implements ActionListener{
 
 	private String[][] dados;
 	
-	public MiniGerenciador(JFrame frame, String[][] dados, String[] colunas){
+	public MiniGerenciador(JDialog frame, String[][] dados, String[] colunas){
 		//setVisible(true);
 		super(frame,"Selecione o Evento",true);
 

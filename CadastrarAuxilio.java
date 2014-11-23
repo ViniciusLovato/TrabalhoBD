@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 
 // Grid layout
 import java.awt.GridLayout;
-
+import javax.swing.*;
 // Componetes basicos para interface
 import javax.swing.JFrame;
 import javax.swing.JComponent;
@@ -27,7 +27,7 @@ import javax.swing.border.EmptyBorder;
 // ArryaList
 import java.util.ArrayList;
 
-public class CadastrarAuxilio extends JFrame implements ActionListener
+public class CadastrarAuxilio extends JDialog implements ActionListener
 {
 	// JPanel contem todos os elementos
 	private JPanel panel;
@@ -69,6 +69,8 @@ public class CadastrarAuxilio extends JFrame implements ActionListener
 
 	public void initUI(String[] opcoes_pat, String[] opcoes_ev, String[] opcoes_ed, String[] opcoes_apr, String[] opcoes_tipo) throws ParseException
 	{
+		this.setModal(true);
+		
 		// Criando panel
 		panel = new JPanel();
 
