@@ -42,6 +42,9 @@ public class CadastrarEvento extends JDialog implements ActionListener
 	private JButton cadastrar;
 	private JButton cancelar;
 
+	private boolean funcaoCadastrar;
+	private String[] dados;
+
 	public CadastrarEvento(DBConnection dbcon)
 	{
 		// Titulo da janela
@@ -49,6 +52,20 @@ public class CadastrarEvento extends JDialog implements ActionListener
 		// Setting up close button
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+		this.funcaoCadastrar = true;
+		// Conexao
+		this.dbcon = dbcon;
+	}
+
+	public CadastrarEvento(DBConnection dbcon, String[] dados)
+	{
+		// Titulo da janela
+		setTitle("Cadastrar Eventos");
+		// Setting up close button
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		this.funcaoCadastrar = false;
+		this.dados = dados;
 		// Conexao
 		this.dbcon = dbcon;
 	}
@@ -77,7 +94,11 @@ public class CadastrarEvento extends JDialog implements ActionListener
 		in_website = new JTextField(50);
 
 		// Initializing the arrays 
-		cadastrar = new JButton("Cadastrar");
+		if(funcaoCadastrar == true){
+			cadastrar = new JButton("Cadastrar");
+		}
+		else cadastrar = new JButton("Alterar");
+
 		cancelar = new JButton("Cancelar");
 
 		// Inserindo os labels e textfields no panel
@@ -103,6 +124,14 @@ public class CadastrarEvento extends JDialog implements ActionListener
 		// Centralizando a janela
 		setLocationRelativeTo(null);
 		// Seta a janela como visivel
+
+		// Usuario esta tentando alterar 
+		if(funcaoCadastrar == false){
+			in_nome.setText(dados[1]);
+			in_descricao.setText(dados[2]);
+			in_website.setText(dados[3]);
+		}
+
 		setVisible(true);
 	}
 
@@ -111,7 +140,8 @@ public class CadastrarEvento extends JDialog implements ActionListener
 		// Checando qual botao esta sendo pressionado
 		if(e.getActionCommand().equals(cadastrar.getText()))
 		{
-			onClickCadastrar();
+			onClickCadastrarOuRegistrar();
+
 		}
 		else if(e.getActionCommand().equals(cancelar.getText()))
 		{
@@ -120,15 +150,23 @@ public class CadastrarEvento extends JDialog implements ActionListener
 	}
 
 	// Botao cadastrar
-	public void onClickCadastrar()
+	public void onClickCadastrarOuRegistrar()
 	{
 		//  codEv, nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv
 		String nomeEv = "'" + in_nome.getText() + "'";
 		String descricaoEv = "'" + in_descricao.getText() + "'";
 		String websiteEv = "'" + in_website.getText() + "'";
-		int totalArtigosApresentadosEv = 0;
 		
-		String query = "INSERT INTO evento VALUES(sq_codEv_evento.NEXTVAL, " + nomeEv + "," + descricaoEv + "," + websiteEv + ", " + totalArtigosApresentadosEv + ")";
+		String query = null;
+		if(funcaoCadastrar){
+			int totalArtigosApresentadosEv = 0;
+			query = "INSERT INTO evento VALUES(sq_codEv_evento.NEXTVAL, " + nomeEv + "," + descricaoEv + "," + websiteEv + ", " + totalArtigosApresentadosEv + ")";
+		}else{
+			query = "UPDATE evento SET nomeEv =" + nomeEv + ", descricaoEv=" + descricaoEv + ", websiteEv=" + websiteEv + 
+				"WHERE codEv = " + dados[0]; 
+
+			//UPDATE table_name SET column1=value1,column2=value2, WHERE some_column=some_value;
+		}
 		
 		System.out.println(query);
 
@@ -143,7 +181,6 @@ public class CadastrarEvento extends JDialog implements ActionListener
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		} 
 	}
-
 	// Botao cancelar
 	public void onClickCancelar()
 	{

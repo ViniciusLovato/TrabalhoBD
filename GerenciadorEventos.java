@@ -21,7 +21,7 @@ public class GerenciadorEventos extends Gerenciador{
 		configurar(parametros, colunas, dados);
 
 		// Remove campos nao necessarios
-		this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+		// this.table.removeColumn(this.table.getColumnModel().getColumn(0));
 		
 		criar.addActionListener(this);
 		deletar.addActionListener(this);
@@ -42,7 +42,7 @@ public class GerenciadorEventos extends Gerenciador{
 			dados = dbcon.CarregaDados("EVENTO"); 
 
 		    configurarTabela(dados, colunas);
-			this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+			// this.table.removeColumn(this.table.getColumnModel().getColumn(0));
 
 
 		}
@@ -79,6 +79,27 @@ public class GerenciadorEventos extends Gerenciador{
 		}
 		else if(e.getActionCommand().equals(editar.getText()))
 		{
+
+			int linhaSelecionada = table.getSelectedRow();
+
+			if(linhaSelecionada != -1){
+
+				String[] linha = dados[linhaSelecionada];
+
+				CadastrarEvento cadastrarEvento = new CadastrarEvento(dbcon, linha);
+			    cadastrarEvento.initUI();
+
+		    	dados = null;
+				dados = dbcon.CarregaDados("EVENTO"); 
+
+		    	configurarTabela(dados, colunas);
+				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Erro: Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 
 		}
 		else if(e.getActionCommand().equals(voltar.getText()))
