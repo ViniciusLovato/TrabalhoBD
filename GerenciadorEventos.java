@@ -21,7 +21,7 @@ public class GerenciadorEventos extends Gerenciador{
 		configurar(parametros, colunas, dados);
 
 		// Remove campos nao necessarios
-		// this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+		this.table.removeColumn(this.table.getColumnModel().getColumn(0));
 		
 		criar.addActionListener(this);
 		deletar.addActionListener(this);
@@ -42,7 +42,7 @@ public class GerenciadorEventos extends Gerenciador{
 			dados = dbcon.CarregaDados("EVENTO"); 
 
 		    configurarTabela(dados, colunas);
-			// this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+			this.table.removeColumn(this.table.getColumnModel().getColumn(0));
 
 
 		}
@@ -64,7 +64,12 @@ public class GerenciadorEventos extends Gerenciador{
 				// Remove da tabela o artigo
 				try{
 					this.dbcon.executarQuery(query);
-					removerLinha(linhaSelecionada);
+				    dados = null;
+					dados = dbcon.CarregaDados("EVENTO"); 
+
+		    		configurarTabela(dados, colunas);
+
+					//removerLinha(linhaSelecionada);
 
 				}
 				catch(SQLException ex){
