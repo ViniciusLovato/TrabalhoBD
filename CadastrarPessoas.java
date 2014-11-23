@@ -51,8 +51,10 @@ public class CadastrarPessoas extends JDialog implements ActionListener
 	private JCheckBox in_autor;
 
 	private DBConnection dbcon;
-	
 
+	private boolean funcaoCadastrar;
+	private String[] dados;
+	
 	// Buttons
 	private JButton cadastrar;
 	private JButton cancelar;
@@ -63,6 +65,21 @@ public class CadastrarPessoas extends JDialog implements ActionListener
 		setTitle("Cadastrar Pessoas");
 		// Setting up close button
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		this.funcaoCadastrar = true;
+
+		this.dbcon = dbcon;
+	}
+
+	public CadastrarPessoas(DBConnection dbcon, String dados[])
+	{
+		// Titulo da janela
+		setTitle("Editar Pessoas");
+		// Setting up close button
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		this.funcaoCadastrar = false;
+		this.dados = dados;
 
 		this.dbcon = dbcon;
 	}
@@ -102,7 +119,11 @@ public class CadastrarPessoas extends JDialog implements ActionListener
 		in_autor = new JCheckBox("Autor");
 
 		// Initializing the arrays 
-		cadastrar = new JButton("Cadastrar");
+		if(funcaoCadastrar)
+			cadastrar = new JButton("Cadastrar");
+		else
+			cadastrar = new JButton("Alterar");
+
 		cancelar = new JButton("Cancelar");
 
 		// Inserindo os labels e textfields no panel
@@ -137,6 +158,21 @@ public class CadastrarPessoas extends JDialog implements ActionListener
 		cadastrar.addActionListener(this);
 		cancelar.addActionListener(this);
 
+
+		// Usuario esta tentando alterar 
+		if(funcaoCadastrar == false){
+			in_nome.setText(dados[1]);
+			in_email.setText(dados[2]);
+			in_instituicao.setText(dados[3]);
+			in_telefone.setText(dados[4]);
+			in_nacionalidade.setText(dados[5]);
+			in_endereco.setText(dados[6]);
+
+			in_organizador.setSelected(dados[7].equals("1") ? true : false);
+			in_participante.setSelected(dados[8].equals("1") ? true : false);
+			in_autor.setSelected(dados[9].equals("1") ? true : false);
+		}
+
 		// Ajustando tamanho das janelas
 		pack();
 		// Centralizando a janela
@@ -150,7 +186,7 @@ public class CadastrarPessoas extends JDialog implements ActionListener
 		// Checando qual botao esta sendo pressionado
 		if(e.getActionCommand().equals(cadastrar.getText()))
 		{
-			onClickCadastrar();
+			onClickCadastrarOuAlterar();
 		}
 		else if(e.getActionCommand().equals(cancelar.getText()))
 		{
@@ -159,7 +195,7 @@ public class CadastrarPessoas extends JDialog implements ActionListener
 	}
 
 	// Botao cadastrar
-	public void onClickCadastrar()
+	public void onClickCadastrarOuAlterar()
 	{
 		//  idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, tipoOrganizador, tipoParticipante, tipoAutor
 		String nomePe = "'" + in_nome.getText() + "'";
@@ -172,14 +208,31 @@ public class CadastrarPessoas extends JDialog implements ActionListener
 		int tipoParticipante = (in_participante.isSelected() ? 1 : 0);
 		int tipoAutor =  (in_autor.isSelected() ? 1 : 0);
 
-		String query = "INSERT INTO pessoa VALUES(sq_idPe_pessoa.NEXTVAL, " + nomePe + "," + emailPe + "," + instituicaoPe + "," +
+		String query;
+		if(funcaoCadastrar)
+		{
+			query = "INSERT INTO pessoa VALUES(sq_idPe_pessoa.NEXTVAL, " + nomePe + "," + emailPe + "," + instituicaoPe + "," +
 			telefonePe + "," + nacionalidadePe + "," + enderecoPe + "," + tipoOrganizador + "," + tipoParticipante + "," + tipoAutor + ")";
-		
+		}
+		else
+		{
+			query = "UPDATE pessoa SET nomePe =" + nomePe + ", emailPe=" + emailPe + ", telefonePe=" + telefonePe + ", nacionalidadePe = " + nacionalidadePe + ", enderecoPe = " + enderecoPe +
+			 ", tipoOrganizador = " + tipoOrganizador + ", tipoParticipante = " + tipoParticipante + ", tipoAutor = " + tipoAutor +
+				"WHERE idPe = " + dados[0]; 
+		}
+
 		System.out.println(query);
 
 		try{
 			dbcon.executarInsert(query);
-			JOptionPane.showMessageDialog(null, "Registro inserido com sucesso");
+			if(funcaoCadastrar)
+			{
+				JOptionPane.showMessageDialog(null, "Registro inserido com sucesso");
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Registro Alterado com sucesso");
+			}
 			setVisible(false);
 			dispose();
 
