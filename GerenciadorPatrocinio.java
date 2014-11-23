@@ -65,7 +65,12 @@ public class GerenciadorPatrocinio extends Gerenciador{
 				// Remove da tabela o artigo
 				try{
 					this.dbcon.executarQuery(query);
-					removerLinha(linhaSelecionada);			
+
+
+			      	dados = null;
+					dados = dbcon.CarregaDados("PATROCINIO"); 
+
+		  			configurarTabela(dados, colunas);
 				}
 				catch(SQLException ex){
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

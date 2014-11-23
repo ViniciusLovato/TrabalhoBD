@@ -66,7 +66,12 @@ public class GerenciadorPessoa extends Gerenciador{
 				// Remove da tabela o artigo
 				try{
 					this.dbcon.executarQuery(query);
-					removerLinha(linhaSelecionada);
+
+			      	dados = null;
+					dados = dbcon.CarregaDados("PESSOA"); 
+
+			  		configurarTabela(dados, colunas);
+					this.table.removeColumn(this.table.getColumnModel().getColumn(0));
 				}
 				catch(SQLException ex){
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
