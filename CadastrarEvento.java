@@ -21,7 +21,7 @@ import javax.swing.border.EmptyBorder;
 // ArryaList
 import java.util.ArrayList;
 
-public class CadastrarEvento extends JFrame implements ActionListener
+public class CadastrarEvento extends JDialog implements ActionListener
 {
 	// JPanel para inserir os elementos
 	private JPanel panel;
@@ -30,7 +30,6 @@ public class CadastrarEvento extends JFrame implements ActionListener
 	private JLabel nome;
 	private JLabel descricao;
 	private JLabel website;
-
 	// TextFields
 	private JTextField in_nome;
 	private JTextField in_descricao;
@@ -56,6 +55,7 @@ public class CadastrarEvento extends JFrame implements ActionListener
 
 	public void initUI()
 	{
+		this.setModal(true);
 		// Criando os Paineis
 		panel = new JPanel();
 		// Criando o Layout

@@ -24,6 +24,8 @@ import java.text.ParseException;
 
 // Bordas
 import javax.swing.border.EmptyBorder;
+import java.sql.SQLException;
+
 
 
 // ArryaList
@@ -61,6 +63,8 @@ public class CadastrarEdicao extends JFrame implements ActionListener
 
 	private DBConnection dbcon;
 
+	private String in_codEvento;
+
 
 	public CadastrarEdicao(DBConnection dbcon)
 	{
@@ -73,7 +77,7 @@ public class CadastrarEdicao extends JFrame implements ActionListener
 		this.dbcon = dbcon;
 	}
 
-	public void initUI(String[] opcoes_ev) throws ParseException
+	public void initUI() throws ParseException
 	{
 		// Criando panel
 		panel = new JPanel();
@@ -176,7 +180,29 @@ public class CadastrarEdicao extends JFrame implements ActionListener
 	// Metodo do botao de cadastrar, devera salva no banco de dados
 	public void onClickOkay()
 	{
-		System.exit(0);
+
+		String codEv = in_codEvento;
+		String numEd = "SQ_numEd_edicao.NEXTVAL";
+		String descricaoEd = "'" + in_descricao.getText() + "'";
+		String dataInicioEd = "TO_DATE(" + "'" + in_data_inicio.getText() + "'," + "'DD/MM/YYYY')";
+		String dataFimEd = "TO_DATE(" + "'" + in_data_fim.getText() + "'," + "'DD/MM/YYYY')";
+		String localEd = "'" + in_local.getText() + "'";
+		String taxaEd = in_taxa_inscricao.getText();
+		int saldoFinanceiroEd = 0;
+		int qtdArtigosApresentadosEd = 0;
+
+		// codEv, numEd, descricaoEd, dataInicioEd, dataFimEd, localEd, taxaEd, saldoFinanceiroEd, qtdArtigosApresentadosEd
+		String query = "INSERT INTO edicao VALUES(" + codEv + "," + numEd + "," + descricaoEd + "," + dataInicioEd + ", " 
+			+ dataFimEd + "," + localEd + "," + taxaEd + "," + saldoFinanceiroEd + "," + qtdArtigosApresentadosEd + ")";
+
+		System.out.println(query);
+
+		try{
+			dbcon.executarInsert(query);
+		}catch(SQLException ex){
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+
 	}
 
 	// Metodo do botao que cancela a acao
@@ -201,6 +227,7 @@ public class CadastrarEdicao extends JFrame implements ActionListener
 			System.out.println(miniGerenciador.resultado());
 			// Coloca nome do evento no JTextField que o represnta
 			in_eventos.setText(miniGerenciador.resultado().get(1).toString());
+			in_codEvento  = miniGerenciador.resultado().get(0).toString();
 			miniGerenciador.dispose();
 		}
 	}

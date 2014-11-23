@@ -139,6 +139,8 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 		compoundRowFilter = null;
 
 		table.setRowSorter(sorter);
+
+		table.repaint();
 	}
 
 	public void removerLinha(int linhaSelecionada){

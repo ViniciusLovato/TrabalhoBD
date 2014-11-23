@@ -7,13 +7,14 @@ import java.sql.SQLException;
 
 
 public class GerenciadorEventos extends Gerenciador{
-	String[][] dados;
+	
+	private String[][] dados;
+	private static final String[] colunas = {"Codigo", "Nome", "Descricao", "Website", "Total de Artigos"};
 
 	public GerenciadorEventos(DBConnection dbcon){
 		super("Gerenciar Eventos", dbcon);
 
 		String[] parametros = {"Codigo", "Nome", "Website"};
-		String[] colunas = {"Codigo", "Nome", "Descricao", "Website", "Total de Artigos"};
 
 		dados = dbcon.CarregaDados("EVENTO");   
 
@@ -34,8 +35,15 @@ public class GerenciadorEventos extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
+			System.out.println("ANTES!!!!!!!!!!!!");
 			CadastrarEvento cadastrarEvento = new CadastrarEvento(dbcon);
 		    cadastrarEvento.initUI();
+
+		    dados = null;
+			dados = dbcon.CarregaDados("EVENTO");   
+		    configurarTabela(dados, colunas);
+			System.out.println("DEPOIS!!!!!!!!!!!!");
+
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{
