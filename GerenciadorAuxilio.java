@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
+import java.text.ParseException;
 
 
 public class GerenciadorAuxilio extends Gerenciador{
@@ -11,7 +12,7 @@ public class GerenciadorAuxilio extends Gerenciador{
 
 
 	public GerenciadorAuxilio(DBConnection dbcon){
-		super("Gerenciar Despesas", dbcon);
+		super("Gerenciar Auxilio", dbcon);
 		String[] parametros = {"Evento", "Edicao", "Patrocinador", "Data", "Valor", "Tipo"};
 		String[] colunas = {"CNPJ Patrocinador", "Codigo Evento Patrocinador", "Numero Edicao Patrocinador", "Codigo Evento Apr",  
 			"Codigo Edicao Apr", "ID Apresentador", "Valor", "Data", "Tipo"};
@@ -34,7 +35,15 @@ public class GerenciadorAuxilio extends Gerenciador{
 	
 		if(e.getActionCommand().equals(criar.getText()))
 		{
-
+			try
+			{
+				CadastrarAuxilio cadAux = new CadastrarAuxilio(dbcon);
+				cadAux.initUI();
+			}
+			catch(Exception exception)
+			{
+				System.out.println(exception);
+			}
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{
