@@ -126,7 +126,12 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 
 	public void configurarTabela(Object[][] dados, String[] colunas){
 		// Tabela
-		model = new DefaultTableModel(dados, colunas);
+		model = new DefaultTableModel(dados, colunas){
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		        return false;
+		    }
+		};
 
 		if(table == null){
 			table = new JTable(model);

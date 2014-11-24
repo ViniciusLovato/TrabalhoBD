@@ -243,7 +243,7 @@ public class CadastrarPatrocinio extends JDialog implements ActionListener
 		String saldoPat = valorPat;
 		String dataPat = "TO_DATE(" + "'" + in_data.getText() + "'," + "'DD/MM/YYYY')";
 
-		String query;
+		String query = null;
 		if(funcaoCadastrar)
 		{
 			query = "INSERT INTO patrocinio VALUES(" + cnpjPat + "," + codEv + "," + numEd + "," + valorPat + ", " 

@@ -65,6 +65,24 @@ public class CadastrarDespesa extends JDialog implements ActionListener
 	private String str_numEd;
 	private String str_cnpjPat;
 
+	private String[] dados;
+
+	private boolean funcaoCadastrar;
+
+
+	public CadastrarDespesa(DBConnection dbcon, String[] dados)
+	{
+		// Titulo da janela
+		setTitle("Editar Despesa");
+
+		// Botao de fechar
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		this.funcaoCadastrar = false;
+		this.dados = dados;
+		this.dbcon = dbcon;
+	}
+
 
 	public CadastrarDespesa(DBConnection dbcon)
 	{
@@ -74,6 +92,7 @@ public class CadastrarDespesa extends JDialog implements ActionListener
 		// Botao de fechar
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+		this.funcaoCadastrar = true;
 		this.dbcon = dbcon;
 	}
 
@@ -120,7 +139,15 @@ public class CadastrarDespesa extends JDialog implements ActionListener
 		buttonPatrocinio = new JButton("Selecionar Patrocinio");
 		buttonEvento = new JButton("Selecionar Evento");
 		buttonEdicao = new JButton("Selecionar Edicao");
-		cadastrar = new JButton("Cadastrar");
+
+
+		if(funcaoCadastrar){
+			cadastrar = new JButton("Cadastrar");
+
+		}else{
+			cadastrar = new JButton("Editar");
+		}
+
 		cancelar = new JButton("Cancelar");
 
 		// Adiciona botoes, campos de textos e labels ao panel
@@ -164,6 +191,21 @@ public class CadastrarDespesa extends JDialog implements ActionListener
 		// Centralizando janela
 		setLocationRelativeTo(null);
 
+		if(!funcaoCadastrar){
+
+		 	in_evento.setText(dados[2]);	
+		 	in_edicao.setText(dados[4]);
+		 	in_patrocinador.setText(dados[6]);
+		 	in_data.setText(dados[9]);
+
+		 	in_valor.setText(dados[10].replaceAll("[$\\s]", ""));		 	
+		 	in_descricao.setText(dados[11]);
+		
+			str_codEv = dados[1];
+			str_numEd = dados[3];
+			str_cnpjPat = dados[5];
+		}
+
 		// Janela agora visivel
 		setVisible(true);
 	}
@@ -197,27 +239,45 @@ public class CadastrarDespesa extends JDialog implements ActionListener
 	// Metodo do botao de cadastrar, devera salva no banco de dados
 	public void onClickOkay()
 	{
-		String codDesp = "SQ_codDesp_despesa.NEXTVAL";
-		String cnpjPat = str_cnpjPat;
-		String codEv = str_codEv;
-		String numEd = str_numEd;
-		String dataDesp = "TO_DATE(" + "'" + in_data.getText() + "'," + "'DD/MM/YYYY')";
-		String valorDesp = in_valor.getText();
-		String descricaoDesp = "'" + in_descricao.getText() + "'";
+		if(!(str_cnpjPat == null)){
+			String codDesp = "SQ_codDesp_despesa.NEXTVAL";
+			String cnpjPat = str_cnpjPat;
+			String codEv = str_codEv;
+			String numEd = str_numEd;
+			String dataDesp = "TO_DATE(" + "'" + in_data.getText() + "'," + "'DD/MM/YYYY')";
+			String valorDesp = in_valor.getText();
+			String descricaoDesp = "'" + in_descricao.getText() + "'";
 
-		String query = "INSERT INTO despesa VALUES(" + codDesp + "," + codEv + "," + numEd + "," + cnpjPat + ", " 
-			+ codEv + "," + numEd + "," + dataDesp + "," + valorDesp + ", " + descricaoDesp + ")";
+			String query = null;
+			if(funcaoCadastrar){
+				 query = "INSERT INTO despesa VALUES(" + codDesp + "," + codEv + "," + numEd + "," + cnpjPat + ", " 
+				+ codEv + "," + numEd + "," + dataDesp + "," + valorDesp + ", " + descricaoDesp + ")";
+			}
+			else {
+				query = "UPDATE despesa SET cnpjPat = " + cnpjPat + ", codEv = " + codEv + 
+				", numEd= " + numEd + ", dataDesp=" + dataDesp + ", valorDesp=" + valorDesp + ", descricaoDesp=" + descricaoDesp +
+				 " WHERE codDesp =" + dados[0] + " AND codEv =" + codEv + " AND numEd =" + numEd;
+			}
 
-		System.out.println(query);
+			System.out.println(query);
 
-		try{
-			dbcon.executarInsert(query);
-			JOptionPane.showMessageDialog(null, "Patrocinador Cadastrado com sucesso");
-			setVisible(false);
-			dispose();
-		}catch(SQLException ex){
-			JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			try{
+				dbcon.executarInsert(query);
+				if(funcaoCadastrar){
+					JOptionPane.showMessageDialog(null, "Despesa Cadastrada com sucesso");
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Despesa Alterada com sucesso");
+				}
+				setVisible(false);
+				dispose();
+			}catch(SQLException ex){
+				JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		}else{
+				JOptionPane.showMessageDialog(null, "CNPJ deve ser preenchido!", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
+
 	}
 
 	// Metodo do botao que cancela a acao
@@ -244,6 +304,12 @@ public void onClickEventos(){
 			in_evento.setText(miniGerenciador.resultado().get(1).toString());
 			str_codEv  = miniGerenciador.resultado().get(0).toString();
 			miniGerenciador.dispose();
+
+			str_numEd = null;
+			str_cnpjPat = null;
+
+			in_edicao.setText(null);
+			in_patrocinador.setText(null);
 		}
 	}
 
@@ -270,6 +336,10 @@ public void onClickEventos(){
 				in_edicao.setText(miniGerenciador.resultado().get(2).toString());
 				str_numEd  = miniGerenciador.resultado().get(1).toString();
 				miniGerenciador.dispose();
+
+				str_cnpjPat = null;
+				in_patrocinador.setText(null);
+
 			}
 		}
 	}
