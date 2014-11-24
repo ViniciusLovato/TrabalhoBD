@@ -23,12 +23,12 @@ import javax.swing.border.EmptyBorder;
 // ArryaList
 import java.util.ArrayList;
 
-public class Gerenciador extends JFrame implements ActionListener, KeyListener
+public class Gerenciador extends JDialog implements ActionListener, KeyListener
 {
 	// JPanel contem todos os elementos
-	private JPanel parametrosPanel;
-	private JPanel panel;
-	private JPanel buttonPanel;
+	protected JPanel parametrosPanel;
+	protected JPanel panel;
+	protected JPanel buttonPanel;
 
 	private ArrayList<JLabel> parametros;
 	private ArrayList<JTextField> buscas;
@@ -63,6 +63,7 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 
 	public void configurar(String[] nomeParametro, String[] colunas, Object[][] dados)
 	{
+		this.setModal(true);
 		// Criando panel
 		parametrosPanel = new JPanel();
 		panel = new JPanel();
@@ -121,7 +122,6 @@ public class Gerenciador extends JFrame implements ActionListener, KeyListener
 		setLocationRelativeTo(null);
 
 		// Janela agora visivel
-		setVisible(true);
 	}
 
 	public void configurarTabela(Object[][] dados, String[] colunas){

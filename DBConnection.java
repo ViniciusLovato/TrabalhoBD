@@ -261,6 +261,14 @@ public class DBConnection
             linha[7] = rs.getString("nomePe"); 
             linha[8] = rs.getString("nomeEv");
         }
+        else if(tabela.equals("formataSaidaEscreve"))
+        {
+            linha = new String[9];
+            linha[0] = rs.getString("idAut");
+            linha[1] = rs.getString("idArt");
+            linha[2] = rs.getString("nomePe");
+            linha[3] = rs.getString("emailPe");
+        }
 
 		return linha;
     }

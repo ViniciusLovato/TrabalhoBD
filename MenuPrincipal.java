@@ -35,7 +35,9 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	private JMenuItem menuEvento;
 	private JMenuItem menuEdicao;
 	private JMenuItem menuPessoa;
+	private JMenuItem menuInscrever;
 	private JMenuItem menuArtigo;
+	private JMenuItem menuEscrever;
 	private JMenuItem menuPatrocinador;
 	private JMenuItem menuPatrocinio;
 	private JMenuItem menuDespesa;
@@ -92,7 +94,9 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuEvento = new JMenuItem("Evento");
 		menuEdicao = new JMenuItem("Edicao");
 		menuPessoa = new JMenuItem("Pessoa");
+		menuInscrever = new JMenuItem("Inscrever Pessoa");
 		menuArtigo = new JMenuItem("Artigo");
+		menuEscrever = new JMenuItem("Registrar Escritor");
 		menuPatrocinador = new JMenuItem("Patrocinador");
 		menuPatrocinio = new JMenuItem("Patrocinio");
 		menuDespesa = new JMenuItem("Despesa");
@@ -106,7 +110,9 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuGerenciar.add(menuEvento);
 		menuGerenciar.add(menuEdicao);
 		menuGerenciar.add(menuPessoa);
+		menuGerenciar.add(menuInscrever);
 		menuGerenciar.add(menuArtigo);
+		menuGerenciar.add(menuEscrever);
 		menuGerenciar.add(menuPatrocinador);
 		menuGerenciar.add(menuPatrocinio);
 		menuGerenciar.add(menuDespesa);
@@ -116,7 +122,9 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuEvento.addActionListener(this);
 		menuEdicao.addActionListener(this);
 		menuPessoa.addActionListener(this);
+		menuInscrever.addActionListener(this);
 		menuArtigo.addActionListener(this);
+		menuEscrever.addActionListener(this);
 		menuPatrocinador.addActionListener(this);
 		menuPatrocinio.addActionListener(this);
 		menuDespesa.addActionListener(this);
@@ -158,6 +166,10 @@ public class MenuPrincipal extends JFrame implements ActionListener
 			GerenciadorArtigo gerenciadorArtigo = new GerenciadorArtigo(dbcon);
 			gerenciadorArtigo.setVisible(true);
 		}
+		else if(e.getActionCommand().equals(menuEscrever.getText())){
+			GerenciadorEscreve gerenciadorEscreve = new GerenciadorEscreve(dbcon);
+			gerenciadorEscreve.setVisible(true);
+		}
 		else if(e.getActionCommand().equals(menuPatrocinador.getText())){
 			GerenciadorPatrocinador gerenciadorPatrocinador = new GerenciadorPatrocinador(dbcon);
 			gerenciadorPatrocinador.setVisible(true);
@@ -173,6 +185,10 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		else if(e.getActionCommand().equals(menuAuxilio.getText())){
 			GerenciadorAuxilio gerenciadorAuxilio = new GerenciadorAuxilio(dbcon);
 			gerenciadorAuxilio.setVisible(true);
+		}
+		else if(e.getActionCommand().equals(menuEscrever.getText())){
+			GerenciadorEscreve gerenciadorEscreve = new GerenciadorEscreve(dbcon);
+			gerenciadorEscreve.setVisible(true);
 		}
 	}
 
