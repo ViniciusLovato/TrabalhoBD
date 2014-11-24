@@ -143,6 +143,19 @@ public class DBConnection
 			linha[4] = rs.getString("saldoPat");	
 			linha[5] = rs.getString("dataPat");	
 		}
+		else if(tabela.equals("formataSaidaPatrocinio"))
+		{
+			linha = new String[9];
+			linha[0] = rs.getString("cnpjPat");
+			linha[1] = rs.getString("codEv");
+			linha[2] = rs.getString("numEd");
+			linha[3] = rs.getString("valorPat");
+			linha[4] = rs.getString("saldoPat");	
+			linha[5] = rs.getString("dataPat");	
+			linha[6] = rs.getString("razaoSocialPat");
+			linha[7] = rs.getString("nomeEv");
+			linha[8] = rs.getString("descricaoEd");
+		}
 		else if(tabela.equals("DESPESA"))
 		{
 			linha = new String[9];
@@ -155,6 +168,27 @@ public class DBConnection
 			linha[6] = rs.getString("dataDesp");
 			linha[7] = rs.getString("valorDesp");
 			linha[8] = rs.getString("descricaoDesp");
+		}
+		else if(tabela.equals("formataSaidaDespesa"))
+		{
+			linha = new String[12];
+			linha[0] = rs.getString("codDesp");
+
+			linha[1] = rs.getString("codEv");
+			linha[2] = rs.getString("nomeEv");
+			
+			linha[3] = rs.getString("numEd");
+			linha[4] = rs.getString("descricaoEd");
+
+			linha[5] = rs.getString("cnpjPat");
+			linha[6] = rs.getString("razaoSocialPat");
+
+			linha[7] = rs.getString("codEvPat");	
+			linha[8] = rs.getString("numEdPat");
+
+			linha[9] = rs.getString("dataDesp");
+			linha[10] = rs.getString("valorDesp");
+			linha[11] = rs.getString("descricaoDesp");
 		}
 		else if(tabela.equals("AUXILIO"))
 		{

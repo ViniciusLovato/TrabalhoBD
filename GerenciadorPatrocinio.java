@@ -8,14 +8,14 @@ import java.text.ParseException;
 
 public class GerenciadorPatrocinio extends Gerenciador{
 	private String[][] dados;
-	private static final String[] colunas = {"CNPJ", "Evento", "Edicao", "Valor", "Saldo", "Data"};
+	private static final String[] colunas = {"CNPJ", "Evento", "Edicao", "Valor", "Saldo", "Data", "Razao Social", "Nome Evento", "Descricao Evento"};
 
 	public GerenciadorPatrocinio(DBConnection dbcon){
 		super("Gerenciar Patrocinio", dbcon);
-		String[] parametros = {"CNPJ", "Evento", "Edicao", "Valor", "Saldo", "Data"};
+		String[] parametros = {"CNPJ", "Evento", "Edicao", "Valor", "Saldo", "Data", "Razao Social", "Nome Evento", "Descricao Evento"};
 		
 		
-		dados = dbcon.CarregaDados("PATROCINIO");   
+		dados = dbcon.CarregaDados("formataSaidaPatrocinio");   
 		configurar(parametros, colunas, dados);
 		// cnpjPat, codEv, numEd, valorPat, saldoPat, dataPat
 	
@@ -38,7 +38,7 @@ public class GerenciadorPatrocinio extends Gerenciador{
 				cadPat.initUI();
 			
 		      	dados = null;
-				dados = dbcon.CarregaDados("PATROCINIO"); 
+				dados = dbcon.CarregaDados("formataSaidaPatrocinio"); 
 
 		  		configurarTabela(dados, colunas);
 			}
@@ -68,7 +68,7 @@ public class GerenciadorPatrocinio extends Gerenciador{
 
 
 			      	dados = null;
-					dados = dbcon.CarregaDados("PATROCINIO"); 
+					dados = dbcon.CarregaDados("formataSaidaPatrocinio"); 
 
 		  			configurarTabela(dados, colunas);
 				}
@@ -83,7 +83,32 @@ public class GerenciadorPatrocinio extends Gerenciador{
 		}
 		else if(e.getActionCommand().equals(editar.getText()))
 		{
+			int linhaSelecionada = table.getSelectedRow();
 
+			if(linhaSelecionada != -1){
+
+				String[] linha = dados[linhaSelecionada];
+
+				try
+				{
+					CadastrarPatrocinio cadastrarEvento = new CadastrarPatrocinio(dbcon, linha);
+				    cadastrarEvento.initUI();
+				}
+				catch(Exception exception)
+				{
+					System.out.println(exception);
+				}
+		    	dados = null;
+				dados = dbcon.CarregaDados("formataSaidaPatrocinio"); 
+
+		    	configurarTabela(dados, colunas);
+				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Erro: Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		else if(e.getActionCommand().equals(voltar.getText()))
 		{

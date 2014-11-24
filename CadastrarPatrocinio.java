@@ -52,6 +52,10 @@ public class CadastrarPatrocinio extends JDialog implements ActionListener
 
 	private DBConnection dbcon;
 
+
+	private boolean funcaoCadastrar;
+	private String[] dados;
+
 	// Botoes
 	private JButton buttonCNPJ;
 	private JButton buttonEvento;
@@ -71,6 +75,22 @@ public class CadastrarPatrocinio extends JDialog implements ActionListener
 		// Botao de fechar
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+		funcaoCadastrar = true;
+
+		this.dbcon = dbcon;
+	}
+	
+	public CadastrarPatrocinio(DBConnection dbcon, String[] dados)
+	{
+		// Titulo da janela
+		setTitle("Cadastrar Edicao");
+
+		// Botao de fechar
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		this.dados = dados;
+		funcaoCadastrar = false;
+
 		this.dbcon = dbcon;
 	}
 
@@ -82,7 +102,7 @@ public class CadastrarPatrocinio extends JDialog implements ActionListener
 		panel = new JPanel();
 
 		// Grid Layout
-		panel.setLayout(new GridLayout(17, 0, 5, 5));
+		panel.setLayout(new GridLayout(15, 0, 5, 5));
 		panel.setPreferredSize(new Dimension(500, 500));
 		
 		//Adiciona JPanel ao frame
@@ -116,7 +136,14 @@ public class CadastrarPatrocinio extends JDialog implements ActionListener
 		buttonEvento = new JButton("Selecionar Evento");
 		buttonEdicao = new JButton("Selecionar Edicao");
 
-		cadastrar = new JButton("Cadastrar");
+		if(funcaoCadastrar)
+		{
+			cadastrar = new JButton("Cadastrar");
+		}
+		else
+		{
+			cadastrar = new JButton("Alterar");
+		}
 		cancelar = new JButton("Cancelar");
 
 		// Adiciona botoes, campos de textos e labels ao panel
@@ -150,6 +177,25 @@ public class CadastrarPatrocinio extends JDialog implements ActionListener
 
 		cadastrar.addActionListener(this);
 		cancelar.addActionListener(this);
+
+		if(funcaoCadastrar == false){
+
+			in_patrocinador.setText(dados[6]);
+			in_evento.setText(dados[7]);
+			in_edicao.setText(dados[8]);
+			in_valor.setText(dados[3]);
+			in_data.setText(dados[5].replaceAll("[^0-9]+", ""));
+
+			str_cnpjPat = dados[0].replaceAll("[^0-9]+", "");
+			str_codEv = dados[1];
+			str_numEd = dados[2];
+
+			// Chave primaria nao pode ser alterada
+			buttonCNPJ.setEnabled(false);
+			buttonEvento.setEnabled(false);
+			buttonEdicao.setEnabled(false);
+
+		}
 
 		// Tamanho da janela sera suficiente para conter todos os componetes
 		pack();
@@ -197,14 +243,28 @@ public class CadastrarPatrocinio extends JDialog implements ActionListener
 		String saldoPat = valorPat;
 		String dataPat = "TO_DATE(" + "'" + in_data.getText() + "'," + "'DD/MM/YYYY')";
 
-		String query = "INSERT INTO patrocinio VALUES(" + cnpjPat + "," + codEv + "," + numEd + "," + valorPat + ", " 
+		String query;
+		if(funcaoCadastrar)
+		{
+			query = "INSERT INTO patrocinio VALUES(" + cnpjPat + "," + codEv + "," + numEd + "," + valorPat + ", " 
 			+ saldoPat + "," + dataPat + ")";
-
+		}
+		else
+		{
+			query = "UPDATE patrocinio SET valorPat = " + valorPat + ", dataPat = " + dataPat + " WHERE cnpjPat = " + cnpjPat + " AND codEv = " + codEv + " AND numEd = " + numEd;
+		}
 		System.out.println(query);
 
 		try{
 			dbcon.executarInsert(query);
-			JOptionPane.showMessageDialog(null, "Patrocinador Cadastrado com sucesso");
+			if(funcaoCadastrar)
+			{
+				JOptionPane.showMessageDialog(null, "Patrocinador cadastrado com sucesso");
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Patrocinador alterado com sucesso");
+			}
 			setVisible(false);
 			dispose();
 		}catch(SQLException ex){
