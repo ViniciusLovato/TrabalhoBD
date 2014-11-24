@@ -10,14 +10,14 @@ import java.text.ParseException;
 public class GerenciadorAuxilio extends Gerenciador{
 	private String[][] dados;
 	private static final String[] colunas = {"CNPJ Patrocinador", "Codigo Evento Patrocinador", "Numero Edicao Patrocinador", "Codigo Evento Apr",  
-			"Codigo Edicao Apr", "ID Apresentador", "Valor", "Data", "Tipo"};
+			"Codigo Edicao Apr", "ID Apresentador", "Valor", "Data", "Tipo", "Razao Social", "Evento", "Descricao"};
 
 
 	public GerenciadorAuxilio(DBConnection dbcon){
 		super("Gerenciar Auxilio", dbcon);
 		String[] parametros = {"Evento", "Edicao", "Patrocinador", "Data", "Valor", "Tipo"};
 
-		dados = dbcon.CarregaDados("AUXILIO");   
+		dados = dbcon.CarregaDados("formataSaidaAuxilio");   
 
 		configurar(parametros, colunas, dados);
 
@@ -41,7 +41,7 @@ public class GerenciadorAuxilio extends Gerenciador{
 				cadAux.initUI();
 
 		      	dados = null;
-				dados = dbcon.CarregaDados("AUXILIO"); 
+				dados = dbcon.CarregaDados("formataSaidaAuxilio"); 
 
 		  		configurarTabela(dados, colunas);
 			}
@@ -72,7 +72,7 @@ public class GerenciadorAuxilio extends Gerenciador{
 
 
 			      	dados = null;
-					dados = dbcon.CarregaDados("AUXILIO"); 
+					dados = dbcon.CarregaDados("formataSaidaAuxilio"); 
 
 		  			configurarTabela(dados, colunas);
 				}
@@ -99,7 +99,7 @@ public class GerenciadorAuxilio extends Gerenciador{
 				    cadastrarAuxilio.initUI();
 
 			    	dados = null;
-					dados = dbcon.CarregaDados("AUXILIO"); 
+					dados = dbcon.CarregaDados("formataSaidaAuxilio"); 
 
 			    	configurarTabela(dados, colunas);
 						

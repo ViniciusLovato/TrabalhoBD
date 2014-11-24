@@ -190,6 +190,29 @@ public class DBConnection
 			linha[10] = rs.getString("valorDesp");
 			linha[11] = rs.getString("descricaoDesp");
 		}
+        else if(tabela.equals("formataSaidaAuxilio"))
+        {
+            linha = new String[13];
+
+            linha[0] = rs.getString("cnpjPat");
+            linha[1] = rs.getString("codEvPat");
+            linha[2] = rs.getString("numEdPat");
+
+            linha[3] = rs.getString("codEvApr");
+            linha[4] = rs.getString("numEdApr");
+            linha[5] = rs.getString("idApr");
+
+            linha[6] = rs.getString("valorAux");
+            linha[7] = rs.getString("dataAux");
+            linha[8] = rs.getString("tipoAux");
+
+            linha[9] = rs.getString("razaoSocialPat");
+            linha[10] = rs.getString("nomeEv");
+            linha[11] = rs.getString("descricaoEd");
+            linha[12] = rs.getString("nomePe");
+
+
+        }
 		else if(tabela.equals("AUXILIO"))
 		{
 			linha = new String[9];

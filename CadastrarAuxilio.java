@@ -170,6 +170,7 @@ public class CadastrarAuxilio extends JDialog implements ActionListener
 		in_edicao.setEditable(false);
 		panel.add(buttonEdicao);
 
+
 		panel.add(patrocinador);
 		panel.add(in_patrocinador);
 		in_patrocinador.setEditable(false);
@@ -210,7 +211,25 @@ public class CadastrarAuxilio extends JDialog implements ActionListener
 
 		if(!funcaoCadastrar){
 
+			in_evento.setText(dados[10]);
+			in_edicao.setText(dados[11]);
+			in_patrocinador.setText(dados[9]);
+			in_apresentador.setText(dados[12]);
 
+			in_valor.setText(dados[6].replaceAll("[$\\s]", ""));
+			in_data.setText(dados[7]);
+			in_tipo.setSelectedItem(dados[8].toString());
+
+			str_cnpjPat = dados[0];
+			str_codEv = dados[1];
+			str_numEd = dados[2];
+			str_idApr = dados[5];
+
+			buttonEvento.setEnabled(false);
+			buttonEdicao.setEnabled(false);
+			buttonApresentador.setEnabled(false);
+
+			in_tipo.setEnabled(false);
 		}
 		// Janela agora visivel
 		setVisible(true);
@@ -266,16 +285,23 @@ public class CadastrarAuxilio extends JDialog implements ActionListener
 				+ idApr + ", " + valorAux + ", " + dataAux + ", " + tipoAux + ")";
 		}
 		else{
-			query = "UPDATE auxilio SET cnpjPat =" + cnpjPat + ", codEv=" + codEv + ", numEd=" + numEd + 
-				", codEvApr=" + codEv + ", numEdApr=" + numEd + ", valorAux=" + valorAux + ", dataAux=" + dataAux + 
-				", tipoAux=" + tipoAux +  "WHERE idApr = " + idApr; 
+			query = "UPDATE auxilio SET cnpjPat =" + cnpjPat + ", codEvPat=" + codEv + ", numEdPat=" + numEd + 
+				", valorAux=" + valorAux + ", dataAux=" + dataAux +  
+				" WHERE idApr = " + idApr + " AND codEvapr = " + codEv + " AND numEdApr = " + numEd; 
 		}
 		
 		System.out.println(query);
 
 		try{
 			dbcon.executarInsert(query);
-			JOptionPane.showMessageDialog(null, "Auxilio Cadastrado com sucesso");
+			if(funcaoCadastrar)
+			{
+				JOptionPane.showMessageDialog(null, "Auxilio cadastrado com sucesso");
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Auxilio alterado com sucesso");
+			}
 			setVisible(false);
 			dispose();
 		}catch(SQLException ex){
