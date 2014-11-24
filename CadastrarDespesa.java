@@ -355,7 +355,7 @@ public void onClickEventos(){
 			// Valores que serao passados para popular a tabela do JDialog, os resultados obtidos estao nessa ordem e podem ser acessados
 			// por meio de miniGerenciador.resultados().get(i);
 			String[] colunas = {"CNPJ", "codEv", "numEd", "Valor Patrocinio", "Saldo Patrocinio", "dataPat"};	
-			String[][] dados = this.dbcon.CarregaDados("PATROCINIO", "WHERE codEv = " + str_codEv + " AND numEd = " + str_numEd);   
+			String[][] dados = this.dbcon.CarregaDados("formataSaidaPatrocinio", "WHERE codEv = " + str_codEv + " AND numEd = " + str_numEd);   
 
 			// Cria JDialog com a tabela que o usuario ira selecionar
 			MiniGerenciador miniGerenciador =  new MiniGerenciador(this, dados, colunas);

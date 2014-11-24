@@ -262,7 +262,9 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 
 		// Valores que serao passados para popular a tabela do JDialog, os resultados obtidos estao nessa ordem e podem ser acessados
 		// por meio de miniGerenciador.resultados().get(i);
-		String[] colunas = {"Codigo", "Nome", "Descricao", "Website", "Total de Artigos"};		
+		String[] colunas = {"Codigo", "Nome", "Descricao", "Website", "Total de Artigos"};
+
+
 		String[][] dados = this.dbcon.CarregaDados("EVENTO");   
 
 		// Cria JDialog com a tabela que o usuario ira selecionar
@@ -297,9 +299,10 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 		{
 			String str_numEd_antigo = str_numEd;
 			// Valores que serao passados para popular a tabela do JDialog, os resultados obtidos estao nessa ordem e podem ser acessados
-			// por meio de miniGerenciador.resultados().get(i);
-			String[] colunas = {"Codigo", "Numero", "Descricao", "Data Inicio", "Data Fim", "Local", "Saldo Financeiro"};		
-			String[][] dados = this.dbcon.CarregaDados("EDICAO", " WHERE codEv = " + str_codEv);   
+			// por meio de miniGerenciador.resultados().get(i);			
+			String[] colunas = {"Nome evento", "Numero Evento", "Numero Edicao", 
+    "Descricao", "Data Inicio", "Data fim", "Local", "Taxa" ,"Saldo", "Total de Artigos"};	
+			String[][] dados = this.dbcon.CarregaDados("formataSaidaEdicao", " WHERE codEv = " + str_codEv);   
 
 			// Cria JDialog com a tabela que o usuario ira selecionar
 			MiniGerenciador miniGerenciador =  new MiniGerenciador(this, dados, colunas);

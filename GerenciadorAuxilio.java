@@ -47,7 +47,7 @@ public class GerenciadorAuxilio extends Gerenciador{
 			}
 			catch(Exception exception)
 			{
-				System.out.println(exception);
+				exception.printStackTrace();
 			}
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
@@ -87,7 +87,32 @@ public class GerenciadorAuxilio extends Gerenciador{
 		}
 		else if(e.getActionCommand().equals(editar.getText()))
 		{
+			int linhaSelecionada = table.getSelectedRow();
 
+			if(linhaSelecionada != -1){
+
+				String[] linha = dados[linhaSelecionada];
+
+
+				try{
+					CadastrarAuxilio cadastrarAuxilio = new CadastrarAuxilio(dbcon, linha);
+				    cadastrarAuxilio.initUI();
+
+			    	dados = null;
+					dados = dbcon.CarregaDados("AUXILIO"); 
+
+			    	configurarTabela(dados, colunas);
+						
+				}catch(Exception ex){
+					System.out.println(ex.getMessage());
+				}
+				// this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Erro: Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		else if(e.getActionCommand().equals(voltar.getText()))
 		{

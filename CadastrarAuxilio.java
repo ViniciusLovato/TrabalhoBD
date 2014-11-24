@@ -70,6 +70,22 @@ public class CadastrarAuxilio extends JDialog implements ActionListener
 	private String str_numEd;
 	private String str_idApr;
 
+	private boolean funcaoCadastrar;
+	private String[] dados;
+
+
+	public CadastrarAuxilio(DBConnection dbcon, String[] dados)
+	{
+		// Titulo da janela
+		setTitle("Cadastrar Auxilio");
+
+		// Botao de fechar
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		this.dados = dados;
+		this.funcaoCadastrar = false;
+		this.dbcon = dbcon;
+	}
 
 	public CadastrarAuxilio(DBConnection dbcon)
 	{
@@ -79,6 +95,7 @@ public class CadastrarAuxilio extends JDialog implements ActionListener
 		// Botao de fechar
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+		this.funcaoCadastrar = true;
 		this.dbcon = dbcon;
 	}
 
@@ -130,7 +147,14 @@ public class CadastrarAuxilio extends JDialog implements ActionListener
 		buttonEvento = new JButton("Selecionar Evento");
 		buttonEdicao = new JButton("Selecionar Edicao");
 
-		cadastrar = new JButton("Cadastrar");
+		if(funcaoCadastrar)
+		{
+			cadastrar = new JButton("Cadastrar");
+		}
+		else 
+		{
+			cadastrar = new JButton("Alterar");
+		}
 		cancelar = new JButton("Cancelar");
 
 		// Adiciona botoes, campos de textos e labels ao panel
@@ -184,6 +208,10 @@ public class CadastrarAuxilio extends JDialog implements ActionListener
 		// Centralizando janela
 		setLocationRelativeTo(null);
 
+		if(!funcaoCadastrar){
+
+
+		}
 		// Janela agora visivel
 		setVisible(true);
 	}
@@ -230,10 +258,19 @@ public class CadastrarAuxilio extends JDialog implements ActionListener
 		String dataAux = "TO_DATE(" + "'" + in_data.getText() + "'," + "'DD/MM/YYYY')";
 		String tipoAux = "'" + in_tipo.getSelectedItem().toString() + "'";
 
-		// codEv, numEd, descricaoEd, dataInicioEd, dataFimEd, localEd, taxaEd, saldoFinanceiroEd, qtdArtigosApresentadosEd
-		String query = "INSERT INTO auxilio VALUES(" + cnpjPat + ", " + codEv + ", " + numEd + ", " + codEv + ", " + numEd + ", "  
-			+ idApr + ", " + valorAux + ", " + dataAux + ", " + tipoAux + ")";
+		String query = null;
 
+		if(funcaoCadastrar){
+			// codEv, numEd, descricaoEd, dataInicioEd, dataFimEd, localEd, taxaEd, saldoFinanceiroEd, qtdArtigosApresentadosEd
+			query = "INSERT INTO auxilio VALUES(" + cnpjPat + ", " + codEv + ", " + numEd + ", " + codEv + ", " + numEd + ", "  
+				+ idApr + ", " + valorAux + ", " + dataAux + ", " + tipoAux + ")";
+		}
+		else{
+			query = "UPDATE auxilio SET cnpjPat =" + cnpjPat + ", codEv=" + codEv + ", numEd=" + numEd + 
+				", codEvApr=" + codEv + ", numEdApr=" + numEd + ", valorAux=" + valorAux + ", dataAux=" + dataAux + 
+				", tipoAux=" + tipoAux +  "WHERE idApr = " + idApr; 
+		}
+		
 		System.out.println(query);
 
 		try{
