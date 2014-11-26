@@ -190,6 +190,10 @@ public class MenuPrincipal extends JFrame implements ActionListener
 			GerenciadorEscreve gerenciadorEscreve = new GerenciadorEscreve(dbcon);
 			gerenciadorEscreve.setVisible(true);
 		}
+		else if(e.getActionCommand().equals(menuInscrever.getText())){
+			GerenciadorInscrito gerenciadorEscreve = new GerenciadorInscrito(dbcon);
+			gerenciadorEscreve.setVisible(true);
+		}
 	}
 
 	public static void main(String args[])

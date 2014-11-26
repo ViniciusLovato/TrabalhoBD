@@ -1,27 +1,28 @@
-import java.sql.SQLException;
 // Event Listener
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
-
-import java.text.ParseException;
+import javax.swing.*;
+import java.sql.SQLException;
 
 
 public class GerenciadorInscrito extends Gerenciador{
-	private String[][] dados;
-	private static final String[] colunas = {};
 
+	private String[][] dados;
+	private static final String[] colunas = {"codEv", "numEd", "idPart", "dataInsc", "tipoApresentador", "Nome do Evento", "Descricao da edicao", "Nome do Inscrito", "Apresenta"};
 
 	public GerenciadorInscrito(DBConnection dbcon){
-		super("Gerenciar Inscrito", dbcon);
-		String[] parametros = {};
+		super("Gerenciar Inscritos", dbcon);
+		String[] parametros = {"Nome do Inscrito", "Nome do evento", "Descricao da edicao"};
 
-		// dados = dbcon.CarregaDados();   
+		dados = dbcon.CarregaDados("formataSaidaInscrito");   
 
+		// Configurando tabela no gerenciador
 		configurar(parametros, colunas, dados);
 
-		// cnpjPat, codEvPat, numEdPat, codEvApr, numEdApr, idApr, valorAux, dataAux, tipoAux
+		// Esconde as colunas que nao sao necessarias ao usuario final
+		//this.table.removeColumn(this.table.getColumnModel().getColumn(0));
 
+		// Callback dos botoes da interface
 		criar.addActionListener(this);
 		deletar.addActionListener(this);
 		editar.addActionListener(this);
@@ -29,21 +30,101 @@ public class GerenciadorInscrito extends Gerenciador{
 	}
 
 	public void actionPerformed(ActionEvent e)
-	{
-		System.out.println(e.getActionCommand());
-	
+	{	
+		// Verificando se o botao escolhido foi criar
 		if(e.getActionCommand().equals(criar.getText()))
 		{
-	
+			// Criando nova janela de cadastro
+			CadastrarInscrito cadInsc = new CadastrarInscrito(dbcon);
+
+			try{
+				// Configurando a interface do usuario
+				cadInsc.initUI();
+				// Recarregando a tabela
+		      	dados = null;
+				dados = dbcon.CarregaDados("formataSaidaInscrito"); 
+
+		  		configurarTabela(dados, colunas);
+				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
 		}
+		// Verificando se o botao escolhido foi deletar
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{
+			int linhaSelecionada =  table.getSelectedRow();
 
+			// Verificando qual coluna da tabela foi selecionada
+			// Se alguma foi selecionada
+			if(linhaSelecionada != -1)
+			{
+				// Seleciona ID do Artigo selecionado, chave primaria para remocao
+				String str_idPart = dados[linhaSelecionada][2];
+				String str_codEv = dados[linhaSelecionada][0];
+				String str_numEd = dados[linhaSelecionada][1];
+
+				// Query para a delecao do inscrito
+				String query = "DELETE FROM inscrito WHERE idPart = " + str_idPart + " AND codEv = " + str_codEv + " AND numEd = " + str_numEd;
+				System.out.println(query);
+
+				// Remove da tabela o inscrito
+				try{
+					// Executando a query  no banco
+					this.dbcon.executarQuery(query);
+
+					// Recarrega a tabela da interface
+			      	dados = null;
+					dados = dbcon.CarregaDados("formataSaidaInscrito"); 
+
+			  		configurarTabela(dados, colunas);
+					this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+				}
+				catch(SQLException ex){
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			// Verifica se nenhuma linha foi selecionada para a delecao
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		}
+		// Verifica se opcao de edicao foi escolhida
 		else if(e.getActionCommand().equals(editar.getText()))
 		{
+			int linhaSelecionada = table.getSelectedRow();
 
+			// Verificacao de qual linha foi selecionada
+			if(linhaSelecionada != -1){
+
+				String[] linha = dados[linhaSelecionada];
+
+				try
+				{
+					// Abre janela de edicao (janela de cadastro com parametros diferentes)
+					CadastrarInscrito cadastrarEvento = new CadastrarInscrito(dbcon, linha);
+				    cadastrarEvento.initUI();
+				}
+				catch(Exception ex)
+				{
+					System.out.println("Erro");
+				}
+
+			    // Apos insercao recarrega tabela da interface
+		    	dados = null;
+				dados = dbcon.CarregaDados("formataSaidaInscrito"); 
+
+		    	configurarTabela(dados, colunas);
+				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Erro: Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		}
+		// verifica se a opcao voltar foi escolhida
 		else if(e.getActionCommand().equals(voltar.getText()))
 		{
 			setVisible(false);
