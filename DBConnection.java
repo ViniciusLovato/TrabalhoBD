@@ -269,7 +269,19 @@ public class DBConnection
             linha[2] = rs.getString("nomePe");
             linha[3] = rs.getString("emailPe");
         }
+        else if(tabela.equals("formataSaidaOrganiza"))
+        {
+            linha = new String[7];
+            linha[0] = rs.getString("idOrg");
+            linha[1] = rs.getString("codEv");
+            linha[2] = rs.getString("numEd");
+            linha[3] = rs.getString("cargoOrg");
+            linha[4] = rs.getString("nomePe");
+            linha[5] = rs.getString("nomeEv");
+            linha[6] = rs.getString("descricaoEd");
 
+
+        }
 		return linha;
     }
 
