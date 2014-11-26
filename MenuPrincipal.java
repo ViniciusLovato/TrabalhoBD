@@ -250,6 +250,10 @@ public class MenuPrincipal extends JFrame implements ActionListener
 			GerenciadorEscreve gerenciadorEscreve = new GerenciadorEscreve(dbcon);
 			gerenciadorEscreve.setVisible(true);
 		}
+		else if(e.getActionCommand().equals(menuInscrever.getText())){
+			GerenciadorInscrito gerenciadorEscreve = new GerenciadorInscrito(dbcon);
+			gerenciadorEscreve.setVisible(true);
+		}
 		else if(e.getActionCommand().equals(desconectar.getText())){
 			desconectar();
 		}
@@ -310,6 +314,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 				JOptionPane.showMessageDialog(null, "Senha ou login invalidos", "Erro", JOptionPane.ERROR_MESSAGE);
 			}
         }
+
 	}
 
 	public static void main(String args[])

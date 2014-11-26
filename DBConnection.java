@@ -226,11 +226,15 @@ public class DBConnection
 		}
 		else if(tabela.equals("formataSaidaInscrito"))
 		{
-			linha = new String[9];
+			linha = new String[8];
 			linha[0] = rs.getString("codEv");
 			linha[1] = rs.getString("numEd");
 			linha[2] = rs.getString("idPart");
-			linha[3] = rs.getString("nomePe");
+			linha[3] = rs.getString("dataInsc");
+			linha[4] = rs.getString("tipoApresentador");
+			linha[5] = rs.getString("nomePe");
+			linha[6] = rs.getString("nomeEv");
+			linha[7] = rs.getString("descricaoEd");
 		}
         else if(tabela.equals("formataSaidaEdicao"))
         {
