@@ -129,8 +129,8 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuDespesa = new JMenuItem("Despesa");
 		menuAuxilio = new JMenuItem("Auxilio");
 
-		menuConsulta1 = new JMenuItem("Consulta 1");
-		menuConsulta2 = new JMenuItem("Consulta 2");
+		menuConsulta1 = new JMenuItem("Relacao Auxilio/Pessoa");
+		menuConsulta2 = new JMenuItem("Relacao Patrocinador/Auxilio");
 
 		menuRelatorio1 = new JMenuItem("Relatorio 1");
 		menuRelatorio2 = new JMenuItem("Relatorio 2");
@@ -232,7 +232,6 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		setVisible(true);
 	}
 
-
 	public void actionPerformed(ActionEvent e)
 	{
 		System.out.println(e.getActionCommand());
@@ -299,8 +298,15 @@ public class MenuPrincipal extends JFrame implements ActionListener
 				conectar(in_usuario.getText(), new String(in_senha.getPassword()).trim() , in_endereco.getText());
 			}
 		}
+		else if(e.getActionCommand().equals(menuConsulta1.getText())){
+			GerenciadorConsulta1 gerenciadorConsulta1 = new GerenciadorConsulta1(dbcon);
+			gerenciadorConsulta1.setVisible(true);
+		}
+		else if(e.getActionCommand().equals(menuConsulta2.getText())){
+			GerenciadorConsulta2 gerenciadorConsulta2 = new GerenciadorConsulta2(dbcon);
+			gerenciadorConsulta2.setVisible(true);
+		}
 	}
-
 	public void desconectar(){
 		try
 		{
@@ -321,11 +327,17 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		}
 	}
 
-
 	public void conectar(String user, String pwd, String endereco){
         try
         {	
-        	// JOptionPane optionPane = new JOptionPane("Conectando ao banco ...");
+			// JOptionPane.showMessageDialog(null, "Conectando ao banco de dados... ", "Conectando", JOptionPane.ERROR_MESSAGE);
+		    JFrame frame = new JFrame("HelloWorldSwing");
+		    final JLabel label = new JLabel("Hello World");
+		    frame.getContentPane().add(label);
+
+		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		    frame.pack();
+		    frame.setVisible(true);
 
             dbcon = new DBConnection(user, pwd, endereco);
             if(dbcon.isNull())
@@ -347,6 +359,9 @@ public class MenuPrincipal extends JFrame implements ActionListener
 
 				// Desailita botao de conectar
 				conectar.setEnabled(false);
+        		
+        		frame.setVisible(false);
+        		frame.dispose();
 
             }
         }
@@ -358,7 +373,6 @@ public class MenuPrincipal extends JFrame implements ActionListener
         }
 
 	}
-
 	public static void main(String args[])
 	{
 		MenuPrincipal menu = new MenuPrincipal();

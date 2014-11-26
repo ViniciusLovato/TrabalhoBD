@@ -281,8 +281,28 @@ public class DBConnection
             linha[4] = rs.getString("nomePe");
             linha[5] = rs.getString("nomeEv");
             linha[6] = rs.getString("descricaoEd");
-
-
+        }
+        else if(tabela.equals("consultaAvancada1"))
+        {
+            linha = new String[7];
+            linha[0] = rs.getString("codEv");
+            linha[1] = rs.getString("nomeEv");
+            linha[2] = rs.getString("numEd");
+            linha[3] = rs.getString("descricaoEd");
+            linha[4] = rs.getString("tipoAux");
+            linha[5] = rs.getString("nomePe");
+            linha[6] = rs.getString("valorAux");
+        }
+        else if(tabela.equals("consultaAvancada2"))
+        {
+            linha = new String[7];
+            linha[0] = rs.getString("codEv");
+            linha[1] = rs.getString("nomeEv");
+            linha[2] = rs.getString("numEd");
+            linha[3] = rs.getString("descricaoEd");
+            linha[4] = rs.getString("razaoSocialPat");
+            linha[5] = rs.getString("tipoAux");
+            linha[6] = rs.getString("sumValorAux");
         }
 		return linha;
     }
