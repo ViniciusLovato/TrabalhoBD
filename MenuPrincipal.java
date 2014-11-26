@@ -36,6 +36,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	private JMenuItem menuEdicao;
 	private JMenuItem menuPessoa;
 	private JMenuItem menuInscrever;
+	private JMenuItem menuOrganiza;
 	private JMenuItem menuArtigo;
 	private JMenuItem menuEscrever;
 	private JMenuItem menuPatrocinador;
@@ -95,6 +96,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuEdicao = new JMenuItem("Edicao");
 		menuPessoa = new JMenuItem("Pessoa");
 		menuInscrever = new JMenuItem("Inscrever Pessoa");
+		menuOrganiza = new JMenuItem("Cadastrar Organizador");
 		menuArtigo = new JMenuItem("Artigo");
 		menuEscrever = new JMenuItem("Registrar Escritor");
 		menuPatrocinador = new JMenuItem("Patrocinador");
@@ -111,6 +113,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuGerenciar.add(menuEdicao);
 		menuGerenciar.add(menuPessoa);
 		menuGerenciar.add(menuInscrever);
+		menuGerenciar.add(menuOrganiza);
 		menuGerenciar.add(menuArtigo);
 		menuGerenciar.add(menuEscrever);
 		menuGerenciar.add(menuPatrocinador);
@@ -123,6 +126,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuEdicao.addActionListener(this);
 		menuPessoa.addActionListener(this);
 		menuInscrever.addActionListener(this);
+		menuOrganiza.addActionListener(this);
 		menuArtigo.addActionListener(this);
 		menuEscrever.addActionListener(this);
 		menuPatrocinador.addActionListener(this);
@@ -161,6 +165,10 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		else if(e.getActionCommand().equals(menuPessoa.getText())){
 			GerenciadorPessoa gerenciadorPessoa = new GerenciadorPessoa(dbcon);
 			gerenciadorPessoa.setVisible(true);
+		}
+		else if(e.getActionCommand().equals(menuOrganiza.getText())){
+			GerenciadorOrganizador gerenciadorOrganizador = new GerenciadorOrganizador(dbcon);
+			gerenciadorOrganizador.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(menuArtigo.getText())){
 			GerenciadorArtigo gerenciadorArtigo = new GerenciadorArtigo(dbcon);
