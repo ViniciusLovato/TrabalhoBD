@@ -29,6 +29,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	private JPanel panel;
 	private JPanel outterMenu;
 	private JPanel innerMenu;
+	private JPanel footer;
 
 	// Barra de menu
 	private JMenuBar menuBar;
@@ -36,6 +37,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	// Cada componente menu da barra principal
 	private JMenu menuGerenciar;
 	private JMenu menuConsultar;
+	private JMenu menuRelatorio;
 
 	// Submenus que serao inseridos dentro de cada menu
 	private JMenuItem menuEvento;
@@ -50,10 +52,21 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	private JMenuItem menuDespesa;
 	private JMenuItem menuAuxilio;
 
+	// Sub menus das consultas especiais
+	private JMenuItem menuConsulta1;
+	private JMenuItem menuConsulta2;
 
+	// sub menus de relatorios
+	private JMenuItem menuRelatorio1;
+	private JMenuItem menuRelatorio2;
+
+
+	// Campos para logar
 	private JLabel usuario;
 	private JLabel senha;
 	private JLabel endereco;
+
+	private JLabel desenvolvido;
 
 	private JTextField in_usuario;
 	private JPasswordField in_senha;
@@ -82,6 +95,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		panel = new JPanel();
 		innerMenu = new JPanel();
 		outterMenu = new JPanel();
+		footer = new JPanel();
 
 		// Grid Layout
 		panel.setLayout(new BorderLayout());
@@ -95,7 +109,6 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		innerMenu.setLayout(new GridLayout(4, 2, 5, 5));
 		innerMenu.setBorder(title);
 
-		
 		// Adiciona JPanel ao frame
 		getContentPane().add(panel);
 
@@ -105,6 +118,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		// Menus da barra superior da janela
 		menuGerenciar = new JMenu("Gerenciar");
 		menuConsultar = new JMenu("Consultas Avancada");
+		menuRelatorio = new JMenu("Gerar Relatorios");
 
 		// Submenus dentro dos menus da barra superior (Gerenciar)
 		menuEvento = new JMenuItem("Evento");
@@ -119,9 +133,17 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuDespesa = new JMenuItem("Despesa");
 		menuAuxilio = new JMenuItem("Auxilio");
 
+		menuConsulta1 = new JMenuItem("Consulta 1");
+		menuConsulta2 = new JMenuItem("Consulta 2");
+
+		menuRelatorio1 = new JMenuItem("Relatorio 1");
+		menuRelatorio2 = new JMenuItem("Relatorio 2");
+
 		usuario = new JLabel("Usuario: ");
 		senha = new JLabel("Senha: ");
 		endereco = new JLabel("Endereco: ");
+
+		desenvolvido = new JLabel("Desenvolvido por: Matheus Compri e Vinicius Lovato");
 
 		conectar = new JButton("Conectar");
 		desconectar = new JButton("Desconectar");
@@ -133,6 +155,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		// inserir os menus na menubar
 		menuBar.add(menuGerenciar);
 		menuBar.add(menuConsultar);
+		menuBar.add(menuRelatorio);
 
 		// Insere os submenus no menu Gerenciar
 		menuGerenciar.add(menuEvento);
@@ -147,6 +170,12 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuGerenciar.add(menuDespesa);
 		menuGerenciar.add(menuAuxilio);
 
+		menuConsultar.add(menuConsulta1);
+		menuConsultar.add(menuConsulta2);
+
+		menuRelatorio.add(menuRelatorio1);
+		menuRelatorio.add(menuRelatorio2);
+
 		// Adiciona os listeners ao botoes de submenu
 		menuEvento.addActionListener(this);
 		menuEdicao.addActionListener(this);
@@ -159,6 +188,11 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuPatrocinio.addActionListener(this);
 		menuDespesa.addActionListener(this);
 		menuAuxilio.addActionListener(this);
+
+		menuConsulta1.addActionListener(this);
+		menuConsulta2.addActionListener(this);
+		menuRelatorio1.addActionListener(this);
+		menuRelatorio2.addActionListener(this);
 
 		conectar.addActionListener(this);
 		desconectar.addActionListener(this);
@@ -175,13 +209,19 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		innerMenu.add(conectar);
 		innerMenu.add(desconectar);
 
+		footer.add(desenvolvido);
+
 		panel.add(menuBar, BorderLayout.PAGE_START);
 		panel.add(outterMenu, BorderLayout.CENTER);
 		outterMenu.add(innerMenu);
 
+		panel.add(footer, BorderLayout.SOUTH);
+
 		// Desabilita botoes ate o usuario logar no banco de dados
 		menuGerenciar.setEnabled(false);
 		menuConsultar.setEnabled(false);
+		menuRelatorio.setEnabled(false);
+
 
 
 		// Dados de login padrao
@@ -273,6 +313,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 			dbcon.disconnect();
 			menuGerenciar.setEnabled(false);
 			menuConsultar.setEnabled(false);
+			menuRelatorio.setEnabled(false);
 
 			in_usuario.setEnabled(true);
 			in_senha.setEnabled(true);
@@ -300,6 +341,8 @@ public class MenuPrincipal extends JFrame implements ActionListener
             {
     			menuGerenciar.setEnabled(true);
 				menuConsultar.setEnabled(true);
+				menuRelatorio.setEnabled(true);
+
 
 				in_usuario.setEnabled(false);
 				in_senha.setEnabled(false);
