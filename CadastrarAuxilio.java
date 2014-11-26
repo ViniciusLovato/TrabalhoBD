@@ -287,7 +287,7 @@ public class CadastrarAuxilio extends JDialog implements ActionListener
 		else{
 			query = "UPDATE auxilio SET cnpjPat =" + cnpjPat + ", codEvPat=" + codEv + ", numEdPat=" + numEd + 
 				", valorAux=" + valorAux + ", dataAux=" + dataAux +  
-				" WHERE idApr = " + idApr + " AND codEvapr = " + codEv + " AND numEdApr = " + numEd; 
+				" WHERE idApr = " + idApr + " AND codEvapr = " + codEv + " AND numEdApr = " + numEd + " AND tipoAux=" + tipoAux; 
 		}
 		
 		System.out.println(query);
@@ -400,7 +400,8 @@ public class CadastrarAuxilio extends JDialog implements ActionListener
 		{
 			// Valores que serao passados para popular a tabela do JDialog, os resultados obtidos estao nessa ordem e podem ser acessados
 			// por meio de miniGerenciador.resultados().get(i);
-			String[] colunas = {"codEv", "numEd", "idPart", "Nome", "tiApresentador"};		
+			String[] colunas = {"codEv", "numEd", "idPart", "Data", "tipoApresentador", "Nome", "Nome Evento", "Descricao"};	
+
 			String[][] dados = this.dbcon.CarregaDados("formataSaidaInscrito", "WHERE codEv = " + str_codEv + " AND numEd = " + str_numEd + " AND tipoApresentador = 1");   
 
 			// Cria JDialog com a tabela que o usuario ira selecionar
@@ -410,7 +411,7 @@ public class CadastrarAuxilio extends JDialog implements ActionListener
 			if(miniGerenciador.resultado() != null){
 				System.out.println(miniGerenciador.resultado());
 				// Coloca nome do evento no JTextField que o represnta
-				in_apresentador.setText(miniGerenciador.resultado().get(3).toString());
+				in_apresentador.setText(miniGerenciador.resultado().get(5).toString());
 				str_idApr  = miniGerenciador.resultado().get(2).toString();
 				miniGerenciador.dispose();
 			}

@@ -8,7 +8,8 @@ import java.sql.SQLException;
 public class GerenciadorInscrito extends Gerenciador{
 
 	private String[][] dados;
-	private static final String[] colunas = {"codEv", "numEd", "idPart", "dataInsc", "tipoApresentador", "Nome do Evento", "Descricao da edicao", "Nome do Inscrito", "Apresenta"};
+	private static final String[] colunas = {"codEv", "numEd", "idPart", "dataInsc", "tipoApresentador", 
+	"Nome do Evento", "Descricao da edicao", "Nome do Inscrito"};
 
 	public GerenciadorInscrito(DBConnection dbcon){
 		super("Gerenciar Inscritos", dbcon);
@@ -20,6 +21,7 @@ public class GerenciadorInscrito extends Gerenciador{
 		configurar(parametros, colunas, dados);
 
 		// Esconde as colunas que nao sao necessarias ao usuario final
+		removerColuna(0);
 		//this.table.removeColumn(this.table.getColumnModel().getColumn(0));
 
 		// Callback dos botoes da interface
@@ -45,7 +47,7 @@ public class GerenciadorInscrito extends Gerenciador{
 				dados = dbcon.CarregaDados("formataSaidaInscrito"); 
 
 		  		configurarTabela(dados, colunas);
-				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+		  		removerColuna(0);
 			}
 			catch(Exception ex){
 				ex.printStackTrace();
@@ -61,9 +63,9 @@ public class GerenciadorInscrito extends Gerenciador{
 			if(linhaSelecionada != -1)
 			{
 				// Seleciona ID do Artigo selecionado, chave primaria para remocao
-				String str_idPart = dados[linhaSelecionada][2];
-				String str_codEv = dados[linhaSelecionada][0];
-				String str_numEd = dados[linhaSelecionada][1];
+				String str_codEv = pegarValorCelula(linhaSelecionada, 0);
+				String str_numEd = pegarValorCelula(linhaSelecionada, 1);
+				String str_idPart =pegarValorCelula(linhaSelecionada, 2);
 
 				// Query para a delecao do inscrito
 				String query = "DELETE FROM inscrito WHERE idPart = " + str_idPart + " AND codEv = " + str_codEv + " AND numEd = " + str_numEd;
@@ -79,7 +81,7 @@ public class GerenciadorInscrito extends Gerenciador{
 					dados = dbcon.CarregaDados("formataSaidaInscrito"); 
 
 			  		configurarTabela(dados, colunas);
-					this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+			  		removerColuna(0);
 				}
 				catch(SQLException ex){
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -99,7 +101,7 @@ public class GerenciadorInscrito extends Gerenciador{
 			// Verificacao de qual linha foi selecionada
 			if(linhaSelecionada != -1){
 
-				String[] linha = dados[linhaSelecionada];
+				String[] linha = pegarValorLinha(linhaSelecionada);
 
 				try
 				{
@@ -117,7 +119,7 @@ public class GerenciadorInscrito extends Gerenciador{
 				dados = dbcon.CarregaDados("formataSaidaInscrito"); 
 
 		    	configurarTabela(dados, colunas);
-				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+		    	removerColuna(0);
 			}
 			else
 			{

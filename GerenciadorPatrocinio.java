@@ -55,9 +55,9 @@ public class GerenciadorPatrocinio extends Gerenciador{
 			if(linhaSelecionada != -1)
 			{
 				// Seleciona ID do Artigo selecionado, chave primaria para remocao
-				String removerId = dados[linhaSelecionada][0];
-				String codEv = dados[linhaSelecionada][1];
-				String numEd = dados[linhaSelecionada][2];
+				String removerId = pegarValorCelula(linhaSelecionada, 0).replaceAll("[/.-]", "");
+				String codEv = pegarValorCelula(linhaSelecionada, 1);
+				String numEd = pegarValorCelula(linhaSelecionada, 2);
 
 				String query = "DELETE FROM PATROCINIO WHERE cnpjPat = " + removerId + " AND codEv = " + codEv + " AND numEd = " + numEd;
 				System.out.println(query);
@@ -87,7 +87,7 @@ public class GerenciadorPatrocinio extends Gerenciador{
 
 			if(linhaSelecionada != -1){
 
-				String[] linha = dados[linhaSelecionada];
+				String[] linha = pegarValorLinha(linhaSelecionada);
 
 				try
 				{
@@ -102,7 +102,6 @@ public class GerenciadorPatrocinio extends Gerenciador{
 				dados = dbcon.CarregaDados("formataSaidaPatrocinio"); 
 
 		    	configurarTabela(dados, colunas);
-				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
 
 			}
 			else

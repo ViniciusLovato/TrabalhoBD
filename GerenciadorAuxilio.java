@@ -9,8 +9,8 @@ import java.text.ParseException;
 
 public class GerenciadorAuxilio extends Gerenciador{
 	private String[][] dados;
-	private static final String[] colunas = {"CNPJ Patrocinador", "Codigo Evento Patrocinador", "Numero Edicao Patrocinador", "Codigo Evento Apr",  
-			"Codigo Edicao Apr", "ID Apresentador", "Valor", "Data", "Tipo", "Razao Social", "Evento", "Descricao"};
+	private static final String[] colunas = {"CNPJ Patrocinador", "Codigo Evento Patrocinador", "Numero Edicao Patrocinador", 
+	"Codigo Evento Apr",  "Codigo Edicao Apr", "ID Apresentador", "Valor", "Data", "Tipo", "Razao Social", "Evento", "Descricao", "Nome Apresentador"};
 
 
 	public GerenciadorAuxilio(DBConnection dbcon){
@@ -20,6 +20,7 @@ public class GerenciadorAuxilio extends Gerenciador{
 		dados = dbcon.CarregaDados("formataSaidaAuxilio");   
 
 		configurar(parametros, colunas, dados);
+		esconderColunas();
 
 		// cnpjPat, codEvPat, numEdPat, codEvApr, numEdApr, idApr, valorAux, dataAux, tipoAux
 
@@ -44,6 +45,7 @@ public class GerenciadorAuxilio extends Gerenciador{
 				dados = dbcon.CarregaDados("formataSaidaAuxilio"); 
 
 		  		configurarTabela(dados, colunas);
+		  		esconderColunas();
 			}
 			catch(Exception exception)
 			{
@@ -57,10 +59,11 @@ public class GerenciadorAuxilio extends Gerenciador{
 			if(linhaSelecionada != -1)
 			{
 				// codEvApr, numEdApr, idApr, tipoAux
-				String codEvApr = dados[linhaSelecionada][3];
-				String numEdApr = dados[linhaSelecionada][4];
-				String idApr = dados[linhaSelecionada][5];
-				String tipoAux = "'" +  dados[linhaSelecionada][8] + "'";
+
+				String codEvApr = pegarValorCelula(linhaSelecionada, 1);
+				String numEdApr =  pegarValorCelula(linhaSelecionada, 2);
+				String idApr = pegarValorCelula(linhaSelecionada, 5);
+				String tipoAux = "'" +  pegarValorCelula(linhaSelecionada, 8) + "'";
 
 				String query = "DELETE FROM AUXILIO WHERE codEvApr = " + codEvApr + " AND numEdApr = " + numEdApr + " AND idApr = " + 
 				idApr + " AND tipoAux = " + tipoAux;
@@ -75,6 +78,7 @@ public class GerenciadorAuxilio extends Gerenciador{
 					dados = dbcon.CarregaDados("formataSaidaAuxilio"); 
 
 		  			configurarTabela(dados, colunas);
+		  			esconderColunas();
 				}
 				catch(SQLException ex){
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -91,8 +95,7 @@ public class GerenciadorAuxilio extends Gerenciador{
 
 			if(linhaSelecionada != -1){
 
-				String[] linha = dados[linhaSelecionada];
-
+				String[] linha = pegarValorLinha(linhaSelecionada);
 
 				try{
 					CadastrarAuxilio cadastrarAuxilio = new CadastrarAuxilio(dbcon, linha);
@@ -102,7 +105,8 @@ public class GerenciadorAuxilio extends Gerenciador{
 					dados = dbcon.CarregaDados("formataSaidaAuxilio"); 
 
 			    	configurarTabela(dados, colunas);
-						
+					esconderColunas();
+
 				}catch(Exception ex){
 					System.out.println(ex.getMessage());
 				}
@@ -119,5 +123,13 @@ public class GerenciadorAuxilio extends Gerenciador{
 			setVisible(false);
 			dispose();
 		}
+	}
+
+	public void esconderColunas(){
+		removerColuna(1);
+		removerColuna(2);
+		removerColuna(3);
+		removerColuna(4);
+		removerColuna(5);
 	}
 }

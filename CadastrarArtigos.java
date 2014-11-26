@@ -114,8 +114,6 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 		in_edicao = new JTextField(50);
 		in_apresentador = new JTextField(50);
 
-
-		// Initializing the arrays 
 		buttonEventos = new JButton("Escolher Evento");
 		buttonEdicao = new JButton("Escolher Edicao");
 		buttonApresentador = new JButton("Escolher apresentador");
@@ -158,18 +156,20 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 		panel.add(cancelar);
 
 		// Adicionando os eventListeners
+
 		cadastrar.addActionListener(this);
 		cancelar.addActionListener(this);
 		buttonEventos.addActionListener(this);
 		buttonEdicao.addActionListener(this);
 		buttonApresentador.addActionListener(this);
 
+
+
 		// Ajustando tamanho das janelas
 		pack();
 		// Centralizando a janela
 		setLocationRelativeTo(null);
 		// Seta a janela como visivel
-		 // "idArt"); "TituloArt");"dataApresArt");"horaApresArt");"codEv");   "numEd");   "idApr");  "nomePe");
 
 		if(funcaoCadastrar == false){
 
@@ -184,6 +184,7 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 			str_numEd = dados[5];
 			str_idApr = dados[6];
 		}
+
 
 		setVisible(true);
 	}
@@ -335,7 +336,8 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 		{
 			// Valores que serao passados para popular a tabela do JDialog, os resultados obtidos estao nessa ordem e podem ser acessados
 			// por meio de miniGerenciador.resultados().get(i);
-			String[] colunas = {"codEv", "numEd", "idPart", "Nome", "tiApresentador"};		
+			String[] colunas = {"codEv", "numEd", "idPart", "Data", "tipoApresentador", "Nome", "Nome Evento", "Descricao"};	
+
 			String[][] dados = this.dbcon.CarregaDados("formataSaidaInscrito", "WHERE codEv = " + str_codEv + " AND numEd = " + str_numEd + " AND tipoApresentador = 1");   
 
 			// Cria JDialog com a tabela que o usuario ira selecionar
@@ -345,7 +347,7 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 			if(miniGerenciador.resultado() != null){
 				System.out.println(miniGerenciador.resultado());
 				// Coloca nome do evento no JTextField que o represnta
-				in_apresentador.setText(miniGerenciador.resultado().get(3).toString());
+				in_apresentador.setText(miniGerenciador.resultado().get(5).toString());
 				str_idApr  = miniGerenciador.resultado().get(2).toString();
 				miniGerenciador.dispose();
 			}

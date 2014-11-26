@@ -17,8 +17,7 @@ public class GerenciadorEdicao extends Gerenciador{
 		dados = dbcon.CarregaDados("formataSaidaEdicao");   
 
 		configurar(parametros, colunas, dados);
-		this.table.removeColumn(this.table.getColumnModel().getColumn(1));
-
+		removerColuna(1);
 
 		criar.addActionListener(this);
 		deletar.addActionListener(this);
@@ -40,7 +39,7 @@ public class GerenciadorEdicao extends Gerenciador{
 				dados = dbcon.CarregaDados("formataSaidaEdicao"); 
 
 		  		configurarTabela(dados, colunas);
-				this.table.removeColumn(this.table.getColumnModel().getColumn(1));
+		  		removerColuna(1);
 
 			}
 			catch(Exception ex){
@@ -56,8 +55,8 @@ public class GerenciadorEdicao extends Gerenciador{
 				// Seleciona linha selecionada pelo usuario
 
 				// Seleciona ID do Artigo selecionado, chave primaria para remocao
-				String codEv = dados[linhaSelecionada][0];
-				String numEd = dados[linhaSelecionada][1];
+				String codEv = pegarValorCelula(linhaSelecionada, 1);
+				String numEd = pegarValorCelula(linhaSelecionada, 2);
 
 				String query = "DELETE FROM EDICAO WHERE codEv = " + codEv + " AND numEd = " + numEd;
 				System.out.println(query);
@@ -69,7 +68,7 @@ public class GerenciadorEdicao extends Gerenciador{
 					dados = dbcon.CarregaDados("formataSaidaEdicao"); 
 
 		  			configurarTabela(dados, colunas);
-					this.table.removeColumn(this.table.getColumnModel().getColumn(1));
+		  			removerColuna(1);
 
 				}
 				catch(SQLException ex){
@@ -88,7 +87,7 @@ public class GerenciadorEdicao extends Gerenciador{
 
 			if(linhaSelecionada != -1){
 
-				String[] linha = dados[linhaSelecionada];
+				String[] linha = pegarValorLinha(linhaSelecionada);
 
 				CadastrarEdicao cadastrarEdicao = new CadastrarEdicao(dbcon, linha);
 			    
@@ -99,7 +98,7 @@ public class GerenciadorEdicao extends Gerenciador{
 					dados = dbcon.CarregaDados("formataSaidaEdicao"); 
 
 		  		  	configurarTabela(dados, colunas);
-					this.table.removeColumn(this.table.getColumnModel().getColumn(1));
+		  		  	removerColuna(1);
 			    }catch(Exception ex){
 			    	System.err.println(ex.getMessage());
 			    }

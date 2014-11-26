@@ -9,7 +9,8 @@ import java.sql.SQLException;
 public class GerenciadorArtigo extends Gerenciador{
 
 	private	String[][] dados;
-	private static final String[] colunas = {"Codigo", "Titulo", "Data", "Hora", "Evento", "Edicao", "Codigo Apresentador", "Nome Apresentador"};
+	private static final String[] colunas = {"Codigo", "Titulo", "Data", "Hora", "Evento", "Edicao", 
+	"Codigo Apresentador", "Nome Apresentador", "Nome evneto"};
 
 	public GerenciadorArtigo(DBConnection dbcon){
 		super("Gerenciar Artigo", dbcon);
@@ -19,7 +20,7 @@ public class GerenciadorArtigo extends Gerenciador{
 		configurar(parametros, colunas, dados);
 
 		// Remove campos nao necessaios 
-		this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+		removerColuna(0);
 
 		criar.addActionListener(this);
 		deletar.addActionListener(this);
@@ -41,8 +42,7 @@ public class GerenciadorArtigo extends Gerenciador{
 				dados = dbcon.CarregaDados("formataSaidaArtigo"); 
 
 		  		configurarTabela(dados, colunas);
-				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
-
+		  		removerColuna(0);
 			}
 			catch(Exception ex){
 				System.out.println("Erro");
@@ -58,7 +58,7 @@ public class GerenciadorArtigo extends Gerenciador{
 
 
 				// Seleciona ID do Artigo selecionado, chave primaria para remocao
-				String removerId = dados[linhaSelecionada][0];
+				String removerId = pegarValorCelula(linhaSelecionada, 0);
 
 				String query = "DELETE FROM ARTIGO WHERE idArt = " + removerId;
 				System.out.println(query);
@@ -71,7 +71,7 @@ public class GerenciadorArtigo extends Gerenciador{
 					dados = dbcon.CarregaDados("formataSaidaArtigo"); 
 
 			  		configurarTabela(dados, colunas);
-					this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+			  		removerColuna(0);
 				}
 				catch(SQLException ex){
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -89,17 +89,20 @@ public class GerenciadorArtigo extends Gerenciador{
 
 			if(linhaSelecionada != -1){
 
-				String[] linha = dados[linhaSelecionada];
+				String[] linha = pegarValorLinha(linhaSelecionada);
 				CadastrarArtigos cadastrarArtigos = new CadastrarArtigos(dbcon, linha);
 			    
 			    try{
+			    	System.out.println("AQUI!");
     			    cadastrarArtigos.initUI();
+			    	System.out.println("DEPOIS UI!!");
+
 
 		    		dados = null;
 					dados = dbcon.CarregaDados("formataSaidaArtigo"); 
 
 		  		  	configurarTabela(dados, colunas);
-					this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+		  		  	removerColuna(0);
 			    }catch(Exception ex){
 			    	System.err.println(ex.getMessage());
 			    }

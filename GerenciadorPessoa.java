@@ -20,7 +20,7 @@ public class GerenciadorPessoa extends Gerenciador{
 		configurar(parametros, colunas, dados);
 
 		// Esconde as colunas que nao sao necessarias ao usuario final
-		this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+		removerColuna(0);
 
 		criar.addActionListener(this);
 		deletar.addActionListener(this);
@@ -44,7 +44,7 @@ public class GerenciadorPessoa extends Gerenciador{
 				dados = dbcon.CarregaDados("PESSOA"); 
 
 		  		configurarTabela(dados, colunas);
-				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+		  		removerColuna(0);
 
 			}
 			catch(Exception ex){
@@ -58,7 +58,7 @@ public class GerenciadorPessoa extends Gerenciador{
 			if(linhaSelecionada != -1)
 			{
 				// Seleciona ID do Artigo selecionado, chave primaria para remocao
-				String removerId = dados[linhaSelecionada][0];
+				String removerId = pegarValorCelula(linhaSelecionada, 0);
 
 				String query = "DELETE FROM PESSOA WHERE idPe = " + removerId;
 				System.out.println(query);
@@ -71,7 +71,7 @@ public class GerenciadorPessoa extends Gerenciador{
 					dados = dbcon.CarregaDados("PESSOA"); 
 
 			  		configurarTabela(dados, colunas);
-					this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+			  		removerColuna(0);
 				}
 				catch(SQLException ex){
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -89,7 +89,7 @@ public class GerenciadorPessoa extends Gerenciador{
 
 			if(linhaSelecionada != -1){
 
-				String[] linha = dados[linhaSelecionada];
+				String[] linha = pegarValorLinha(linhaSelecionada);
 
 				CadastrarPessoas cadastrarEvento = new CadastrarPessoas(dbcon, linha);
 			    cadastrarEvento.initUI();
@@ -98,7 +98,7 @@ public class GerenciadorPessoa extends Gerenciador{
 				dados = dbcon.CarregaDados("PESSOA"); 
 
 		    	configurarTabela(dados, colunas);
-				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+		    	removerColuna(0);
 
 			}
 			else

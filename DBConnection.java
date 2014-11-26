@@ -3,6 +3,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.CallableStatement;
 import java.util.*;
 
 public class DBConnection
@@ -69,7 +70,6 @@ public class DBConnection
         // create our java jdbc statement
         Statement stmt = this.conexao.createStatement();
         stmt.executeUpdate(sqlQuery);
-
     }
 
     public String[] interpretaTabela(String tabela, ResultSet rs) throws Exception

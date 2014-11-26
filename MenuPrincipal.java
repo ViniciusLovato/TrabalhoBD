@@ -8,17 +8,13 @@ import java.awt.GridLayout;
 
 // Componetes basicos para interface
 import javax.swing.*;
-
 import java.awt.Dimension;
-
-
 import java.text.ParseException;
 import java.awt.BorderLayout;
 
 // Bordas
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-
 
 // ArryaList
 import java.util.ArrayList;
@@ -222,8 +218,6 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuConsultar.setEnabled(false);
 		menuRelatorio.setEnabled(false);
 
-
-
 		// Dados de login padrao
 		in_usuario.setText("a7151885");
 		in_senha.setText("a7151885");
@@ -258,6 +252,10 @@ public class MenuPrincipal extends JFrame implements ActionListener
 			GerenciadorPessoa gerenciadorPessoa = new GerenciadorPessoa(dbcon);
 			gerenciadorPessoa.setVisible(true);
 		}
+		else if(e.getActionCommand().equals(menuInscrever.getText())){
+			GerenciadorInscrito gerenciadorEscreve = new GerenciadorInscrito(dbcon);
+			gerenciadorEscreve.setVisible(true);
+		}
 		else if(e.getActionCommand().equals(menuOrganiza.getText())){
 			GerenciadorOrganizador gerenciadorOrganizador = new GerenciadorOrganizador(dbcon);
 			gerenciadorOrganizador.setVisible(true);
@@ -288,10 +286,6 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		}
 		else if(e.getActionCommand().equals(menuEscrever.getText())){
 			GerenciadorEscreve gerenciadorEscreve = new GerenciadorEscreve(dbcon);
-			gerenciadorEscreve.setVisible(true);
-		}
-		else if(e.getActionCommand().equals(menuInscrever.getText())){
-			GerenciadorInscrito gerenciadorEscreve = new GerenciadorInscrito(dbcon);
 			gerenciadorEscreve.setVisible(true);
 		}
 		else if(e.getActionCommand().equals(desconectar.getText())){
@@ -330,7 +324,9 @@ public class MenuPrincipal extends JFrame implements ActionListener
 
 	public void conectar(String user, String pwd, String endereco){
         try
-        {
+        {	
+        	// JOptionPane optionPane = new JOptionPane("Conectando ao banco ...");
+
             dbcon = new DBConnection(user, pwd, endereco);
             if(dbcon.isNull())
             {
@@ -339,16 +335,19 @@ public class MenuPrincipal extends JFrame implements ActionListener
             }
             else
             {
+            	// Habilita os campos da menu bar para poder acessar o banco
     			menuGerenciar.setEnabled(true);
 				menuConsultar.setEnabled(true);
 				menuRelatorio.setEnabled(true);
 
-
+				// Desabilita os campos de conexao no Bd para evitar conlfitos
 				in_usuario.setEnabled(false);
 				in_senha.setEnabled(false);
 				in_endereco.setEnabled(false);
 
+				// Desailita botao de conectar
 				conectar.setEnabled(false);
+
             }
         }
         catch(SQLException e)

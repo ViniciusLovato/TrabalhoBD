@@ -231,12 +231,13 @@ public class GerenciadorOrganizador extends Gerenciador{
 
 				str_cargoOrg = "'" + in_cargoOrg.getText() + "'";
 
-				String query = "INSERT INTO organiza VALUES(" + linha[0] + ", " + str_codEv + ", " + str_numEd + 
+				String query = "call consistenciaOrganizador.insereOrganizador(" + linha[0] + ", " + str_codEv + ", " + str_numEd + 
 					", " + str_cargoOrg + ")";
 
 				System.out.println(query);
 
 				try{
+
 					dbcon.executarInsert(query);
 					JOptionPane.showMessageDialog(null, "Registro inserido com sucesso");
 
@@ -266,9 +267,8 @@ public class GerenciadorOrganizador extends Gerenciador{
 			String codEv = table.getModel().getValueAt(linhaSelectionada, 1).toString();
 			String numEd = table.getModel().getValueAt(linhaSelectionada, 1).toString();
 
-
-			String query = "DELETE FROM organiza WHERE idOrg=" + idOrg + " AND codEv=" + codEv + " AND numEd=" + numEd; 
-
+			String query = "call consistenciaOrganizador.removeOrganizador(" + idOrg + ", " + codEv + ", " + numEd + ")";
+			// String query = "DELETE FROM organiza WHERE idOrg=" + idOrg + " AND codEv=" + codEv + " AND numEd=" + numEd; 
 			System.out.println(query);
 
 			try{
@@ -277,9 +277,7 @@ public class GerenciadorOrganizador extends Gerenciador{
 				System.err.println(ex.getMessage());
 				JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 			}
-
 			preencherTabela();
-			
 		}
 	}
 }

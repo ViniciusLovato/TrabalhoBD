@@ -140,6 +140,7 @@ public class Gerenciador extends JDialog implements ActionListener, KeyListener
 			table.setModel(model);
 			model.fireTableDataChanged();
 		}
+		table.getTableHeader().setReorderingAllowed(false);
 
 		table.setFillsViewportHeight(true);
 		sorter = new TableRowSorter<TableModel>(model);
@@ -154,9 +155,31 @@ public class Gerenciador extends JDialog implements ActionListener, KeyListener
 		table.setRowSorter(sorter);
 	}
 
-	public void removerLinha(int linhaSelecionada){
-		model.removeRow(linhaSelecionada);
+	public void removerColuna(int coluna){
+		table.getColumnModel().getColumn(coluna).setMinWidth(0);
+   		table.getColumnModel().getColumn(coluna).setMaxWidth(0);
+  		table.getColumnModel().getColumn(coluna).setWidth(0);
 		table.repaint();
+	}
+
+	public String pegarValorCelula(int linha, int coluna){
+		return table.getValueAt(linha, coluna).toString();
+
+	}
+
+	public String[] pegarValorLinha(int linha){
+
+		int nColuna = table.getColumnCount();
+		String[] str = new String[nColuna];
+
+		System.out.println("Aqui");
+
+		for(int i = 0; i < nColuna; i++){
+			str[i] = table.getValueAt(linha, i).toString();
+			System.out.println(str[i] + " ");
+		}
+
+		return str;
 	}
 
 	//public void syncTable(){

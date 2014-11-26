@@ -241,7 +241,7 @@ public class CadastrarDespesa extends JDialog implements ActionListener
 	{
 		if(!(str_cnpjPat == null)){
 			String codDesp = "SQ_codDesp_despesa.NEXTVAL";
-			String cnpjPat = str_cnpjPat;
+			String cnpjPat = str_cnpjPat.replaceAll("[/.-]", "");
 			String codEv = str_codEv;
 			String numEd = str_numEd;
 			String dataDesp = "TO_DATE(" + "'" + in_data.getText() + "'," + "'DD/MM/YYYY')";

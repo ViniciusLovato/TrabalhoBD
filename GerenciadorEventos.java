@@ -21,7 +21,7 @@ public class GerenciadorEventos extends Gerenciador{
 		configurar(parametros, colunas, dados);
 
 		// Remove campos nao necessarios
-		this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+		removerColuna(0);
 		
 		criar.addActionListener(this);
 		deletar.addActionListener(this);
@@ -42,9 +42,7 @@ public class GerenciadorEventos extends Gerenciador{
 			dados = dbcon.CarregaDados("EVENTO"); 
 
 		    configurarTabela(dados, colunas);
-			this.table.removeColumn(this.table.getColumnModel().getColumn(0));
-
-
+			removerColuna(0);
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
 		{
@@ -55,8 +53,9 @@ public class GerenciadorEventos extends Gerenciador{
 			{
 				// Verificando se existe alguma linha selecionada
 				System.out.println("Linha select: " + linhaSelecionada);
+
 				// Seleciona ID do Artigo selecionado, chave primaria para remocao
-				String removerId = dados[linhaSelecionada][0];
+				String removerId = pegarValorCelula(linhaSelecionada, 0);
 
 				String query = "DELETE FROM EVENTO WHERE codEv = " + removerId;
 				System.out.println(query);
@@ -68,11 +67,7 @@ public class GerenciadorEventos extends Gerenciador{
 					dados = dbcon.CarregaDados("EVENTO"); 
 
 		    		configurarTabela(dados, colunas);
-					this.table.removeColumn(this.table.getColumnModel().getColumn(0));
-
-
-					//removerLinha(linhaSelecionada);
-
+					removerColuna(0);
 				}
 				catch(SQLException ex){
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -91,7 +86,7 @@ public class GerenciadorEventos extends Gerenciador{
 
 			if(linhaSelecionada != -1){
 
-				String[] linha = dados[linhaSelecionada];
+				String[] linha = pegarValorLinha(linhaSelecionada);
 
 
 				CadastrarEvento cadastrarEvento = new CadastrarEvento(dbcon, linha);
@@ -101,7 +96,7 @@ public class GerenciadorEventos extends Gerenciador{
 				dados = dbcon.CarregaDados("EVENTO"); 
 
 		    	configurarTabela(dados, colunas);
-				this.table.removeColumn(this.table.getColumnModel().getColumn(0));
+				removerColuna(0);
 
 			}
 			else

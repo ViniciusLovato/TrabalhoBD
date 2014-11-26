@@ -60,9 +60,9 @@ public class GerenciadorDespesa extends Gerenciador{
 			if(linhaSelecionada != -1)
 			{
 				// Seleciona ID do Artigo selecionado, chave primaria para remocao
-				String codDesp = dados[linhaSelecionada][0];
-				String codEv = dados[linhaSelecionada][1];
-				String numEd = dados[linhaSelecionada][1];
+				String codDesp = pegarValorCelula(linhaSelecionada, 0);
+				String numEd = pegarValorCelula(linhaSelecionada, 1);
+				String codEv = pegarValorCelula(linhaSelecionada, 3);
 
 				String query = "DELETE FROM DESPESA WHERE codDesp = " + codDesp + " AND codEv = " + codEv + " AND numEd = " + numEd;
 				System.out.println(query);
@@ -94,7 +94,7 @@ public class GerenciadorDespesa extends Gerenciador{
 
 			if(linhaSelecionada != -1){
 
-				String[] linha = dados[linhaSelecionada];
+				String[] linha = pegarValorLinha(linhaSelecionada);
 
 				try{
 					CadastrarDespesa cadDesp = new CadastrarDespesa(dbcon, linha);
@@ -125,20 +125,25 @@ public class GerenciadorDespesa extends Gerenciador{
 
 	public void esconderColunas(){
 
-			//esconde codigo da despesa
-			this.table.removeColumn(this.table.getColumn("Codigo Despesa"));
+		//esconde codigo da despesa
+		//	this.table.removeColumn(this.table.getColumn("Codigo Despesa"));
+		removerColuna(0);
 
-			// esconde codigo do evento
-			this.table.removeColumn(this.table.getColumn("Codigo Evento"));
+		// esconde codigo do evento
+		removerColuna(1);
+		//this.table.removeColumn(this.table.getColumn("Codigo Evento"));
 
-			// Esconde numero da edicao
-			this.table.removeColumn(this.table.getColumn("Numero Edicao"));
+		// Esconde numero da edicao
+		removerColuna(3);
+		//this.table.removeColumn(this.table.getColumn("Numero Edicao"));
+		
+		// Esconde codigo evento patrocinador
+		//this.table.removeColumn(this.table.getColumn("Codigo Evento Patrocinador"));
+		removerColuna(7);
 
-			// Esconde codigo evento patrocinador
-			this.table.removeColumn(this.table.getColumn("Codigo Evento Patrocinador"));
-
-			// Esconde numero edicao patrocinador
-			this.table.removeColumn(this.table.getColumn("Numero Edicao Patrocinador"));
+		// Esconde numero edicao patrocinador
+		//this.table.removeColumn(this.table.getColumn("Numero Edicao Patrocinador"));
+		removerColuna(8);
 
 			/*			linha = new String[12];
 			linha[0] = rs.getString("codDesp"); 0
