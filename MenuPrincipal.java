@@ -1,6 +1,7 @@
 // Event Listener
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 // Grid layout
 import java.awt.GridLayout;
@@ -12,9 +13,12 @@ import java.awt.Dimension;
 
 
 import java.text.ParseException;
+import java.awt.BorderLayout;
 
 // Bordas
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+
 
 // ArryaList
 import java.util.ArrayList;
@@ -23,6 +27,8 @@ public class MenuPrincipal extends JFrame implements ActionListener
 {
 	// JPanel contem todos os elementos
 	private JPanel panel;
+	private JPanel outterMenu;
+	private JPanel innerMenu;
 
 	// Barra de menu
 	private JMenuBar menuBar;
@@ -44,6 +50,18 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	private JMenuItem menuDespesa;
 	private JMenuItem menuAuxilio;
 
+
+	private JLabel usuario;
+	private JLabel senha;
+	private JLabel endereco;
+
+	private JTextField in_usuario;
+	private JPasswordField in_senha;
+	private JTextField in_endereco;
+
+	private JButton conectar;
+	private JButton desconectar;
+
     private DBConnection dbcon;
 
 
@@ -56,30 +74,27 @@ public class MenuPrincipal extends JFrame implements ActionListener
 
 		// Botao de fechar
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        try
-        {
-            dbcon = new DBConnection();
-            if(dbcon.isNull())
-            {
-		       // JOptionPane.showMessageInfo(null, "Erro ao conectar no banco de dados");
-		       System.exit(0); 
-            }
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
 	}
 
 	public void initUI()
 	{
 		// Criando panel
 		panel = new JPanel();
+		innerMenu = new JPanel();
+		outterMenu = new JPanel();
 
 		// Grid Layout
-		panel.setLayout(new GridLayout(16, 0, 5, 5));
-		panel.setPreferredSize(new Dimension(500, 500));
+		panel.setLayout(new BorderLayout());
+
+		outterMenu.setBorder(new EmptyBorder(50, 50, 50, 50));
+
+		TitledBorder title;
+		title = BorderFactory.createTitledBorder("Login");
+		title.setTitleJustification(TitledBorder.CENTER);
+
+		innerMenu.setLayout(new GridLayout(4, 2, 5, 5));
+		innerMenu.setBorder(title);
+
 		
 		// Adiciona JPanel ao frame
 		getContentPane().add(panel);
@@ -103,6 +118,17 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuPatrocinio = new JMenuItem("Patrocinio");
 		menuDespesa = new JMenuItem("Despesa");
 		menuAuxilio = new JMenuItem("Auxilio");
+
+		usuario = new JLabel("Usuario: ");
+		senha = new JLabel("Senha: ");
+		endereco = new JLabel("Endereco: ");
+
+		conectar = new JButton("Conectar");
+		desconectar = new JButton("Desconectar");
+
+		in_usuario = new JTextField(20);
+		in_senha = new JPasswordField(20);
+	 	in_endereco = new JTextField(20); 
 
 		// inserir os menus na menubar
 		menuBar.add(menuGerenciar);
@@ -134,14 +160,40 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuDespesa.addActionListener(this);
 		menuAuxilio.addActionListener(this);
 
-		panel.add(menuBar);
+		conectar.addActionListener(this);
+		desconectar.addActionListener(this);
+
+		innerMenu.add(usuario);
+		innerMenu.add(in_usuario);
+
+		innerMenu.add(senha);
+		innerMenu.add(in_senha);
+
+		innerMenu.add(endereco);
+		innerMenu.add(in_endereco);
+
+		innerMenu.add(conectar);
+		innerMenu.add(desconectar);
+
+		panel.add(menuBar, BorderLayout.PAGE_START);
+		panel.add(outterMenu, BorderLayout.CENTER);
+		outterMenu.add(innerMenu);
+
+		// Desabilita botoes ate o usuario logar no banco de dados
+		menuGerenciar.setEnabled(false);
+		menuConsultar.setEnabled(false);
+
+
+		// Dados de login padrao
+		in_usuario.setText("a7151885");
+		in_senha.setText("a7151885");
+		in_endereco.setText("grad.icmc.usp.br:15214:orcl14");
 
 		// Tamanho da janela sera suficiente para conter todos os componetes
 		pack();
 
 		// Centralizando janela
 		setLocationRelativeTo(null);
-
 		// Janela agora visivel
 		setVisible(true);
 	}
@@ -198,6 +250,66 @@ public class MenuPrincipal extends JFrame implements ActionListener
 			GerenciadorEscreve gerenciadorEscreve = new GerenciadorEscreve(dbcon);
 			gerenciadorEscreve.setVisible(true);
 		}
+		else if(e.getActionCommand().equals(desconectar.getText())){
+			desconectar();
+		}
+		else if(e.getActionCommand().equals(conectar.getText())){
+			if(in_endereco.getText().equals("") || senha.getText().equals("") || in_usuario.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "Dados invalidos", "Erro", JOptionPane.ERROR_MESSAGE);
+
+			}else{
+				conectar(in_usuario.getText(), new String(in_senha.getPassword()).trim() , in_endereco.getText());
+			}
+		}
+	}
+
+	public void desconectar(){
+		try
+		{
+			dbcon.disconnect();
+			menuGerenciar.setEnabled(false);
+			menuConsultar.setEnabled(false);
+
+			in_usuario.setEnabled(true);
+			in_senha.setEnabled(true);
+			in_endereco.setEnabled(true);
+
+			conectar.setEnabled(true);
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, "Nao foi possivel desconectar", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+
+	public void conectar(String user, String pwd, String endereco){
+        try
+        {
+            dbcon = new DBConnection(user, pwd, endereco);
+            if(dbcon.isNull())
+            {
+				JOptionPane.showMessageDialog(null, "Erro ao conectar no banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
+		       // System.exit(0); 
+            }
+            else
+            {
+    			menuGerenciar.setEnabled(true);
+				menuConsultar.setEnabled(true);
+
+				in_usuario.setEnabled(false);
+				in_senha.setEnabled(false);
+				in_endereco.setEnabled(false);
+
+				conectar.setEnabled(false);
+            }
+        }
+        catch(SQLException e)
+        {
+			if(e.getErrorCode() == 1017){
+				JOptionPane.showMessageDialog(null, "Senha ou login invalidos", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+        }
 	}
 
 	public static void main(String args[])

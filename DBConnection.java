@@ -10,7 +10,7 @@ public class DBConnection
 	// Objeto de conexao com o banco de dados
 	private Connection conexao;
 
-    public DBConnection()
+    public DBConnection(String user, String pwd, String endereco) throws SQLException
     {
         try
         {
@@ -21,18 +21,16 @@ public class DBConnection
             System.out.println(e);
         }
 
-        try
-        {
-            String url = "jdbc:oracle:thin:@grad.icmc.usp.br:15214:orcl14";
-            String username = "a7151885";
-            String passwd = "a7151885";
 
-            this.conexao = DriverManager.getConnection(url, username, passwd);
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
+        String url = "jdbc:oracle:thin:@" + endereco;
+        String username = user;
+        String passwd = pwd;
+        // String url = "jdbc:oracle:thin:@grad.icmc.usp.br:15214:orcl14";
+        // String username = "a7151885";
+        // String passwd = "a7151885";
+
+        this.conexao = DriverManager.getConnection(url, username, passwd);
+
     }
 
     // Checa se a conexao foi criada com sucesso
