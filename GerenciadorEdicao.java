@@ -9,14 +9,16 @@ public class GerenciadorEdicao extends Gerenciador{
     private String[][] dados;
     private static final String[] colunas = {"Nome evento", "Numero Evento", "Numero Edicao", 
     "Descricao", "Data Inicio", "Data fim", "Local", "Taxa" ,"Saldo", "Total de Artigos"};
-	
+	private static final String[] parametros = {"Descicao"};
+	private static final int[] position = {3};
+
+
 	public GerenciadorEdicao(DBConnection dbcon){
 		super("Gerenciar Edicao", dbcon);
-		String[] parametros = {"Numero"};
 		
 		dados = dbcon.CarregaDados("formataSaidaEdicao");   
 
-		configurar(parametros, colunas, dados);
+		configurar(parametros, position, colunas, dados);
 		removerColuna(1);
 
 		criar.addActionListener(this);

@@ -10,15 +10,16 @@ public class GerenciadorInscrito extends Gerenciador{
 	private String[][] dados;
 	private static final String[] colunas = {"codEv", "numEd", "idPart", "dataInsc", "tipoApresentador", 
 	"Nome do Evento", "Descricao da edicao", "Nome do Inscrito"};
+	private static final String[] parametros = {"Nome do Inscrito", "Nome do evento", "Descricao da edicao"};
+	private static final int[] position = {7, 5, 6};
 
 	public GerenciadorInscrito(DBConnection dbcon){
 		super("Gerenciar Inscritos", dbcon);
-		String[] parametros = {"Nome do Inscrito", "Nome do evento", "Descricao da edicao"};
 
 		dados = dbcon.CarregaDados("formataSaidaInscrito");   
 
 		// Configurando tabela no gerenciador
-		configurar(parametros, colunas, dados);
+		configurar(parametros, position, colunas, dados);
 
 		// Esconde as colunas que nao sao necessarias ao usuario final
 		removerColuna(0);

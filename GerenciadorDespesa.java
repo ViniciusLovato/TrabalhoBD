@@ -12,15 +12,16 @@ public class GerenciadorDespesa extends Gerenciador{
 			"CNPJ Patrocinador", "Razao Social", "Codigo Evento Patrocinador", "Numero Edicao Patrocinador", 
 			"Data Despesa", "Valor Despesa", "Descricao Descricao"};
 
+	private static final String[] parametros = {"Evento", "Edicao", "Patrocinador", "Data", "Valor"};
+	private static final int[] position = {2, 4, 6, 9, 10};
 
 	public GerenciadorDespesa(DBConnection dbcon){
 		super("Gerenciar Despesas", dbcon);
-		String[] parametros = {"Evento", "Edicao", "Patrocinador", "Data", "Valor"};
 
 		dados = dbcon.CarregaDados("formataSaidaDespesa");   
 
 		// codDesp, codEv, numEd, cnpjPat, codEvPat, numEdPat, dataDesp, valorDesp, descricaoDesp
-		configurar(parametros, colunas, dados);
+		configurar(parametros, position, colunas, dados);
 
 		esconderColunas();
 

@@ -10,15 +10,15 @@ public class GerenciadorEventos extends Gerenciador{
 	
 	private String[][] dados;
 	private static final String[] colunas = {"Codigo", "Nome", "Descricao", "Website", "Total de Artigos"};
+	private static final String[] parametros = {"Nome", "Descricao", "Website"};
+	private static final int[] position = {1, 2, 3};
 
 	public GerenciadorEventos(DBConnection dbcon){
 		super("Gerenciar Eventos", dbcon);
 
-		String[] parametros = {"Codigo", "Nome", "Website"};
-
 		dados = dbcon.CarregaDados("EVENTO");   
 
-		configurar(parametros, colunas, dados);
+		configurar(parametros, position, colunas, dados);
 
 		// Remove campos nao necessarios
 		removerColuna(0);

@@ -9,15 +9,16 @@ public class GerenciadorPessoa extends Gerenciador{
 
 	private String[][] dados;
 	private static final String[] colunas = {"Id", "Nome", "Email", "Instituicao", "Telefone", "Nacionalidade", "Endereco", "Organizador", "Participante", "Autor"};
+	private static final String[] parametros = {"Nome", "Email", "Instituicao", "Nacionalidade"};
+	private static final int[] position = {1, 2, 3, 5};
 
 	public GerenciadorPessoa(DBConnection dbcon){
 		super("Gerenciar Pessoa", dbcon);
-		String[] parametros = {"Nome", "Email", "Instituicao", "Nacionalidade"};
 
 		dados = dbcon.CarregaDados("PESSOA");   
 
 		//String[][] dados = null;
-		configurar(parametros, colunas, dados);
+		configurar(parametros, position, colunas, dados);
 
 		// Esconde as colunas que nao sao necessarias ao usuario final
 		removerColuna(0);

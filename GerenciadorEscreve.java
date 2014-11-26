@@ -21,9 +21,10 @@ public class GerenciadorEscreve extends Gerenciador{
 	public GerenciadorEscreve(DBConnection dbcon){
 		super("Gerenciar Escreve", dbcon);
 		String[] parametros = {};
+		int[] position = {};
 
 		// dados = dbcon.CarregaDados();   
-		configurar(parametros, colunas, dados);
+		configurar(parametros, position, colunas, dados);
 
 		artigo = new JLabel("Artigo Selecionado:");
 		in_artigo = new JTextField(50);

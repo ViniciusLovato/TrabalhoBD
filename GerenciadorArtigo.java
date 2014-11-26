@@ -11,13 +11,14 @@ public class GerenciadorArtigo extends Gerenciador{
 	private	String[][] dados;
 	private static final String[] colunas = {"Codigo", "Titulo", "Data", "Hora", "Evento", "Edicao", 
 	"Codigo Apresentador", "Nome Apresentador", "Nome evneto"};
+	private static final String[] parametros = {"Titulo", "Data Apresentacao", "Evento", "Edicao"};
+	private static final int[] position = {1, 2, 4, 5};
 
 	public GerenciadorArtigo(DBConnection dbcon){
 		super("Gerenciar Artigo", dbcon);
-		String[] parametros = {"Titulo", "Data Apresentacao", "Evento", "Edicao"};
 
 		dados = dbcon.CarregaDados("formataSaidaArtigo");   
-		configurar(parametros, colunas, dados);
+		configurar(parametros, position,  colunas, dados);
 
 		// Remove campos nao necessaios 
 		removerColuna(0);

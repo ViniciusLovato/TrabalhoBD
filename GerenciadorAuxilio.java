@@ -12,14 +12,15 @@ public class GerenciadorAuxilio extends Gerenciador{
 	private static final String[] colunas = {"CNPJ Patrocinador", "Codigo Evento Patrocinador", "Numero Edicao Patrocinador", 
 	"Codigo Evento Apr",  "Codigo Edicao Apr", "ID Apresentador", "Valor", "Data", "Tipo", "Razao Social", "Evento", "Descricao", "Nome Apresentador"};
 
+	private static final String[] parametros = {"Evento", "Edicao", "Patrocinador", "Data", "Valor", "Tipo"};
+	private static final int[] position = {10, 11, 9, 7, 6, 8};
 
 	public GerenciadorAuxilio(DBConnection dbcon){
 		super("Gerenciar Auxilio", dbcon);
-		String[] parametros = {"Evento", "Edicao", "Patrocinador", "Data", "Valor", "Tipo"};
 
 		dados = dbcon.CarregaDados("formataSaidaAuxilio");   
 
-		configurar(parametros, colunas, dados);
+		configurar(parametros, position, colunas, dados);
 		esconderColunas();
 
 		// cnpjPat, codEvPat, numEdPat, codEvApr, numEdApr, idApr, valorAux, dataAux, tipoAux

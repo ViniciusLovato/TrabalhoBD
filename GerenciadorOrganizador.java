@@ -40,10 +40,11 @@ public class GerenciadorOrganizador extends Gerenciador{
 	public GerenciadorOrganizador(DBConnection dbcon){
 		super("Gerenciar Escreve", dbcon);
 		String[] parametros = {};
+		int[] position = {};
 
 		// Inicializando dados com null pois a tabela deve comear vazia
 		dados = null;
-		configurar(parametros, colunas, dados);
+		configurar(parametros, position, colunas, dados);
 
 		// label para manter coesao da interface
 		empty1 = new JLabel("");

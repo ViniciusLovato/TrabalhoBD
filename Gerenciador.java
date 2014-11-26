@@ -33,6 +33,8 @@ public class Gerenciador extends JDialog implements ActionListener, KeyListener
 	private ArrayList<JLabel> parametros;
 	private ArrayList<JTextField> buscas;
 
+	private int[] position;
+
 	private DefaultTableModel model;
 	protected JTable table;
 
@@ -61,7 +63,7 @@ public class Gerenciador extends JDialog implements ActionListener, KeyListener
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
-	public void configurar(String[] nomeParametro, String[] colunas, Object[][] dados)
+	public void configurar(String[] nomeParametro, int[] position, String[] colunas, Object[][] dados)
 	{
 		this.setModal(true);
 		// Criando panel
@@ -106,6 +108,8 @@ public class Gerenciador extends JDialog implements ActionListener, KeyListener
 			buscas.get(i).addKeyListener(this);
 		}		
 
+		this.position = position;
+
 		panel.add(new JScrollPane(table));
 
 		panel.add(buttonPanel);
@@ -141,13 +145,10 @@ public class Gerenciador extends JDialog implements ActionListener, KeyListener
 			model.fireTableDataChanged();
 		}
 		table.getTableHeader().setReorderingAllowed(false);
-
 		table.setFillsViewportHeight(true);
+
 		sorter = new TableRowSorter<TableModel>(model);
-
 		firstFilter = null;
-		secondFilter = null;
-
 		filters = new ArrayList<RowFilter<TableModel, Object>>();
 
 		compoundRowFilter = null;
@@ -204,7 +205,7 @@ public class Gerenciador extends JDialog implements ActionListener, KeyListener
 
     		for(int i = 0; i < parametros.size(); i++)
     		{
-    			firstFilter = RowFilter.regexFilter(buscas.get(i).getText(), i);
+    			firstFilter = RowFilter.regexFilter(buscas.get(i).getText(), position[i]);
     			filters.add(firstFilter);	
     		}
     		

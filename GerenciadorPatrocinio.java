@@ -9,14 +9,16 @@ import java.text.ParseException;
 public class GerenciadorPatrocinio extends Gerenciador{
 	private String[][] dados;
 	private static final String[] colunas = {"CNPJ", "Evento", "Edicao", "Valor", "Saldo", "Data", "Razao Social", "Nome Evento", "Descricao Evento"};
+	private static final String[] parametros = {"CNPJ", "Valor", "Saldo", "Data", "Razao Social", "Descricao Evento"};
+	private static final int[] position = {0, 3, 4, 5, 6, 8};
+
 
 	public GerenciadorPatrocinio(DBConnection dbcon){
 		super("Gerenciar Patrocinio", dbcon);
-		String[] parametros = {"CNPJ", "Evento", "Edicao", "Valor", "Saldo", "Data", "Razao Social", "Nome Evento", "Descricao Evento"};
 		
 		
 		dados = dbcon.CarregaDados("formataSaidaPatrocinio");   
-		configurar(parametros, colunas, dados);
+		configurar(parametros, position, colunas, dados);
 		// cnpjPat, codEv, numEd, valorPat, saldoPat, dataPat
 	
 		criar.addActionListener(this);

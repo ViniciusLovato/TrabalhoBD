@@ -8,14 +8,16 @@ import java.sql.SQLException;
 public class GerenciadorPatrocinador extends Gerenciador{
 	private String[][] dados;
 	private static final String[] colunas = {"CNPJ", "Razao Social", "Telefone", "Endereco"};
+	private static final String[] parametros = {"CNPJ", "Razao Social", "Telefone", "Endereco"};
+	private static final int[] position = {0, 1, 2, 3};
+
 
 	public GerenciadorPatrocinador(DBConnection dbcon){
 		super("Gerenciar Patrocinador", dbcon);
-		String[] parametros = {"CNPJ", "Razao Social", "Telefone", "Endereco"};
 		
 		dados = dbcon.CarregaDados("PATROCINADOR");   
 
-		configurar(parametros, colunas, dados);
+		configurar(parametros, position, colunas, dados);
 		//cnpjPat, razaoSocialPat, telefonePat, enderecoPat
 
 		
