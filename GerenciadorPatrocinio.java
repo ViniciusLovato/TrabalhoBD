@@ -45,9 +45,9 @@ public class GerenciadorPatrocinio extends Gerenciador{
 		  		configurarTabela(dados, colunas);
 			}
 
-			catch(Exception exception)
+			catch(Exception ex)
 			{
-				System.out.println();
+				// GerenciadorErros.errorPanel(ex.getErrorCode());													
 			}
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
@@ -75,7 +75,7 @@ public class GerenciadorPatrocinio extends Gerenciador{
 		  			configurarTabela(dados, colunas);
 				}
 				catch(SQLException ex){
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+					GerenciadorErros.errorPanel(ex.getErrorCode());													
 				}
 			}
 			else
@@ -96,9 +96,9 @@ public class GerenciadorPatrocinio extends Gerenciador{
 					CadastrarPatrocinio cadastrarEvento = new CadastrarPatrocinio(dbcon, linha);
 				    cadastrarEvento.initUI();
 				}
-				catch(Exception exception)
+				catch(Exception ex)
 				{
-					System.out.println(exception);
+				//	GerenciadorErros.errorPanel(ex.getErrorCode());																		
 				}
 		    	dados = null;
 				dados = dbcon.CarregaDados("formataSaidaPatrocinio"); 

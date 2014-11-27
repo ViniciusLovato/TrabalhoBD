@@ -304,6 +304,27 @@ public class DBConnection
             linha[5] = rs.getString("tipoAux");
             linha[6] = rs.getString("sumValorAux");
         }
+        else if(tabela.equals("avisos"))
+        {
+            linha = new String[3];
+            linha[0] = rs.getString("nomeEv");
+            linha[1] = rs.getString("descricaoEd");
+            linha[2] = rs.getString("nomePe");
+            linha[3] = rs.getString("emailPe");
+            linha[4] = rs.getString("localApr");
+
+        }
+        else if(tabela.equals("relatorioAuxilio"))
+        {
+            linha = new String[3];
+            linha[0] = rs.getString("nomeEv");
+            linha[1] = rs.getString("descricaoEd");
+            linha[2] = rs.getString("nomePe");
+            linha[3] = rs.getString("emailPe");
+            linha[4] = rs.getString("tipoAux");
+            linha[5] = rs.getString("apresentador");
+
+        }
 		return linha;
     }
 
@@ -359,10 +380,5 @@ public class DBConnection
         }
         return dados;
 
-    }
-
-    public static void main(String[] args)
-    {
-    	
     }
 }

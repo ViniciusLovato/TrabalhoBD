@@ -98,7 +98,6 @@ public class GerenciadorOrganizador extends Gerenciador{
 		criar.setEnabled(false);
 
 		selecionarEdicao.setEnabled(false);
-
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -119,7 +118,6 @@ public class GerenciadorOrganizador extends Gerenciador{
 		else if(e.getActionCommand().equals(selecionarEvento.getText()))
 		{
 			onClickEventos();
-
 		}
 		else if(e.getActionCommand().equals(selecionarEdicao.getText()))
 		{
@@ -140,10 +138,10 @@ public class GerenciadorOrganizador extends Gerenciador{
 		 " AND numEd=" + str_numEd);
 
 		configurarTabela(dados, colunas);
+		removerColuna(0);
+		removerColuna(1);
+		removerColuna(2);
 
-		table.removeColumn(table.getColumn("idOrg"));
-		table.removeColumn(table.getColumn("codEv"));
-		table.removeColumn(table.getColumn("numEd"));
 
 	}
 
@@ -194,7 +192,7 @@ public class GerenciadorOrganizador extends Gerenciador{
 				System.out.println(miniGerenciador.resultado());
 				// Coloca nome do evento no JTextField que o represnta
 				in_edicao.setText(miniGerenciador.resultado().get(2).toString());
-				str_numEd  = miniGerenciador.resultado().get(1).toString();
+				str_numEd  = miniGerenciador.resultado().get(2).toString();
 				miniGerenciador.dispose();
 
 				// Pode selecionar pessoa agora
@@ -210,7 +208,7 @@ public class GerenciadorOrganizador extends Gerenciador{
 	public void onClickPessoa(){
 
 		if(in_cargoOrg.getText().equals("")){
-			JOptionPane.showMessageDialog(null, "", "Erro", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Cargo necessario", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 		else{
 			// Valores que serao passados para popular a tabela do JDialog, os resultados obtidos estao nessa ordem e podem ser acessados
@@ -232,7 +230,7 @@ public class GerenciadorOrganizador extends Gerenciador{
 
 				str_cargoOrg = "'" + in_cargoOrg.getText() + "'";
 
-				String query = "call consistenciaOrganizador.insereOrganizador(" + linha[0] + ", " + str_codEv + ", " + str_numEd + 
+				String query = "call consistenciaPessoa.insereOrganizador(" + linha[0] + ", " + str_codEv + ", " + str_numEd + 
 					", " + str_cargoOrg + ")";
 
 				System.out.println(query);
@@ -241,13 +239,10 @@ public class GerenciadorOrganizador extends Gerenciador{
 
 					dbcon.executarInsert(query);
 					JOptionPane.showMessageDialog(null, "Registro inserido com sucesso");
-
 					// setVisible(false);
 					// dispose();
-
-				}catch(Exception ex){
-					System.err.println(ex.getMessage()); 
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+				}catch(SQLException ex){
+					GerenciadorErros.errorPanel(ex.getErrorCode());
 				} 
 
 				miniGerenciador.dispose();
@@ -268,15 +263,14 @@ public class GerenciadorOrganizador extends Gerenciador{
 			String codEv = table.getModel().getValueAt(linhaSelectionada, 1).toString();
 			String numEd = table.getModel().getValueAt(linhaSelectionada, 1).toString();
 
-			String query = "call consistenciaOrganizador.removeOrganizador(" + idOrg + ", " + codEv + ", " + numEd + ")";
+			String query = "call consistenciaPessoa.removeOrganizador(" + idOrg + ", " + codEv + ", " + numEd + ")";
 			// String query = "DELETE FROM organiza WHERE idOrg=" + idOrg + " AND codEv=" + codEv + " AND numEd=" + numEd; 
 			System.out.println(query);
 
 			try{
 				dbcon.executarInsert(query);
-			}catch(Exception ex){
-				System.err.println(ex.getMessage());
-				JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			}catch(SQLException ex){
+				GerenciadorErros.errorPanel(ex.getErrorCode());
 			}
 			preencherTabela();
 		}

@@ -35,6 +35,8 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	private JMenu menuConsultar;
 	private JMenu menuRelatorio;
 
+	private JMenu conectado;
+
 	// Submenus que serao inseridos dentro de cada menu
 	private JMenuItem menuEvento;
 	private JMenuItem menuEdicao;
@@ -116,6 +118,10 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuConsultar = new JMenu("Consultas Avancada");
 		menuRelatorio = new JMenu("Gerar Relatorios");
 
+		conectado = new JMenu("                     Desconectado");
+
+		conectado.setEnabled(false);
+
 		// Submenus dentro dos menus da barra superior (Gerenciar)
 		menuEvento = new JMenuItem("Evento");
 		menuEdicao = new JMenuItem("Edicao");
@@ -132,8 +138,8 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuConsulta1 = new JMenuItem("Relacao Auxilio/Pessoa");
 		menuConsulta2 = new JMenuItem("Relacao Patrocinador/Auxilio");
 
-		menuRelatorio1 = new JMenuItem("Relatorio 1");
-		menuRelatorio2 = new JMenuItem("Relatorio 2");
+		menuRelatorio1 = new JMenuItem("Lista de email e avisos com locais");
+		menuRelatorio2 = new JMenuItem("Relatorio de Auxilio");
 
 		usuario = new JLabel("Usuario: ");
 		senha = new JLabel("Senha: ");
@@ -152,6 +158,7 @@ public class MenuPrincipal extends JFrame implements ActionListener
 		menuBar.add(menuGerenciar);
 		menuBar.add(menuConsultar);
 		menuBar.add(menuRelatorio);
+		menuBar.add(conectado);
 
 		// Insere os submenus no menu Gerenciar
 		menuGerenciar.add(menuEvento);
@@ -306,6 +313,14 @@ public class MenuPrincipal extends JFrame implements ActionListener
 			GerenciadorConsulta2 gerenciadorConsulta2 = new GerenciadorConsulta2(dbcon);
 			gerenciadorConsulta2.setVisible(true);
 		}
+		else if(e.getActionCommand().equals(menuRelatorio1.getText())){
+			GerenciadorRelatorio1 gerenciadorRelatorio1 = new GerenciadorRelatorio1(dbcon);
+			gerenciadorRelatorio1.setVisible(true);
+		}
+		else if(e.getActionCommand().equals(menuRelatorio2.getText())){
+			GerenciadorRelatorio2 gerenciadorRelatorio2 = new GerenciadorRelatorio2(dbcon);
+			gerenciadorRelatorio2.setVisible(true);
+		}
 	}
 	public void desconectar(){
 		try
@@ -320,6 +335,8 @@ public class MenuPrincipal extends JFrame implements ActionListener
 			in_endereco.setEnabled(true);
 
 			conectar.setEnabled(true);
+
+			conectado.setText("                     Desconectado");
 		}
 		catch(Exception e)
 		{
@@ -330,14 +347,6 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	public void conectar(String user, String pwd, String endereco){
         try
         {	
-			// JOptionPane.showMessageDialog(null, "Conectando ao banco de dados... ", "Conectando", JOptionPane.ERROR_MESSAGE);
-		    JFrame frame = new JFrame("HelloWorldSwing");
-		    final JLabel label = new JLabel("Hello World");
-		    frame.getContentPane().add(label);
-
-		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		    frame.pack();
-		    frame.setVisible(true);
 
             dbcon = new DBConnection(user, pwd, endereco);
             if(dbcon.isNull())
@@ -359,10 +368,9 @@ public class MenuPrincipal extends JFrame implements ActionListener
 
 				// Desailita botao de conectar
 				conectar.setEnabled(false);
-        		
-        		frame.setVisible(false);
-        		frame.dispose();
+				conectado.setText("                     Conectado");
 
+        		
             }
         }
         catch(SQLException e)

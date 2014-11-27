@@ -132,6 +132,8 @@ public class CadastrarInscrito extends JDialog implements ActionListener
     	in_apresentador = new JCheckBox("Apresentador");
     	in_data = new JFormattedTextField(mf1);
 
+    	in_apresentador.setEnabled(false);
+
 		// Cria botoes
 		selecionarEvento = new JButton("Selecionar evento");
 		selecionarEdicao = new JButton("Selecionar edicao");
@@ -249,7 +251,8 @@ public class CadastrarInscrito extends JDialog implements ActionListener
 			String query = null;
 			if(funcaoCadastrar)
 			{
-				query = "INSERT INTO inscrito VALUES(" + codEv + "," + numEd + "," + idPart + ", " + dataInsc + ", " + tipoApresentador + ")";
+				query = "call consistenciaPessoa.insereParticipante(" + codEv + "," + numEd + "," + idPart + ", " + dataInsc + ", " + tipoApresentador + ")";
+				//query = "INSERT INTO inscrito VALUES(" + codEv + "," + numEd + "," + idPart + ", " + dataInsc + ", " + tipoApresentador + ")";
 			}
 			else
 			{
@@ -270,7 +273,7 @@ public class CadastrarInscrito extends JDialog implements ActionListener
 				setVisible(false);
 				dispose();
 			}catch(SQLException ex){
-				JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+				GerenciadorErros.errorPanel(ex.getErrorCode());
 			}
 		}
 		// Caso o usuario nao selecione os campos obrigatorios

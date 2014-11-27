@@ -49,7 +49,7 @@ public class GerenciadorPessoa extends Gerenciador{
 
 			}
 			catch(Exception ex){
-				System.out.println("Erro");
+				// GerenciadorErros.errorPanel(ex.getErrorCode());									
 			}
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
@@ -75,8 +75,7 @@ public class GerenciadorPessoa extends Gerenciador{
 			  		removerColuna(0);
 				}
 				catch(SQLException ex){
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-
+					GerenciadorErros.errorPanel(ex.getErrorCode());									
 				}
 			}
 			else
@@ -92,14 +91,19 @@ public class GerenciadorPessoa extends Gerenciador{
 
 				String[] linha = pegarValorLinha(linhaSelecionada);
 
-				CadastrarPessoas cadastrarEvento = new CadastrarPessoas(dbcon, linha);
-			    cadastrarEvento.initUI();
+				try{
+					CadastrarPessoas cadastrarEvento = new CadastrarPessoas(dbcon, linha);
+				    cadastrarEvento.initUI();
 
-		    	dados = null;
-				dados = dbcon.CarregaDados("PESSOA"); 
+			    	dados = null;
+					dados = dbcon.CarregaDados("PESSOA"); 
 
-		    	configurarTabela(dados, colunas);
-		    	removerColuna(0);
+			    	configurarTabela(dados, colunas);
+			    	removerColuna(0);
+				}
+				catch(Exception ex){
+					//	GerenciadorErros.errorPanel(ex.getErrorCode());									
+				}
 
 			}
 			else

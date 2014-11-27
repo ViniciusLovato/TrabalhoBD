@@ -48,9 +48,9 @@ public class GerenciadorAuxilio extends Gerenciador{
 		  		configurarTabela(dados, colunas);
 		  		esconderColunas();
 			}
-			catch(Exception exception)
+			catch(Exception ex)
 			{
-				exception.printStackTrace();
+				//GerenciadorErros.errorPanel(ex.getMessage());									
 			}
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
@@ -82,7 +82,7 @@ public class GerenciadorAuxilio extends Gerenciador{
 		  			esconderColunas();
 				}
 				catch(SQLException ex){
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+					GerenciadorErros.errorPanel(ex.getErrorCode());									
 				}
 			}
 			else
@@ -109,7 +109,7 @@ public class GerenciadorAuxilio extends Gerenciador{
 					esconderColunas();
 
 				}catch(Exception ex){
-					System.out.println(ex.getMessage());
+					// GerenciadorErros.errorPanel(ex.getErrorCode());														
 				}
 				// this.table.removeColumn(this.table.getColumnModel().getColumn(0));
 

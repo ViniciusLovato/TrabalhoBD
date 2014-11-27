@@ -15,6 +15,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
 
+import javax.swing.JFormattedTextField;
+import javax.swing.text.MaskFormatter;
+
 // Bordas
 import javax.swing.border.EmptyBorder;
 import java.sql.SQLException;
@@ -37,8 +40,8 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 
 	// TextFields
 	private JTextField in_titulo;
-	private JTextField in_dataApresentacao;
-	private JTextField in_horarioApresentacao;
+	private JFormattedTextField in_dataApresentacao;
+	private JFormattedTextField in_horarioApresentacao;
 	private JTextField in_evento;
 	private JTextField in_edicao;
 	private JTextField in_apresentador;
@@ -48,6 +51,9 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 	private String str_codEv;
 	private String str_numEd;
 	private String str_idApr;
+
+	// Manter consistencia dos apresentadores
+	private String antigo_idApr;
 
 	DBConnection dbcon;
 
@@ -64,7 +70,7 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 	public CadastrarArtigos(DBConnection dbcon, String[] dados)
 	{
 		// Titulo da janela
-		setTitle("Cadastrar Artigos");
+		setTitle("Editar Artigos");
 		// Setting up close button
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -76,7 +82,7 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 	public CadastrarArtigos(DBConnection dbcon)
 	{
 		// Titulo da janela
-		setTitle("Editar Artigos");
+		setTitle("Cadastrar Artigos");
 		// Setting up close button
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -106,10 +112,24 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 		edicao = new JLabel("Edicao:");
 		apresentador = new JLabel("Apresentador:");
 
+		// Mascara para formatar dados
+		try{
+ 			MaskFormatter mf1 = new MaskFormatter("##/##/####");
+    		mf1.setPlaceholderCharacter('_');
+
+ 			MaskFormatter mf2 = new MaskFormatter("##:##");
+    		mf2.setPlaceholderCharacter('_');
+
+
+			in_dataApresentacao = new JFormattedTextField(mf1);
+			in_horarioApresentacao = new JFormattedTextField(mf2);
+
+		}catch(Exception e){
+			System.out.println("Parse Exception");
+		}
 
 		in_titulo = new JTextField(50);
-		in_dataApresentacao = new JTextField(50);
-		in_horarioApresentacao = new JTextField(50);
+
 		in_evento = new JTextField(50);
 		in_edicao = new JTextField(50);
 		in_apresentador = new JTextField(50);
@@ -183,6 +203,8 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 			str_codEv = dados[4];
 			str_numEd = dados[5];
 			str_idApr = dados[6];
+
+			antigo_idApr = str_idApr;
 		}
 
 
@@ -242,6 +264,13 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 
 		try{
 			dbcon.executarInsert(query);
+
+			query = "call consistenciaPessoa.atualizaApresentador(" + codEv + ", " + numEd + ", " + idApr + ")" ;
+			this.dbcon.executarQuery(query);
+
+			query = "call consistenciaPessoa.atualizaApresentador(" + codEv + ", " + numEd + ", " + antigo_idApr + ")" ;
+			this.dbcon.executarQuery(query);
+
 			JOptionPane.showMessageDialog(null, "Artigo Cadastrado com sucesso");
 			setVisible(false);
 			dispose();
@@ -338,7 +367,7 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 			// por meio de miniGerenciador.resultados().get(i);
 			String[] colunas = {"codEv", "numEd", "idPart", "Data", "tipoApresentador", "Nome", "Nome Evento", "Descricao"};	
 
-			String[][] dados = this.dbcon.CarregaDados("formataSaidaInscrito", "WHERE codEv = " + str_codEv + " AND numEd = " + str_numEd + " AND tipoApresentador = 1");   
+			String[][] dados = this.dbcon.CarregaDados("formataSaidaInscrito", "WHERE codEv = " + str_codEv + " AND numEd = " + str_numEd);   
 
 			// Cria JDialog com a tabela que o usuario ira selecionar
 			MiniGerenciador miniGerenciador =  new MiniGerenciador(this, dados, colunas);

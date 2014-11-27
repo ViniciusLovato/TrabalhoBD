@@ -70,8 +70,7 @@ public class GerenciadorEventos extends Gerenciador{
 					removerColuna(0);
 				}
 				catch(SQLException ex){
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-
+					GerenciadorErros.errorPanel(ex.getErrorCode());					
 				}
 			}
 			else
@@ -87,7 +86,6 @@ public class GerenciadorEventos extends Gerenciador{
 			if(linhaSelecionada != -1){
 
 				String[] linha = pegarValorLinha(linhaSelecionada);
-
 
 				CadastrarEvento cadastrarEvento = new CadastrarEvento(dbcon, linha);
 			    cadastrarEvento.initUI();

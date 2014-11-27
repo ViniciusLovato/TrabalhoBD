@@ -118,6 +118,12 @@ public class CadastrarPessoas extends JDialog implements ActionListener
 		in_participante = new JCheckBox("Participante");
 		in_autor = new JCheckBox("Autor");
 
+		in_organizador.setEnabled(false);
+		in_participante.setEnabled(false);
+		in_autor.setEnabled(false);
+		
+
+
 		// Initializing the arrays 
 		if(funcaoCadastrar)
 			cadastrar = new JButton("Cadastrar");

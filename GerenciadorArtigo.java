@@ -60,12 +60,21 @@ public class GerenciadorArtigo extends Gerenciador{
 
 				// Seleciona ID do Artigo selecionado, chave primaria para remocao
 				String removerId = pegarValorCelula(linhaSelecionada, 0);
+				String codEv = pegarValorCelula(linhaSelecionada, 4);
+				String numEd = pegarValorCelula(linhaSelecionada, 5);
+				String idApr = pegarValorCelula(linhaSelecionada, 6);
 
+				//{"Codigo", "Titulo", "Data", "Hora", "Evento", "Edicao", 
+				//	"Codigo Apresentador", "Nome Apresentador", "Nome evneto"};
 				String query = "DELETE FROM ARTIGO WHERE idArt = " + removerId;
 				System.out.println(query);
 
 				// Remove da tabela o artigo
 				try{
+					this.dbcon.executarQuery(query);
+
+					query = "call consistenciaPessoa.atualizaApresentador(" + codEv + ", " + numEd + ", " + idApr + ")" ;
+					System.out.println(query);
 					this.dbcon.executarQuery(query);
 
 			      	dados = null;
@@ -94,10 +103,7 @@ public class GerenciadorArtigo extends Gerenciador{
 				CadastrarArtigos cadastrarArtigos = new CadastrarArtigos(dbcon, linha);
 			    
 			    try{
-			    	System.out.println("AQUI!");
     			    cadastrarArtigos.initUI();
-			    	System.out.println("DEPOIS UI!!");
-
 
 		    		dados = null;
 					dados = dbcon.CarregaDados("formataSaidaArtigo"); 

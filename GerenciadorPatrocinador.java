@@ -45,7 +45,7 @@ public class GerenciadorPatrocinador extends Gerenciador{
 
 			}
 			catch(Exception ex){
-				System.out.println("Erro");
+				// GerenciadorErros.errorPanel(ex.getErrorCode());									
 			}
 
 		}
@@ -71,8 +71,7 @@ public class GerenciadorPatrocinador extends Gerenciador{
 		  			configurarTabela(dados, colunas);
 				}
 				catch(SQLException ex){
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-
+					GerenciadorErros.errorPanel(ex.getErrorCode());									
 				}
 			}
 			else
@@ -93,9 +92,9 @@ public class GerenciadorPatrocinador extends Gerenciador{
 					CadastrarPatrocinador cadastrarEvento = new CadastrarPatrocinador(dbcon, linha);
 				    cadastrarEvento.initUI();
 				}
-				catch(Exception exception)
+				catch(Exception ex)
 				{
-					System.out.println(exception);
+					// GerenciadorErros.errorPanel(ex.getErrorCode());														
 				}
 				
 		    	dados = null;

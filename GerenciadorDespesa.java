@@ -50,7 +50,7 @@ public class GerenciadorDespesa extends Gerenciador{
 
 			}
 			catch(Exception ex){
-				System.out.println("Erro");
+				//GereciandorErros.errorPanel(ex.getErrorCode());
 			}	
 
 		}
@@ -80,7 +80,7 @@ public class GerenciadorDespesa extends Gerenciador{
 
 				}
 				catch(SQLException ex){
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+					GerenciadorErros.errorPanel(ex.getErrorCode());					
 				}
 
 			}
@@ -110,7 +110,7 @@ public class GerenciadorDespesa extends Gerenciador{
 
 				}
 				catch(Exception ex){
-					System.out.println("Erro");
+					//GereciandorErros.errorPanel(ex.getErrorCode());					
 				}
 			}
 			else {

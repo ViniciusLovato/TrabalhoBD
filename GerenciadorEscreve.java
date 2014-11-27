@@ -86,9 +86,8 @@ public class GerenciadorEscreve extends Gerenciador{
 
 		configurarTabela(dados, colunas);
 
-		table.removeColumn(table.getColumn("idAut"));
-		table.removeColumn(table.getColumn("idArt"));
-
+		removerColuna(0);
+		removerColuna(1);
 	}
 
 	public void onClickSelecionarArtigo(){
@@ -134,8 +133,8 @@ public class GerenciadorEscreve extends Gerenciador{
 				// pega Id do autor
 				linha[0] = miniGerenciador.resultado().get(0).toString();
 
-
-				String query = "INSERT INTO escreve VALUES(" + linha[0] + ", " + str_idArtigo + ")";
+				// String query = "INSERT INTO escreve VALUES(" + linha[0] + ", " + str_idArtigo + ")";
+				String query = "call consistenciaPessoa.insereAutor(" + linha[0] + ", " + str_idArtigo + ")";
 
 				System.out.println(query);
 
@@ -146,9 +145,8 @@ public class GerenciadorEscreve extends Gerenciador{
 					// setVisible(false);
 					// dispose();
 
-				}catch(Exception ex){
-					System.err.println(ex.getMessage()); 
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+				}catch(SQLException ex){
+					GerenciadorErros.errorPanel(ex.getErrorCode());
 				} 
 
 				miniGerenciador.dispose();
@@ -167,15 +165,15 @@ public class GerenciadorEscreve extends Gerenciador{
 			String idAut = table.getModel().getValueAt(linhaSelectionada, 0).toString();
 			String idArt = table.getModel().getValueAt(linhaSelectionada, 1).toString();
 
-			String query = "DELETE FROM escreve WHERE idAut=" + idAut + " AND idArt=" + idArt; 
+			// String query = "DELETE FROM escreve WHERE idAut=" + idAut + " AND idArt=" + idArt; 
+			String query = "call consistenciaPessoa.removeAutor(" + idAut + ", " + idArt + ")";
 
 			System.out.println(query);
 
 			try{
 				dbcon.executarInsert(query);
-			}catch(Exception ex){
-				System.err.println(ex.getMessage());
-				JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			}catch(SQLException ex){
+				GerenciadorErros.errorPanel(ex.getErrorCode());	
 			}
 
 			preencherTabela();

@@ -45,7 +45,7 @@ public class GerenciadorEdicao extends Gerenciador{
 
 			}
 			catch(Exception ex){
-				System.out.println("Erro");
+				//GerenciadorErros.errorPanel(ex.getErrorCode());				
 			}
 		}
 		else if(e.getActionCommand().equals(deletar.getText()))
@@ -74,7 +74,7 @@ public class GerenciadorEdicao extends Gerenciador{
 
 				}
 				catch(SQLException ex){
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+					GerenciadorErros.errorPanel(ex.getErrorCode());				
 				}
 
 			}
@@ -102,7 +102,7 @@ public class GerenciadorEdicao extends Gerenciador{
 		  		  	configurarTabela(dados, colunas);
 		  		  	removerColuna(1);
 			    }catch(Exception ex){
-			    	System.err.println(ex.getMessage());
+					//GerenciadorErros.errorPanel(ex.getErrorCode());							    	
 			    }
 
 			}

@@ -23,6 +23,9 @@ public class GerenciadorInscrito extends Gerenciador{
 
 		// Esconde as colunas que nao sao necessarias ao usuario final
 		removerColuna(0);
+		removerColuna(1);
+		removerColuna(2);
+
 		//this.table.removeColumn(this.table.getColumnModel().getColumn(0));
 
 		// Callback dos botoes da interface
@@ -48,10 +51,12 @@ public class GerenciadorInscrito extends Gerenciador{
 				dados = dbcon.CarregaDados("formataSaidaInscrito"); 
 
 		  		configurarTabela(dados, colunas);
-		  		removerColuna(0);
+  				removerColuna(0);
+				removerColuna(1);
+				removerColuna(2);
 			}
 			catch(Exception ex){
-				ex.printStackTrace();
+				// GerenciadorErros.errorPanel(ex.getErrorCode());													
 			}
 		}
 		// Verificando se o botao escolhido foi deletar
@@ -69,7 +74,9 @@ public class GerenciadorInscrito extends Gerenciador{
 				String str_idPart =pegarValorCelula(linhaSelecionada, 2);
 
 				// Query para a delecao do inscrito
-				String query = "DELETE FROM inscrito WHERE idPart = " + str_idPart + " AND codEv = " + str_codEv + " AND numEd = " + str_numEd;
+
+				String query = "call consistenciaPessoa.removeParticipante(" + str_codEv + "," + str_numEd + "," + str_idPart + ")";
+				// String query = "DELETE FROM inscrito WHERE idPart = " + str_idPart + " AND codEv = " + str_codEv + " AND numEd = " + str_numEd;
 				System.out.println(query);
 
 				// Remove da tabela o inscrito
@@ -82,10 +89,12 @@ public class GerenciadorInscrito extends Gerenciador{
 					dados = dbcon.CarregaDados("formataSaidaInscrito"); 
 
 			  		configurarTabela(dados, colunas);
-			  		removerColuna(0);
+	  				removerColuna(0);
+					removerColuna(1);
+					removerColuna(2);
 				}
 				catch(SQLException ex){
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+					GerenciadorErros.errorPanel(ex.getErrorCode());													
 				}
 			}
 			// Verifica se nenhuma linha foi selecionada para a delecao
@@ -112,7 +121,7 @@ public class GerenciadorInscrito extends Gerenciador{
 				}
 				catch(Exception ex)
 				{
-					System.out.println("Erro");
+					// GerenciadorErros.errorPanel(ex.getErrorCode());																		
 				}
 
 			    // Apos insercao recarrega tabela da interface
@@ -121,6 +130,8 @@ public class GerenciadorInscrito extends Gerenciador{
 
 		    	configurarTabela(dados, colunas);
 		    	removerColuna(0);
+				removerColuna(1);
+				removerColuna(2);
 			}
 			else
 			{
