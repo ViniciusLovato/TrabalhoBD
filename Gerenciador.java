@@ -90,7 +90,7 @@ public class Gerenciador extends JDialog implements ActionListener, KeyListener
 		buscas = new ArrayList<JTextField>();
 
 		criar = new JButton("Criar");
-		deletar = new JButton("Obliterar");
+		deletar = new JButton("Remover");
 		editar = new JButton("Editar");
 		voltar = new JButton("voltar");
 
