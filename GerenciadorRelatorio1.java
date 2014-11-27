@@ -18,7 +18,7 @@ public class GerenciadorRelatorio1 extends Gerenciador{
 	public GerenciadorRelatorio1(DBConnection dbcon){
 		super("Lista para enviar email", dbcon);
 
-		String query = "call procedureRelatorio1()";
+		String query = "call relatorios.procedureRelatorio1()";
 
 		try{
 			dbcon.executarQuery(query);

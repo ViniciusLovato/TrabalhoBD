@@ -275,7 +275,7 @@ public class CadastrarArtigos extends JDialog implements ActionListener
 			setVisible(false);
 			dispose();
 		}catch(SQLException ex){
-			JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			GerenciadorErros.errorPanel(ex.getErrorCode());
 		}	
 	}
 

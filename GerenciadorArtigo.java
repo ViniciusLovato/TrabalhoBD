@@ -84,8 +84,7 @@ public class GerenciadorArtigo extends Gerenciador{
 			  		removerColuna(0);
 				}
 				catch(SQLException ex){
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-
+					GerenciadorErros.errorPanel(ex.getErrorCode());
 				}
 			}
 			else{

@@ -88,12 +88,12 @@ public class MiniGerenciador extends JDialog implements ActionListener{
 			for(int i = 0; i < dados[0].length; i++){
 				result.add(dados[linhaSelecionada][i]);
 			}
+			this.setVisible(false);
 		}
 		else{
 			JOptionPane.showMessageDialog(null, "Erro: Nenhuma linha selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
 
 		}
-		this.setVisible(false);
 	}
 
 	public ArrayList<Object> resultado(){

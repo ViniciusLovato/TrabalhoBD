@@ -13,5 +13,8 @@ public class GerenciadorErros{
 		else if(errorCode == 1400){
 			JOptionPane.showMessageDialog(null, "Campos obrigatorios estao em branco", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
+		else if(errorCode == 1858){
+			JOptionPane.showMessageDialog(null, "Campos mal formatado ou invalido", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

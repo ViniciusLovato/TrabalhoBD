@@ -18,7 +18,7 @@ public class GerenciadorRelatorio2 extends Gerenciador{
 	public GerenciadorRelatorio2(DBConnection dbcon){
 		super("Relatorio de Auxilio", dbcon);
 
-		String query = "call procedureRelatorio2()";
+		String query = "call relatorios.procedureRelatorio2()";
 		
 		try{
 			dbcon.executarQuery(query);
