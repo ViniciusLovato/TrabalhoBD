@@ -11,7 +11,7 @@ public class GerenciadorInscrito extends Gerenciador{
 	private static final String[] colunas = {"codEv", "numEd", "idPart", "dataInsc", "tipoApresentador", 
 	"Nome do Evento", "Descricao da edicao", "Nome do Inscrito"};
 	private static final String[] parametros = {"Nome do Inscrito", "Nome do evento", "Descricao da edicao"};
-	private static final int[] position = {7, 5, 6};
+	private static final int[] position = {5, 6, 7};
 
 	public GerenciadorInscrito(DBConnection dbcon){
 		super("Gerenciar Inscritos", dbcon);

@@ -345,10 +345,12 @@ public class MenuPrincipal extends JFrame implements ActionListener
 	}
 
 	public void conectar(String user, String pwd, String endereco){
+        conectado.setText("                      Conectando...");    
         try
         {	
 
             dbcon = new DBConnection(user, pwd, endereco);
+
             if(dbcon.isNull())
             {
 				JOptionPane.showMessageDialog(null, "Erro ao conectar no banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);

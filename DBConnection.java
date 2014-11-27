@@ -306,7 +306,7 @@ public class DBConnection
         }
         else if(tabela.equals("avisos"))
         {
-            linha = new String[3];
+            linha = new String[5];
             linha[0] = rs.getString("nomeEv");
             linha[1] = rs.getString("descricaoEd");
             linha[2] = rs.getString("nomePe");
@@ -316,7 +316,7 @@ public class DBConnection
         }
         else if(tabela.equals("relatorioAuxilio"))
         {
-            linha = new String[3];
+            linha = new String[6];
             linha[0] = rs.getString("nomeEv");
             linha[1] = rs.getString("descricaoEd");
             linha[2] = rs.getString("nomePe");
